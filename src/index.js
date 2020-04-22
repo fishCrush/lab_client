@@ -1,13 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+// todo
+import { hot } from 'react-hot-loader';
+import { Provider } from 'mobx-react'; // 引入mobx的包裹组件
+import * as otherStore from './store/index'; // 引入store的数据
+
+import AppRouter from './index.jsx';
 import * as serviceWorker from './serviceWorker';
 
+const HotApp = hot(module)(AppRouter);
+
+const store = {
+  ...otherStore
+};
+const App = (
+  // 通过Provider将store数据送入 可以传给子组件
+  <Provider {...store}> 
+  
+      <HotApp />
+  </Provider>
+);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  App,
   document.getElementById('root')
 );
 

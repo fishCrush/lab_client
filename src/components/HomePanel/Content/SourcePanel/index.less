@@ -1,0 +1,116 @@
+@import "../../../../common/styles/const.less";
+:global{
+
+  .SourcePanelAddBtnWrap{
+    .ant-btn-primary{
+      background-color:@homePanel-addModal-titleBgColor;
+      border:1px solid @homePanel-addModal-titleBgColor;
+      box-sizing: border-box;
+
+      &:hover,&:active{
+          background-color:@homePanel-addModal-themeBtnHoverColor;
+          color:#fff;
+      }
+
+      &:focus{
+          background-color:@homePanel-addModal-titleBgColor;
+          color:#fff;
+      }
+  }
+  }
+}
+.sourcePanelWrap{
+    width: 1146px;
+    height: 100%;
+    margin-left:150px;
+    // background-color: #f0f0f0;
+
+    .headerWrap{
+      padding-top: 30px;
+      padding-bottom: 30px;
+    //   height:80px;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      border-bottom: 2px solid #dadbdd; /*分割线*/
+
+      .headerLeft{
+        display: flex;
+        // justify-content: flex-start;
+          .ava{
+              width: 70px;
+              height: 70px;
+              margin-left: 6px;
+          }
+
+          .labInfo{
+              margin-left: 24px;
+
+              .infoLineOne{
+                  display: flex;
+                  align-items: center;
+
+                  .labName{
+                    font-size: 28px;
+                    line-height: 40px;
+                    letter-spacing: -.03em;
+                    color: #252729;
+
+                   
+                  }
+
+                  .labPosition{
+                      margin-left: 10px;
+                      font-size: 17px;
+                      color: #575b63de;
+                      line-height: 20px;
+                      letter-spacing: -.01em;
+
+
+                  }
+              }
+
+              .infoLineTwo{
+                  margin-top:4px;
+
+                  .admin,.host{
+                    margin-right: 20px;
+                    font-size: 18px;
+                    color: #505050bd;
+                  }
+              }
+             
+          }
+
+       
+
+      }
+
+      .headerRight{
+          position: absolute;
+          right:10px;
+          display: flex;
+          align-items: center;
+
+         .addBtn{
+            width: 90;
+            height: 45px;
+            // border-radius:"4px";
+            margin-left: 35px;
+            font-size: 14px;
+            letter-spacing: -.01em;
+            font-size: 16px;
+            // color: #fff;
+         } 
+
+      }
+
+    }
+}
+
+
+
+
+

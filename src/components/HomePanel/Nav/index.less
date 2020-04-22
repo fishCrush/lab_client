@@ -1,0 +1,61 @@
+@import "../../../common/styles//const.less";
+:global{
+    .homePanelNavWrap{
+        .ant-menu-item-only-child{
+            margin-left:400px;
+        }
+       
+            .ant-menu-submenu-title{
+                display: block;
+                height:@homePanel-nav-itemHeight!important; 
+                /* 上面两个设置缺一不可 */
+                width:200%;
+                padding-bottom: 20px;
+            }
+        
+
+        .ant-menu-item{
+            margin-left:400px;
+        }
+
+        .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+            background-color: @homePanel-nav-selectedBgColor;
+        }
+
+        .ant-menu-sub.ant-menu-inline > .ant-menu-item, .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+            height: 54px;
+            line-height: 54px;
+            list-style-position: inside;
+            list-style-type: disc;
+            /* display: flex; */
+            /* align-items: center; */
+        }
+    }
+   
+}
+
+.navWrap{
+    width:250px;
+    height: @homePanel-nav-height;
+
+    .navItem{
+        height:@homePanel-nav-itemHeight;
+        display: flex;
+        align-items: center;
+        font-size: 17px;
+        .itemIcon{
+            margin-left:40px;
+            font-size: 15px;
+          
+        }
+
+        
+    }
+   
+    .subMainItem{
+        font-size: 16px;
+    }
+}
+
+
+

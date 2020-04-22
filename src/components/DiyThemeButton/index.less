@@ -1,0 +1,27 @@
+@import "../../common/styles/const.less";
+:global{
+
+    .diyThemeBtnWrap{
+        .ant-btn-primary{
+            background-color:@homePanel-addModal-titleBgColor;
+            border:1px solid @homePanel-addModal-titleBgColor;
+            box-sizing: border-box;
+    
+            &:hover,&:active{
+                background-color:@homePanel-addModal-themeBtnHoverColor;
+                color:#fff;
+            }
+    
+            &:focus{
+                background-color:@homePanel-addModal-titleBgColor;
+                color:#fff;
+            }
+    
+        }
+    }
+}
+
+.diyThemeBtnWrap{
+    display: flex;
+    align-items: center;
+}

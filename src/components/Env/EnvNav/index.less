@@ -1,0 +1,24 @@
+@import "../../../common/styles/const.less";
+
+:global{
+    .selfNavWrap{
+        .navItemSelected{
+            .ant-btn{
+                color:@env-nav-color;
+                border:1px solid @env-nav-color;
+            }
+            .ant-btn:focus{
+                border: none;
+                outline: none;
+                border:1px solid @env-nav-color;
+            }
+        }
+    }
+}
+
+
+.navWrap{
+    .navItem{
+        margin-right: 20px;
+    }
+}

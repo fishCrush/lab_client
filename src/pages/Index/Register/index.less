@@ -1,0 +1,179 @@
+@import "../../../common/styles/const.less";
+:global{
+
+    .indexRegisterRightWrap{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .indexLoginRightContent{
+            width: 395px;
+            // background-color: goldenrod;
+
+            // 输入框区域
+            .inputUserWrap,.inputPasswordWrap{
+                position: relative;
+                display: inline-block;
+                width: 395px;
+
+                .label{
+                    font-size: 22px;
+                    color:@index-loginRight-labelColor;               
+                }
+
+                .labelFocus{
+                    color:@index-loginRight-color;
+
+                }
+                input {
+                  width: 395px;
+                    outline: none;
+                    border: none;
+                    background: #fff;
+                    border-bottom: 1px solid #eee;
+                     padding: 10px 0;
+                }
+        
+                  input ~ span {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 1px;
+                    background-color: @index-loginRight-color;
+                    transform: scaleX(0);
+                    transform-origin: right center;
+                    transition: transform 0.3s ease-in-out;
+                  }
+                  
+                  input:focus ~ span {
+                    transform: scaleX(1);
+                    transform-origin: left center;
+                  }
+                  
+               
+            }
+            .inputPasswordWrap{
+                margin-top: 20px;
+            }
+            
+            // 按钮区域
+            .btnWrap{
+                margin-top: 20px;
+
+                .ant-btn-primary{
+                    background-color:@index-loginRight-color;
+                    border:1px solid @index-loginRight-color;
+                    box-sizing: border-box;
+            
+                    &:hover,&:active{
+                        background-color:@homePanel-addModal-themeBtnHoverColor;
+                        color:#fff;
+                    }
+            
+                    &:focus{
+                        background-color:@index-loginRight-color;
+                        color:#fff;
+                    }
+            
+                }
+
+            }
+
+            // 辅助提示区域
+            .tipWrap{
+                margin-top: 20px;
+                font-size: 16px;
+                color:#aaa;
+                .register{
+                    margin-left: 10px;
+                    color:#85b4f2;
+                    cursor: pointer;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+   
+   
+    
+}
+
+.registerWrap{
+    // background-color: goldenrod;
+    width: 950px;
+    height: 700px;
+    display: flex;
+    border-radius: 5px;
+
+    .loginLeft{
+       
+        width: 475px;
+        // background: rgba(121, 106, 238, 0.9);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        // padding: 40px;
+        border-top-left-radius: 5px ;
+        border-bottom-left-radius: 5px ;
+
+        &::before{
+            content: '';
+            width: 455px;
+            height: 660px;
+            display: block;
+            background-image: url(imgs/bgleaf.jpg);
+            background-size: cover;
+            filter: blur(10px); // 让背景图模糊的关键
+            margin-left: 12px;
+            z-index: 1;
+            position: absolute;
+            box-sizing: border-box;
+        }
+
+        .textWrap{
+            width: 475px;
+            height: 700px;
+            background: rgba(121, 106, 238, 0.75); // 上面的模块背景颜色有透明度则可透视到下面的背景图
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+        }
+
+        .title{
+            font-size: 40px;
+            font-weight: 600;
+        }
+        .description{
+            font-size: 16px;
+            font-weight: 300;
+        }
+    }
+
+    .loginRight{
+        background-color: #fff;
+        width: 475px;
+        border-top-right-radius: 5px ;
+        border-bottom-right-radius: 5px ;
+
+
+
+    }
+}
+
+.loginBtn{
+    width:280px;
+    height:48px;
+    margin-left: 30px;
+    background-color: @index-btn-bgColor;
+    border-radius: @btn-borderRadius!important;  
+    &:hover{
+    background-color: @index-btn-bgColorHover;
+
+    }
+
+    margin:auto;
+}
+
+

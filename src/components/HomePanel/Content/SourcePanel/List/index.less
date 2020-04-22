@@ -1,0 +1,142 @@
+@import "../../../../../common/styles/const.less";
+
+:global {
+
+  .ListWrap {
+
+    // 选择区
+
+    .chooseWrap {
+      width: 100%;
+
+      //第一行
+      .chooseLineOne {
+        // background: yellowgreen;
+        margin-top: 30px;
+        position: relative;
+        display: flex;
+        align-items: center;
+
+
+        .chooseNameFormItem{
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+
+            .ant-select-selector {
+                width: 350px;
+                height: 40px;
+                border-radius: 33px;
+                border: none;
+                padding-left: 20px;
+                padding-right: 40px;
+                letter-spacing: 0;
+                background: #f3eeff;      
+            }
+      
+              // placehold  
+            .ant-select-multiple .ant-select-selection-placeholder {
+                  left:19px;  // 在antd的定位是绝对定位
+            }
+      
+              // 后缀图标
+             .ant-select-arrow{
+                  margin-bottom: 2px;
+                  margin-right: 14px;
+            }
+
+             ant-form-item {
+                 margin-bottom: 0;
+             }
+      
+        }
+      
+        // 导出按钮
+        .listExportWrap{
+            position: absolute;
+            right:20px;
+            // top:0;
+            .ant-btn-primary{
+                background-color:@homePanel-sourcePanel-exportBgColor;
+                border:1px solid @homePanel-sourcePanel-exportBgColor;
+                box-sizing: border-box;
+          
+                &:hover,&:active{
+                    background-color:@homePanel-sourcePanel-exportHoverBgColor;
+                    color:#fff;
+                }
+          
+                &:focus{
+                    background-color:@homePanel-sourcePanel-exportBgColor;
+                    color:#fff;
+                }
+            }
+
+        }
+
+      }
+    
+      //第二行
+      .chooseLineTwo{
+        // background-color: yellowgreen;
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+        position: relative;
+
+        //三个选择框
+        .chooseLineTwoSelect{
+            margin-right:20px;
+            width: 170px;
+        }
+
+        // 两个按钮
+        .listChooseBtnWrap{
+            position:absolute;
+            right:20px;
+            // 重置按钮
+            .ant-btn:hover,.ant-btn:active,.ant-btn:focus{
+                color: @homePanel-addModal-titleBgColor;
+                border-color: @homePanel-addModal-titleBgColor;
+                // background-color: ;
+            }
+
+            //提交按钮
+            .chooseOkBtn{
+                margin-left:20px;
+                border-radius: 5px;         
+            }
+
+            .ant-btn-primary{
+                background-color:@homePanel-addModal-titleBgColor;
+                border:1px solid @homePanel-addModal-titleBgColor;
+                box-sizing: border-box;
+
+                &:hover,&:active{
+                    background-color:@homePanel-addModal-themeBtnHoverColor;
+                    color:#fff;
+                }
+
+                &:focus{
+                    background-color:@homePanel-addModal-titleBgColor;
+                    color:#fff;
+                }
+            }
+
+        
+        }
+      }
+    }
+       
+    // 表格区
+
+    .listForm{
+        // background-color: yellowgreen;
+        height:100%;
+        margin-top:10px;
+    }
+   
+        
+  }
+}
+

@@ -1,0 +1,144 @@
+@import "../../common/styles/const.less";
+
+@maringRight:50px;
+.headerWrap {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: @nav-header-height;
+    margin: 0;
+    background-color: @nav-header-bgColor;
+    font-size:@nav-header-textFontSize;
+    box-sizing: border-box;
+    .labLogo{
+        height: 100%;
+        display: flex;
+        align-items:center;
+        margin-left: 100px;
+    }
+    .textHomeWrap {
+        position: absolute;
+        top: 50%;
+        left: 200px;
+        display: block;
+        width: 200px;
+        transform: translateY(-50%);
+  
+        a {
+          display: block;
+          width: 100%;
+          cursor: pointer;
+        }
+      }
+
+      .textHomeSubWrap {
+        position: absolute;
+        top: 50%;
+        left: 390px;
+        display: block;
+        width: 200px;
+        transform: translateY(-50%);
+  
+        a {
+          display: block;
+          width: 100%;
+          cursor: pointer;
+        }
+      }
+
+
+      .textSetWrap {
+        position: absolute;
+        top: 50%;
+        // left: 580px;
+        left: 390px;
+        display: block;
+        width: 96px;
+        transform: translateY(-50%);
+  
+        a {
+          display: block;
+          width: 100%;
+          cursor: pointer;
+        }
+      }
+  
+      .homeText,.homeSubText,
+      .setText {
+        font-weight: 600;
+        color: white;
+      }
+  
+      .notActiveText {
+        opacity: .6;
+      }
+
+
+      .headerWrapRight {
+        position: absolute;
+        top: 50%;
+        right: @maringRight;
+        display: flex;
+        transform: translateY(-50%);
+    
+        align-items: center;
+        justify-content: flex-start;
+        color: #fff;
+        font-size:17px;
+      
+    
+        // .icon_setting_wrap {
+        //   display: flex;
+        //   // font-size: 22px;
+    
+        //   align-items: center;
+        // }
+    
+        // .switchLan {
+        //   position: relative;
+        //   top: 0;
+        //   left: 0;
+        //   margin-left: 19px;
+        // }
+    
+        // $red-circle-size:10px;
+        // .icon_bell_wrap {
+        //   position: relative;
+        //   top: 0;
+        //   cursor: pointer;
+        //   .red_circle {
+        //     top:0;
+        //     left:22px;
+        //     position: absolute;
+    
+        //     width: $red-circle-size;
+        //     height:  $red-circle-size;
+        //     border-radius:  $red-circle-size/2;
+        //     background-color:red;
+        //     border: 1px solid white;
+            
+        //   }
+            
+                
+        // }
+    
+        // .userNameText {
+        //   min-width: 120px;
+        //   display: flex;
+        //   height: 20px;
+        //   font-size: 14px;
+        //   color: #fff;
+    
+        //   align-items: center;
+        //   justify-content: space-between;
+        // }
+    
+        // .user_logout_icon {
+        //   margin-left: 10px;
+        // }
+
+      }
+    
+}

@@ -1,0 +1,165 @@
+@import "../../../../../common/styles/const.less";
+
+
+:global{
+
+    .batchModalWrap{
+      
+
+
+        // 输入框的边框圆角
+        input{
+            border-radius: 5px !important;
+        }
+    }
+
+    .batchModalWraper {
+        z-index: 10;
+    
+        .batchModalContent{
+            position: relative;
+            width: 450px;
+            height:650px;
+
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+
+            background: #fff;
+            border-radius: 10px;
+            // box-shadow: 0 2px 18px 2px rgba(69,65,78,.09);
+            box-shadow:  0 10px 30px 0 rgba(67, 80, 98, 0.24), 0 2px 4px 0 rgba(67, 80, 98, 0.1);
+            
+
+            // 头部样式
+            .batchModalTitleWrap{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                width:100%;
+                height: 80px;
+                // background-color: burlywood;
+                color:@homePanel-addBatchModal-titleColor;
+                font-size: 18px;
+                .batchModalCloseIcon{
+                    position: absolute;
+                    right:20px;
+                }
+            }
+
+
+            // 步骤条区域样式
+            .batchStepsWrap{
+                width: 100%;
+                height: 144px;
+                margin-top: 40px;
+
+            }
+
+
+            .batchActionWrap{
+                width:100%;
+                // height: 370px;
+                height: 500px;
+
+                // background-color: cadetblue;
+
+                //下载文件
+                .batchDown{
+                    width: 200px;
+                    height: 70px;
+                    background-color: @homePanel-addBatchModal-titleColor;
+                    color: #fff;
+                    margin: 0 auto;
+                    font-size: 18px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 3px; 
+                    cursor: pointer;  
+                    &:hover{
+                        background-color: #722ed1;
+                    }
+                }
+
+                .batchOr{
+                    width:100%;
+                    height: 70px;
+                    color: @homePanel-addBatchModal-titleColor;
+                    font-size: 17px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                }
+
+
+                // 上传文件
+                .batchUp{
+                    width: 200px;
+                    height: 180px;
+                    margin: 0 auto;
+
+                    // .batchUpBtn{
+                    //     width: 200px;
+                    //     height: 150px;
+                    //     background-color: @homePanel-addBatchModal-titleColor;
+                    //     color: #fff;
+                    //     border-radius: 3px;
+                    //     font-size: 18px;
+                    //     border:1p solid @homePanel-addBatchModal-titleColor;
+                    //     box-sizing: border-box;
+                    //     &:hover{
+                    //     background-color: @homePanel-addBatchModal-upBgColor;
+                    //     border:1p solid @homePanel-addBatchModal-upBgColor;
+                    //     }
+                    // }
+
+                    // .ant-upload-list{
+                    //     visibility: hidden;
+                    // }
+
+                    // 边框虚线
+                    .ant-upload-drag{
+                        border: 1px dashed @homePanel-addBatchModal-titleColor;
+                    }
+
+                    //上传组件的文字
+                    .ant-upload.ant-upload-drag p.ant-upload-text {
+                        margin: 0 0 4px;
+                        color: @homePanel-addBatchModal-titleColor;
+                        font-size: 18px;
+                    }
+
+                    //上传组件的提示文字
+                    .ant-upload.ant-upload-drag p.ant-upload-hint {
+                        color: rgba(0, 0, 0, 0.45);
+                        font-size: 13px;
+                    }
+                }
+
+            }
+
+
+        }
+
+
+
+        // 全屏灰色遮罩背景层
+        .batchModalMask {
+            position: fixed;
+            left: 0;
+            top:0;
+            right:0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+           background: rgba(0,0,0,.6);
+        }
+
+    }
+
+
+   
+}

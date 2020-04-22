@@ -1,0 +1,161 @@
+@import "../../common/styles/const.less";
+:global{
+    
+    .resetPasswordModalWrap{
+        .ant-form-vertical .ant-form-item{
+            // width: 400px;
+        }
+    }
+    .settingWraper{
+        // background-color: pink;
+        position: absolute;
+        top:@nav-header-height;
+        width:100%;
+        height: 100%;
+       
+        .settingWrap{
+        // background-color: yellowgreen;
+        width:772px;
+        margin:0 auto;
+
+        // 个人信息设置
+        .userSettingWrap{
+            // background-color: yellowgreen;
+            margin-top:30px;
+
+            
+            .userSettingHeader{
+                width:100%;
+                height: 60px;
+                .userSettingHeaderText{
+                    display: flex;
+                    font-size: 24px;
+                    font-weight: 800;
+                    line-height: 32px;
+                    letter-spacing: 0.01em;
+                    color: #252729;
+                    
+                }
+            }
+
+            .userContentWrap{
+                // background-color: yellowgreen;
+                padding:10px 24px 0 24px;
+                box-sizing: border-box;
+                // margin-top: 16px;
+                border: 1px solid #dadbdd;
+                border-radius: 6px;
+
+                .userOneLineWrap{
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+
+                    .ant-form-item-label > label {
+                       
+                        color: rgba(0, 0, 0, 0.72);
+                        font-size: 16px;
+                    }
+                }
+            }
+
+        }
+
+        .ant-card-bordered{
+            border: none;
+           }
+        }
+
+        .ant-card-actions {
+            border: 1px solid #f0f0f0;
+            border-radius: 0 0 10px 10px;
+        }
+    }
+
+
+    @cardWidth:310px;
+    @cardHeight:145px;
+    //实验室区域
+    .settingPanelLabListItem{
+        width:331px;
+        height:@cardHeight;
+        background-image: url(imgs/lab.jpg);
+        background-size:332px @cardHeight;
+        filter:alpha(opacity=50);  
+        -moz-opacity:0.5;  
+        -khtml-opacity: 0.5;  
+        opacity: 0.5;
+        border-radius: 10px 10px 0 0;
+        box-sizing: border-box;
+
+        position: absolute;
+    }
+
+    .settingPanelLabItemText{
+        opacity: 1 !important;
+        font-size: 18px;
+
+        width: 330px;
+        height:@cardHeight;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p{
+            position:relative;
+            font-size: 24px;
+            color: #000000d9;
+            line-height: 50px;
+   
+        }
+
+   }
+   
+}
+
+.labInfo{
+    margin-top:30px;
+    // background-color: yellowgreen;
+    .labHeader{
+        width:100%;
+       height: 60px;
+
+       .labHeaderText{
+        display: flex;
+        font-size: 24px;
+        font-weight: 800;
+        line-height: 32px;
+        letter-spacing: 0.01em;
+        color: @settingPanel-headerColor;
+       }
+    }
+
+    .labContentWrap{
+        // background-color: yellowgreen;
+        padding:30px 30px ;
+        box-sizing: border-box;
+        border: 1px solid #dadbdd;
+        border-radius: 6px;
+
+        .labCardListWrap{
+            // background-color: yellowgreen;
+            margin-top: 30px;
+            overflow: hidden;
+            padding:0 10px 0 11px;
+
+            .settingPanelLabItemWrap{
+                float: left;
+                background-color: blue;
+                margin-right:14px;
+                margin-bottom:30px;
+
+                box-shadow: 0 1px 18px 1px rgba(69,65,78,.07);
+                border-radius: 10px;
+            }
+        }
+
+    }
+}
+
+

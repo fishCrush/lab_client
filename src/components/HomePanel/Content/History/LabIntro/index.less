@@ -1,0 +1,91 @@
+@import "../../../../../common//styles/const.less";
+
+
+.labInfoWrap{
+    width: 1146px;
+    // margin-left:150px;
+    margin:15px auto;
+    background-color: #fff;
+
+    .headerWrap{
+        padding-top: 30px;
+        padding-bottom: 30px;
+      //   height:80px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #dadbdd; /*分割线*/
+  
+        .headerLeft{
+          display: flex;
+          // justify-content: flex-start;
+            .ava{
+                width: 70px;
+                height: 70px;
+                margin-left: 6px;
+            }
+  
+            .labInfo{
+                margin-left: 24px;
+  
+                .infoLineOne{
+                    display: flex;
+                    align-items: center;
+  
+                    .labName{
+                      font-size: 28px;
+                      line-height: 40px;
+                      letter-spacing: -.03em;
+                      color: #252729;
+  
+                     
+                    }
+  
+                    .labPosition{
+                        margin-left: 10px;
+                        font-size: 17px;
+                        color: #575b63de;
+                        line-height: 20px;
+                        letter-spacing: -.01em;
+  
+  
+                    }
+                }
+  
+                .infoLineTwo{
+                    margin-top:4px;
+  
+                    .admin,.host{
+                      margin-right: 30px;
+                      font-size: 18px;
+                      color: #505050bd;
+                    }
+                }
+               
+            }
+  
+         
+  
+        }
+  
+        .headerRight{
+            position: absolute;
+            right:10px;
+            display: flex;
+            align-items: center;
+  
+           .addBtn{
+              width: 90;
+              height: 45px;
+              // border-radius:"4px";
+              margin-left: 35px;
+              font-size: 14px;
+              letter-spacing: -.01em;
+              font-size: 16px;
+              // color: #fff;
+           } 
+  
+        }
+  
+      }
+}

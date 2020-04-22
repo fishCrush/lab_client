@@ -1,0 +1,86 @@
+@import "../../common/styles/const.less";
+@maringRight:38px;
+@marginLeft:120px;
+.labChooseWrap{
+    height:@nav-subHeader-height;
+    width:100%;
+    // padding-top:40px;
+    position: relative;
+    padding-left: @marginLeft;
+    // align-items: center;
+    font-size: 20px;
+    // background-color: yellow;
+    box-sizing: border-box;
+    box-shadow: 0 1px 18px 1px rgba(69,65,78,.09);
+
+    /* 最左边纯色竖条的样式 */
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 4px;
+        height: 36px;
+        // background: var(--primary-color);
+        background: @nav-subHeader-lightColor ;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+   
+    .chooseWrap{
+       font: @nav-subHeader-fontSize Tahoma,Helvetica,Arial,'宋体',sans-serif;
+       height:100%;
+       position: absolute;
+       top: 0;
+       box-sizing: border-box;
+       display: flex;
+       align-items: center;
+    //    display: flex;
+    //    align-items: center;
+       .itemWrap{
+
+
+       
+        .labItem{
+            margin-right: 20px;
+            cursor: pointer;
+            &:not(:last-child)  {  /*除了最后一项，每一项实验室后面加一条斜杆*/
+                &:after{
+                    content: '/';
+                    color: #768387;
+                    padding-left: 20px;  
+                }
+                           
+               }
+         }
+
+         .activeItem{
+             color:@nav-subHeader-lightColor;
+         }
+
+         
+           
+       } 
+    }
+     
+    .rightWrap{
+        height:100%;
+        position: absolute;
+        top:0;
+        right: 0;
+        padding-left: @maringRight;
+        padding-right:@maringRight ;
+        box-sizing: border-box;
+        // transform: translateY(-50%);
+        // width: 257px;
+        background-color: @nav-subHeader-lightColor;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size:17px;
+    }
+
+}
+
+
