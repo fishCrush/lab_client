@@ -88,14 +88,62 @@
 
             }
 
+            //删除管理员标签区域
+            .oldHostWrap{
+                // background-color: sandybrown;
+                // height: 100px;
+                width:400px;
+                margin: 20px auto;
+                margin-bottom: 0;
+
+                .tagsTitleWrap{
+                    margin: 10px;
+                    font-size: 18px;
+                    color:rgb(179, 127, 235);
+
+                    .tip{
+                        font-size: 16px;
+                        color: #808080b5;
+                        margin-left: 10px;
+                    }
+                }
+                
+                 /* 快速添加标签，未被选择时*/
+                 .ant-tag-checkable{
+                    font-size:14px;
+                    color:@homePanel-addModal-labelColor;
+                    border-radius: 3px;
+                    border: 1px dashed #00000066;
+                    margin-right:13px;
+                    cursor: pointer;
+                    margin-bottom:8px;
+                    padding: 4px 4px;
+                }
+
+                /* 快速添加标签，被选择时*/
+                .ant-tag-checkable-checked {
+                    background-color: @homePanel-addModal-titleBgColor;
+                    color:#fff;
+                    border: 1px solid @homePanel-addModal-titleBgColor;
+                    margin-bottom:8px;
+                    padding: 4px 4px;
+                }
+            }
+
             // 中间的Form
             .modifyModalFormWrap{
                 background-color: @homePanel-addModal-contentBgColor;
                 border-radius: 0 0 10px 10px;
                 width:100%;
                 padding: 40px 0;
-
-               
+                padding-top: 30px;
+                
+               .addTitle{
+                font-size: 18px;
+                color:rgb(179, 127, 235);
+                margin-left: 66px;
+                margin-bottom: 10px;
+               }
 
                 .modifyModalFormLayWrap{
                     // width: 450px;
@@ -144,6 +192,7 @@
                 display: flex;
                 justify-content: flex-end;
                 padding-right: 60px;
+                margin-top: 30px;
 
                 .modifyModalBtnWrap{
                     // 重置按钮

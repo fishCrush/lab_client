@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag } from 'antd';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
+import { Button, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag,message,notification} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 import { QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../common/constants/index';
 
+@inject('UserLabInfoStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -40,18 +44,79 @@ class index extends Component {
   };
 
 
-  onSubmit = (e) => {
+  okClick = (e) => {
     e.stopPropagation();
     console.log('点击添加啦');
+    const {isStart}=this.props;
+    const {name,position,remark}=this.modalFormRef.current.getFieldsValue();
+    if(isStart){    // 创建实验室
+      if(!name ||!position){
+        message.warning("实验室名和位置都是必填的！");
+        return false;
+      }
+      //todo
+      // 判断实验室名称是否已被占用
+      // if(。。){
+      //   message.warning("该实验室名已被注册，请重新输入");
+      //   return false;
+      // }
+      // 请求接口
+      axios.post('/api/lab/create', {
+        name, position, remark
+      }).then(res => {
+      const {data}=res
+      if(data.status_code){
+        // 成功   // 旧密码验证通过，直接将新密码作为新密码(不验证是否重复)且modal自动隐藏
+        this.props.hideModifyHandle();   // 并隐藏 修改modal
+        notification.success({
+          message: '实验室已创建成功',
+          duration: 3
+        });
 
-    // 请求接口
-    // 应通过form实例的getFieldsValue获取到所有的字段值（tag注意）然后进行处理，再进行ajax将数据发送出去
+        setTimeout(() => {
+          window.location.reload();  // 刷新页面
+        }, 600); 
+    
+       } else {
+         message.warning(data.msg)  
+       }
+      }
+      ).catch(error => {
+        console.log(error);
+      });
 
-    // 并隐藏 修改modal
-    // this.props.hideModifyHandle();
+    } else {   // 修改实验室
+      if(!position){
+        message.warning("实验室位置不能为空");
+        return false;
+      }
+      axios.post('/api/lab/modify_base', {
+         position, remark,lid:name
+      }).then(res => {
+      const {data}=res
+      if(data.status_code){
+        this.props.hideModifyHandle();   // 并隐藏 修改modal
+        notification.success({
+          message: '已修改成功',
+          duration: 3
+        });
+
+        setTimeout(() => {
+          window.location.reload();  // 刷新页面
+        }, 600); 
+    
+       } else {
+         message.warning(data.msg)  
+       }
+      }
+      ).catch(error => {
+        console.log(error);
+      });
+
+    }
+   
 
   }
-
 
   render() {
 
@@ -65,12 +130,13 @@ class index extends Component {
     // 若是编辑修改实验室：需有初始值
     const initialValues = {}
     if (!isStart) {
-      initialValues.name = "电子电力研究所";
-      initialValues.position = "电子楼325";
-      initialValues.remark = "实验室的指导老师是陈明明，陈鸭鸭；大概有30个工位";
-      // this.setState({
-      //   initialValues
-      // })
+      const {UserLabInfoStore}=this.props;
+      if(UserLabInfoStore){
+        const {name,position,remark}=UserLabInfoStore.choosedCardLabInfo
+         initialValues.name = name
+        initialValues.position = position
+        initialValues.remark = remark
+      }
     }
     // const visible = true;
 
@@ -167,7 +233,7 @@ class index extends Component {
                      </Button>
                         <Button
                           type="primary"
-                          onClick={e => this.onSubmit(e)}
+                          onClick={e => this.okClick(e)}
                           className="modifyModalOkBtn"
                           size="large"
                         >

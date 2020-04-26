@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, InputNumber, Tooltip, Upload, message, Rate, Tag } from 'antd';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
+import { Button, Modal, Form, Input, InputNumber, Tooltip, Upload, message, Rate, Tag,notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../MyIcon';
@@ -7,6 +9,8 @@ import BatchAddModal from './BatchAddModal';
 import { getBase64 } from '../../../../common/utils/index'
 import { uploadUrl, QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../../common/constants/index';
 
+@inject('UserLabInfoStore','ThingStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +25,8 @@ class index extends Component {
       diyTags: [],
       diyInputVisible: false,
       diyInputValue: '',
+      // ossImgUrls:[],
+      imgObjList:[]
     };
   }
 
@@ -60,7 +66,9 @@ class index extends Component {
     const { selectedTags } = this.state;
     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
     console.log('You are interested in: ', nextSelectedTags);
-    this.setState({ selectedTags: nextSelectedTags });
+    this.setState({ selectedTags: nextSelectedTags },()=>{
+      console.log("快速标签选择的selectedTags",this.state.selectedTags)
+    });
   }
 
 
@@ -114,7 +122,38 @@ class index extends Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ fileList }) => {
+    console.log('handleChange fileList',fileList)
+    const imgObjList=[]
+    fileList.forEach(file=>{
+      if(file.response){
+        if(file.response.status_code){
+          const newImgObj={}
+          newImgObj["uid"]=file.uid  //留下uid做图片的标识，删除图片时可用
+          newImgObj["url"]=file.response.data.url
+          imgObjList.push(newImgObj)
+        }
+      }
+    })
+
+     this.setState({ 
+       fileList ,
+       imgObjList
+      },()=>{
+        console.log("this.state.imgObjList",this.state.imgObjList)
+      });
+  }
+
+  imgRemoveHandle=(file)=>{
+    // console.log('imgRemoveHandle file',file)
+    const {imgObjList}=this.state;
+    const newImgObjList=imgObjList.filter(item=>item.uid!==file.uid)
+    this.setState({
+      newImgObjList
+    },()=>{
+      // console.log("删除后的this.state.newImgObjList",this.state.newImgObjList)
+    })
+  }
 
   handleBeforeUpload = file => {
     //限制图片 格式、size、分辨率
@@ -122,12 +161,12 @@ class index extends Component {
     const isJPEG = file.type === 'image/jpeg';
     const isGIF = file.type === 'image/gif';
     const isPNG = file.type === 'image/png';
-    const isLt3M = file.size / 1024 / 1024 < 3;
+    const isLtM = file.size / 1024 / 1024 < 6;
 
     if (!(isJPG || isJPEG || isGIF || isPNG)) {
       message.error('图片格式错误！请上传JPG 、JPEG 、GIF、 PNG格式的图片~');
-    } else if (!isLt3M) {
-      message.error('图片过大！请上传 3M 以内大小的图片~');
+    } else if (!isLtM) {
+      message.error('图片过大！请上传 6M 以内大小的图片~');
     }
 
   }
@@ -139,9 +178,47 @@ class index extends Component {
     // 需对标签和图片单独处理
   };
 
-  onSubmit = () => {
-    console.log('点击添加啦');
-    // 应通过form实例的getFieldsValue获取到所有的字段值（tag注意）然后进行处理，再进行ajax将数据发送出去
+  okClick = () => {
+    // console.log('点击添加啦');
+    const {name,num,rate,remark}=this.formRef.current.getFieldsValue();
+    if(!name||!num){
+      message.warning("请填好物品的名称和数量")  
+      return false
+    }
+    const {UserLabInfoStore}=this.props;
+    const {userInfo,selectedLabInfo}=UserLabInfoStore
+    const {selectedTags,diyTags,imgObjList}=this.state; 
+    const labels=[...selectedTags,...diyTags].join('&');
+    const imgs=imgObjList.map(item=>item.url);
+    console.log("imgs",imgs);
+    axios.post('/api/thing/add', {
+      name,num,rate,remark,labels,imgs,
+      uname:userInfo.name,
+      lid:selectedLabInfo.name
+    }).then(res => {
+    const {data}=res
+    if(data.status_code){
+      notification.success({
+        message: '添加成功',
+        duration: 2
+      });
+      
+      // 添加完自动清空  方便下一个的填写
+      this.formRef.current.resetFields()
+      this.setState({
+        selectedTags:[],
+        diyTags:[],
+        imgObjList:[],
+        fileList:[]
+      })
+  
+      } else {
+        message.warning(data.msg)  
+      }
+    }
+    ).catch(error => {
+      console.log(error);
+    });
   }
 
 
@@ -219,7 +296,7 @@ class index extends Component {
 
                     {/* 标签区域 */}
                     <div className="addModalFormTagWrap">
-                      <Form.Item name="rate" className=""
+                      <Form.Item name="quickTags" className=""
                         label={
                           <>
                             <MyIcon type="icon-biaoqian4"
@@ -243,7 +320,7 @@ class index extends Component {
                         ))}
                       </Form.Item>
 
-                      <Form.Item name="rate" className=""
+                      <Form.Item name="diyTags" className=""
                         label={
                           <>
                             <MyIcon type="icon-label"
@@ -331,7 +408,6 @@ class index extends Component {
                     label={
                       <>
                         <MyIcon type="icon-tupian" style={{ marginRight: "10px", fontSize: '25px', marginLeft: 15 }} />
-
                         <span style={{ alignItems: "flex-end" }}>
                           <span>图片</span>
                           <span style={{ height: 32, marginLeft: 18, fontSize: 16, color: "#6b7075a1" }}>
@@ -341,14 +417,18 @@ class index extends Component {
                       </>}
                   >
                     <Upload
-                      action={uploadUrl}
+                      action="/api//upload/img_oss"
+                      accept=".jpg, .jpeg, .png, .gif"
+                      name="file"
+                      method="post"
+                      withCredentials="true" //上传请求时是否携带 cookie
                       listType="picture-card"
-
+                      multiple={true}
                       fileList={fileList}
                       onPreview={this.handlePreview}
-                      onChange={this.handleChange}
-                      multiple={true}
                       beforeUpload={this.handleBeforeUpload} // 上传之前，对图片的格式做校验，并获取图片的宽高
+                      onChange={this.handleChange}
+                      onRemove={this.imgRemoveHandle}
                     >
                       {fileList.length >= 4 ? null : uploadButton}
                     </Upload>
@@ -377,7 +457,7 @@ class index extends Component {
                   </Button>
                   <Button
                     type="primary"
-                    onClick={this.onSubmit}
+                    onClick={this.okClick}
                     className="addModalOkBtn"
                     size="large"
                   >

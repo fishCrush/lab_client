@@ -11,13 +11,13 @@
             // background-color: goldenrod;
 
             // 输入框区域
-            .inputUserWrap,.inputPasswordWrap{
+            .inputUserWrap,.inputPasswordWrap,.inputPhoneWrap,.smsWrap{
                 position: relative;
                 display: inline-block;
                 width: 395px;
 
                 .label{
-                    font-size: 22px;
+                    font-size: 19px;
                     color:@index-loginRight-labelColor;               
                 }
 
@@ -31,7 +31,7 @@
                     border: none;
                     background: #fff;
                     border-bottom: 1px solid #eee;
-                     padding: 10px 0;
+                    padding: 7px 0;
                 }
         
                   input ~ span {
@@ -53,8 +53,32 @@
                   
                
             }
-            .inputPasswordWrap{
-                margin-top: 20px;
+            .inputUserWrap,.inputPasswordWrap,.smsWrap{
+                margin-top: 25px;
+            }
+            .smsWrap{
+                input,input ~ span{
+                    width: 200px; 
+                }
+                .smslineTwo{
+                    display: flex;
+                }
+                .sendSmsRightWrap{
+                    margin-left: 20px;
+
+
+                    .linkText{
+                        cursor: pointer;
+                        // color: #07b9e0;
+                        color:#796AEE;
+                        font-weight: 600;
+                        font-size: 15px;
+                        &:hover {
+                          text-decoration: underline;
+                        }
+                    }
+                   
+                }
             }
             
             // 按钮区域
@@ -109,6 +133,7 @@
     .loginLeft{
        
         width: 475px;
+        height: 100%;
         // background: rgba(121, 106, 238, 0.9);
         color: #fff;
         display: flex;
@@ -136,18 +161,21 @@
             height: 700px;
             background: rgba(121, 106, 238, 0.75); // 上面的模块背景颜色有透明度则可透视到下面的背景图
             z-index: 999;
-            display: flex;
+            // display: flex;
             align-items: center;
             padding-left: 40px;
+            padding-top:270px;
         }
 
         .title{
             font-size: 40px;
             font-weight: 600;
         }
-        .description{
+        .descriptionBack{
             font-size: 16px;
             font-weight: 300;
+            cursor: pointer;
+            margin-top:30px;
         }
     }
 

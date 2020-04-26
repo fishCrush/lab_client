@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 import { Steps, Upload, Button, message, notification, Spin } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { InboxOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../../MyIcon';
+import {BlobDownload} from '../../../../../common/utils'
 // import { uploadUrl, QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../../common/constants/index';
 
+@inject('UserLabInfoStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -29,14 +34,12 @@ class index extends Component {
     })
   }
   closeIconMouseEnter = () => {
-    // console.log("11");
     this.setState({
       hover: true,
 
     })
   }
   closeIconMouseLeave = () => {
-    // console.log('22');
     this.setState({
       hover: false,
     })
@@ -46,11 +49,12 @@ class index extends Component {
 
   // 下载文件相关
   downloadClickHandle=(e)=>{
-    e.stopPropagation();//阻止点击事件的冒泡
+    //阻止点击事件的冒泡
+    e.stopPropagation();
 
-    // 进行ajax向后端请求  这里是后端直接处理返回一个excel文件给前端
+    // 请求模板文件，得到数据后在前端自定义生成excel表格
+    BlobDownload("xls","批量添加实验室物品的模板文件") 
   }
-
 
 
   //上传文件相关
@@ -60,18 +64,18 @@ class index extends Component {
   }
   
   uploadChangeHandle = (info) => {
-    console.log('uu');
+    // console.log("info",info)
     this.setState({
       uploadLoading: true,
       uploadDisabled:true
     })
 
     const { status } = info.file;
-    console.log('status', status);
+    // console.log('status', status);
 
     // 上传完成或者失败时都将结果打印出来
     if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
+      // console.log(info.file, info.fileList);
     }
 
     if (status === 'done') {
@@ -102,13 +106,14 @@ class index extends Component {
     }
   }
 
-
+  componentDidMount(){
+   
+  }
 
   render() {
     const { hover, uploadDisabled, uploadLoading } = this.state;
     const { visible } = this.props;
     // const visible = true;
-
     return (
       <>
         {visible ? (
@@ -174,21 +179,17 @@ class index extends Component {
                     <div className="batchUp" onClick={this.upWrapClick}>
                       <Upload.Dragger
                         name='file'
-                        action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-                        // accept=""
+                        action='/api/thing/add_bulk_upload'
+                        accept=".xlsx,.xls"
                         onChange={this.uploadChangeHandle}  // 上传中、完成、失败都会调用这个函数
                         disabled={uploadDisabled}
                         showUploadList={false}
-                      // method="post"
+                        method="post"
+                        // data={{test:"hahaha"}}  //附加参数传不了 改成后端从cookie取
                       // headers={{
                       //   "authorization": 'authorization-text',
                       // }}
                       >
-                        {/* <Button className="batchUpBtn">
-                          <UploadOutlined /> 
-                          点此上传数据文件
-                        </Button> */}
-
                         <>
                           <Spin spinning={uploadLoading} tip="上传中...">
                             <p className="ant-upload-drag-icon">

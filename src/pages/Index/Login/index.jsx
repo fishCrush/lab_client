@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Button, message } from 'antd';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 import { withRouter } from "react-router-dom";
 
-// export default IconFont;
+@inject('UserLabInfoStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -15,27 +18,56 @@ class index extends Component {
       isCodeInputFocus: false,
     };
   }
-  btnClick = () => {
-    this.props.history.push('/login');
-    // console.log("hhh")
+
+  loginBtnClick = () => {
+    const {nameInputValue,codeInputValue}=this.state
+    if(!nameInputValue||!nameInputValue){
+      message.warning('手机和密码均不能为空');
+      return false;
+    }
+    // 请求接口
+    axios.post('/api/user/login', {
+      name: String(nameInputValue),
+      password: String(codeInputValue),
+
+    }).then(res => {
+      const {data}=res
+      if(data.status_code){
+        // 登录成功
+        const { history,UserLabInfoStore } = this.props;
+        UserLabInfoStore.setUser(String(nameInputValue));
+        history.replace({
+          pathname: '/home',
+          search: history.location.search
+        });
+       } else {
+        //  message.warning("注册用户失败")
+         message.warning(data.msg)
+       }
+      }
+    ).catch(error => {
+      console.log(error);
+    });
+
+
   }
 
   nameInputChange = (event) => {
-    console.log('event.target.value', event.target.value);
+    // console.log('event.target.value', event.target.value);
     this.setState({
       nameInputValue: event.target.value,
     })
   }
 
   nameInputFocus = () => {
-    console.log('focus')
+    // console.log('focus')
     this.setState({
       isNameInputFocus: true,
     })
   }
 
   nameInputBlur = () => {
-    console.log('focus')
+    // console.log('focus')
     this.setState({
       isNameInputFocus: false,
     })
@@ -59,27 +91,6 @@ class index extends Component {
     })
   }
 
-  loginBtnClick = () => {
-    console.log("sss");
-    //验证输入是否符合要求
-    const { nameInputValue, codeInputValue } = this.state;
-    if (nameInputValue.length === 0 || codeInputValue.length === 0) {
-      message.warning('用户名和密码均不能为空！请正确输入');
-      return false;
-    }
-
-
-    // 请求接口后
-    // 登录失败  密码错误
-
-    // 登录成功
-    const { history } = this.props;
-    history.replace({
-      pathname: '/home',
-      search: history.location.search
-    });
-
-  }
 
   registerBtnClick = () => {
     // 显示注册模块
@@ -141,7 +152,6 @@ class index extends Component {
 
             {/* 按钮区域 */}
             <div className="btnWrap">
-              {/* <DiyThemeBtn text="登录" size="large" onClick={this.loginBtnClick} /> */}
               <Button type="primary" size="large" onClick={this.loginBtnClick}>
                 登录
                 </Button>

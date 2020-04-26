@@ -23,6 +23,15 @@ class index extends Component {
     })
   }
 
+  goBackClick=()=>{
+    this.setState({
+      showRegister:false
+    })
+  }
+  componentDidMount(){
+    console.log('index页  componentDidMount')
+  }
+
   render() {
     const { showRegister } = this.state;
     return (
@@ -31,7 +40,7 @@ class index extends Component {
         {!showRegister ? (
           <Login clickRegister={this.clickRegister}/>
         ) : (
-            <Register />
+            <Register goBack={this.goBackClick}/>
           )}
       </div>
 

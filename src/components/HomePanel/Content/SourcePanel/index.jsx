@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Menu, Avatar, Tag, Tooltip, Statistic } from 'antd';
+import axios from 'axios';
+
 import { inject, observer } from 'mobx-react';
 
 import styles from './index.less';

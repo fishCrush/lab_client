@@ -4,9 +4,8 @@
       "@babel/react"
     ],
     "plugins": [     
-        // "@babel/plugin-proposal-class-properties", // 支持jsx中识别箭头函数语法
         ["@babel/plugin-proposal-decorators",  {"legacy": true}] ,//支持修饰器语法，为了支持mobx
-        ["@babel/plugin-proposal-class-properties", {"loose": true}],
+        ["@babel/plugin-proposal-class-properties", {"loose": true}],  // 支持jsx中识别箭头函数语法
         "dynamic-import-webpack", // 支持动态加载 如import()
         "react-hot-loader/babel"
         // antd按需加载

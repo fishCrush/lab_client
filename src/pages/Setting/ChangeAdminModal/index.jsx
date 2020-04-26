@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag } from 'antd';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
+import { Button, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag,message ,notification} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 import { QUICKTAGS, diyTagMaxLen, diyTagColor, MYICON } from '../../../common/constants/index';
 
+
+@inject('UserLabInfoStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -96,15 +101,50 @@ class index extends Component {
   };
 
 
-  onSubmit = (e) => {
+  okClick = (e) => {
     e.stopPropagation();
-    console.log('点击添加啦');
+    // console.log('点击添加啦');
+    const{UserLabInfoStore}=this.props;
+    const lid=UserLabInfoStore.choosedCardLabInfo.name;
+    const originUname=UserLabInfoStore.userInfo.name
+
+    const {password,targetName}=this.modalFormRef.current.getFieldsValue();
+    if(!password ||!targetName){
+      message.warning("密码和新超管的名称都是必填的！");
+      return false;
+    }
+
+    const {usersName}=UserLabInfoStore
+    if(usersName.indexOf(targetName)<0){
+      message.warning('该用户不存在！请重新输入')
+      return false;
+    }
 
     // 请求接口
-    // 应通过form实例的getFieldsValue获取到所有的字段值（tag注意）然后进行处理，再进行ajax将数据发送出去
+    axios.post('/api/lab/modify_admin', {
+      lid,targetName,originUname,password
+    }).then(res => {
+    const {data}=res
+    if(data.status_code){
+      // 成功   // 旧密码验证通过，直接将新密码作为新密码(不验证是否重复)且modal自动隐藏
+      this.props.hideModifyHandle();   // 并隐藏 修改modal
+      notification.success({
+        message: '成功移交超管身份',
+        duration: 3
+      });
+     } else {
+       message.warning(data.msg)  
+     }
+    }
+    ).catch(error => {
+      console.log(error);
+    });
 
     // 并隐藏 修改modal
-    // this.props.hideModifyHandle();
+    this.props.hideModifyHandle();
+    setTimeout(() => {
+      window.location.reload();  // 刷新页面
+    }, 800);                    //设0.8秒让接口请求完
 
   }
 
@@ -169,7 +209,7 @@ class index extends Component {
                           />
                         </Form.Item>
 
-                        <Form.Item name="new" required={true} className=""
+                        <Form.Item name="targetName" required={true} className=""
                           label={
                             <>
                               <MyIcon type="icon-chaojiguanliyuan1" style={{ marginRight: "10px", fontSize: '25px', marginLeft: 5 }} />
@@ -204,7 +244,7 @@ class index extends Component {
                      </Button>
                         <Button
                           type="primary"
-                          onClick={e => this.onSubmit(e)}
+                          onClick={e => this.okClick(e)}
                           className="modifyModalOkBtn"
                           size="large"
                         >

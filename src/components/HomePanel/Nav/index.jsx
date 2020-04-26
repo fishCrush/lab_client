@@ -13,13 +13,14 @@ class index extends Component {
     super(props);
     this.state = {
       defaultOpenKeys: ['subMain'],
-      defaultSelectedKeys: ['history'],
+      defaultSelectedKeys: ['mainAdd'],
     };
   }
   menuItemClick = (e) => {
-    console.log('dididi  e', e)
+    // console.log('dididi  e', e)
     const { ChooseStore } = this.props;
     ChooseStore.changeNavSelected(e.key);
+    
     // .this.setState({
     //   current: e.key,
     // });

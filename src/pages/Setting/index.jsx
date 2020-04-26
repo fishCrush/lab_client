@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, Modal, notification, Card, Avatar, Tooltip } from 'antd';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
+// import {clone} from 'lodash'
+import { Button, Form, Input, Modal, notification, Card, Avatar, Tooltip,message } from 'antd';
 import styles from './index.less';
 import MyIcon from '../../components/MyIcon';
 import Header from '../../components/Header';
@@ -8,7 +11,8 @@ import AddLabModal from './AddLabModal';
 import EditHostModal from './EditHostModal';
 import ChangeAdminModal from './ChangeAdminModal';
 
-
+@inject('UserLabInfoStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -24,28 +28,30 @@ class index extends Component {
       // changeAdminModalVisible:true,
 
       // 实验室列表
-      list: [
-        {
-          name: "电子信息科学与技术",
-          position: "电子楼511",
-          host: ['潘伟旋', '小明鸭'],
-          remark: ""
-        },
-        {
-          name: "物理研究实验室",
-          position: "电子楼511",
-          host: ['小鱼', '小明'],
-          remark: "校企合作实验室  工作位3人"
-        },
-        {
-          name: "光学影像实验室",
-          position: "实验楼314",
-          host: [],
-          remark: "指导老师是李明明"
-        }
-      ]
+      // list: [
+      //   {
+      //     name: "电子信息科学与技术",
+      //     position: "电子楼511",
+      //     host: ['潘伟旋', '小明鸭'],
+      //     remark: ""
+      //   },
+      //   {
+      //     name: "物理研究实验室",
+      //     position: "电子楼511",
+      //     host: ['小鱼', '小明'],
+      //     remark: "校企合作实验室  工作位3人"
+      //   },
+      //   {
+      //     name: "光学影像实验室",
+      //     position: "实验楼314",
+      //     host: [],
+      //     remark: "指导老师是李明明"
+      //   }
+      // ]
+      list:[]
     };
   }
+ 
 
 
   // 和修改密码相关
@@ -65,23 +71,41 @@ class index extends Component {
   };
 
   passwordModalOk = () => {
-    //发起请求 将新旧密码发送过去
-    // 旧密码验证通过，直接将新密码作为新密码（不验证是否重复）：成功
-    // modal自动隐藏
-    // this.setState({
-    //   passwordModalVisible: false,
-    // });
+    const values=this.resetFormRef.current.getFieldsValue();
+    // console.log("values",values)
 
-    // 旧密码验证不通过:modal不自动隐藏，发出警告
-    this.setState({
-      passwordModalVisible: false,
+    const {old,nVal,confirm}=values
+    if(!old ||!nVal||!confirm){
+      message.warning("三个输入框都是必填的！");
+      return false;
+    }
+    
+     // 请求接口
+     axios.post('/api/user/modify_pwd', {
+        // name:uid,
+        oldPwd:old,
+        newPwd:nVal
+      }).then(res => {
+      const {data}=res
+      if(data.status_code){
+        // 成功   // 旧密码验证通过，直接将新密码作为新密码(不验证是否重复)且modal自动隐藏
+        this.setState({
+          passwordModalVisible: false,
+        });
+        this.resetFormRef.current.resetFields();
+        notification.success({
+          message: '密码已修改成功',
+          duration: 3
+        });
+    
+       } else {
+         // 旧密码验证不通过:modal不自动隐藏，发出警告
+         message.warning(data.msg)  
+       }
+      }
+    ).catch(error => {
+      console.log(error);
     });
-    this.resetFormRef.current.resetFields();
-    notification.success({
-      message: '密码已修改成功',
-      duration: 3
-    });
-
 
   }
 
@@ -100,8 +124,14 @@ class index extends Component {
     })
   }
 
+   changeCardIndex=(index)=>{
+    const {UserLabInfoStore}=this.props;
+    UserLabInfoStore.setCardLabIndex(index)
+   }
+
   //修改实验室地理信息相关
-  labItemPositionModifyClick = () => {
+  labItemPositionModifyClick = (index) => {
+    this.changeCardIndex(index)
     this.setState({
       addLadbModalVisible: true,
       isStart: false
@@ -109,7 +139,9 @@ class index extends Component {
   }
 
   // 编辑实验室的管理员
-  labItemHostModifyClick = () => {
+  labItemHostModifyClick = (index) => {
+    this.changeCardIndex(index)
+
     this.setState({
       editHostModalVisible: true
     })
@@ -122,7 +154,8 @@ class index extends Component {
   }
 
   // 移交超管身份
-  labItemAdminModifyClick = () => {
+  labItemAdminModifyClick = (index) => {
+    this.changeCardIndex(index)
     this.setState({
       changeAdminModalVisible: true
     })
@@ -134,7 +167,78 @@ class index extends Component {
     })
   }
 
+  componentDidMount(){
+    console.log('setting页  componentDidMount')
+    axios.post('/api/lab/list_admin').then(res => {
+      const {data}=res
+      if(data.status_code){
+        const {labs, hostList}=data.data
+        // console.log("labs,hostList",labs,hostList)
+        labs.map(lab=>{
+          const itsHostList=hostList.filter(hostItem=>hostItem.lid===lab.name)
+          const itsHosts=itsHostList.map(item=>item.name)
+          return  Object.assign(lab,{host:itsHosts})
+        })
+        // console.log("处理后的labs",labs)
+          //存入store
+        const {UserLabInfoStore } = this.props;
+        UserLabInfoStore.setLabAdmin(labs);
+        // 进一步处理成该组件需要的数据形式
 
+        const newLabList=labs.map(item=>{
+          let {name,position,remark,host}=item
+          return Object.assign({},{name,position,remark,host})
+        })
+        // console.log("newLabList",newLabList)
+        this.setState({
+          list:newLabList
+        })
+       
+       } else {
+        //  message.warning("注册用户失败")
+         console.log("返回超管实验室信息 失败")
+       }
+      }
+    ).catch(error => {
+      console.log(error);
+    });
+
+    //请求所有用户名和实验室名
+    axios.post('/api/user/user_lab_all_name').then(res => {
+      const {data}=res
+      if(data.status_code){
+        const { usersName,labsName}=data.data
+        const {UserLabInfoStore } = this.props;
+        UserLabInfoStore.setUsersLabsName(usersName,labsName);
+       
+       } else {
+         console.log("请求所有用户名和实验室名 失败")
+       }
+      }
+    ).catch(error => {
+      console.log(error);
+    });
+
+    //请求当前用户信息
+    axios.post('/api/user/user_now').then(res => {
+      const {data}=res
+      if(data.status_code){
+        const {UserLabInfoStore } = this.props;
+        UserLabInfoStore.setUserInfo(data.data);
+       } else {
+         console.log("请求当前用户信息 失败")
+       }
+      }
+    ).catch(error => {
+      console.log(error);
+    });
+
+
+
+  }
+  
+    
+  
 
   render() {
     const { username, password, passwordModalVisible, addLadbModalVisible, list, editHostModalVisible, changeAdminModalVisible, isStart } = this.state;
@@ -218,7 +322,7 @@ class index extends Component {
                   {
                     list.map((item, index) => {
                       return (
-                        <div className={styles.settingPanelLabItemWrap}>
+                        <div className={styles.settingPanelLabItemWrap} key={index}>
                           <Card
                             style={{ width: 330 }}
                             cover={
@@ -229,7 +333,7 @@ class index extends Component {
                                 <div className="settingPanelLabItemText" >
                                   <p>
                                     {item.name}
-                                    {item.remark.length > 0 ? (
+                                    {item.remark &&item.remark.length > 0 ? (
                                       <Tooltip placement="top" title={item.remark}>
                                         <MyIcon type="icon-beizhu3" style={{ marginLeft: 3, color: "#1890ff" }} />
                                       </Tooltip>
@@ -241,9 +345,9 @@ class index extends Component {
 
                             }
                             actions={[
-                              <div className="labItemModify" onClick={this.labItemPositionModifyClick}><SettingOutlined key="setting" /><div>编辑信息</div></div>,
-                              <div className="labItemHostModify" onClick={this.labItemHostModifyClick}><EditOutlined key="edit" /><div>编辑管理员</div></div>,
-                              <div className="labItemAdminModify" onClick={this.labItemAdminModifyClick}>
+                              <div className="labItemModify" onClick={()=>this.labItemPositionModifyClick(index)}><SettingOutlined key="setting" /><div>编辑信息</div></div>,
+                              <div className="labItemHostModify" onClick={()=>this.labItemHostModifyClick(index)}><EditOutlined key="edit" /><div>编辑管理员</div></div>,
+                              <div className="labItemAdminModify" onClick={()=>this.labItemAdminModifyClick(index)}>
                                 {/* <Tooltip placement="right" title="移交超级管理员身份"> */}
                                 <EllipsisOutlined key="ellipsis" />
                                 <div>移交超管</div>
@@ -254,7 +358,7 @@ class index extends Component {
                             <Card.Meta
                               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                               title={<>
-                                {item.host.length > 0 ? <span>普通管理员：</span> : ''}
+                                {item.host.length > 0 ? <span>管理员：</span> : ''}
                                 {item.host.map(item => <span style={{ marginRight: 7, fontColor: "#303641" }}>{item}</span>)}
                               </>}
                               description={item.position}
@@ -269,12 +373,7 @@ class index extends Component {
               </div>
             </div>
 
-
-
           </div>
-
-
-
 
           {/* 修改密码的modal */}
           <div className="resetPasswordModalWrap">
@@ -287,7 +386,6 @@ class index extends Component {
               cancelText="取消"
               onOk={this.passwordModalOk}
               onCancel={this.passwordModalCancel}
-
             >
               <Form name="resetPassword" layout="vertical" ref={this.resetFormRef} >
                 <Form.Item name="old" label="原密码"
@@ -295,7 +393,7 @@ class index extends Component {
                 >
                   <Input.Password placeholder="请输入原密码" />
                 </Form.Item>
-                <Form.Item name="new" label="新密码"
+                <Form.Item name="nVal" label="新密码"
                   rules={[{ required: true, message: '请输入密码!' }]}
                 >
                   <Input.Password placeholder="请输入新的密码" />
@@ -305,7 +403,7 @@ class index extends Component {
                     { required: true, message: '请输入密码!' },
                     ({ getFieldValue }) => ({
                       validator(rule, value) {
-                        if (!value || getFieldValue('new') === value) {
+                        if (!value || getFieldValue('newVal') === value) {
                           return Promise.resolve();
                         }
                         return Promise.reject('两次输入不同，请重新输入');

@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [
-    "react-hot-loader/patch",
+    'react-hot-loader/patch',
     path.join(__dirname, 'src', 'index.js')
   ],
   output: {
@@ -25,12 +25,23 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     contentBase: path.join(__dirname, 'src'),
-    hot: true
+    hot: true,
+    proxy: {
+      '/api': { // 代理接口前缀为/api的请求
+        target: 'http://localhost:3000',  //转接到本地3000端口(后端服务器监听的端口)
+        changeOrigin: true, // 是否允许跨域
+        pathRewrite: {
+          '^/api': '' // 重写路径,则转发请求时不会协带前缀api
+        },
+        // secure: false
+      },
+    }
+
   },
   module: {
     rules: [
 
-      {//ES6、JSX处理
+      { // ES6、JSX处理
         test: /(\.jsx|\.js)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
@@ -39,32 +50,32 @@ module.exports = {
 
           plugins: [
             [
-              "import",
-              { libraryName: "antd", style: "css" }
-            ] //antd按需加载
+              'import',
+              { libraryName: 'antd', style: 'css' }
+            ] // antd按需加载
           ]
         },
       },
 
-      {//CSS处理
+      { // CSS处理
         test: /\.(css|less)$/,
         // loader: "style-loader!css-loader?modules",
         use: [
-          { loader: "style-loader" },
+          { loader: 'style-loader' },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
 
             options: {
               // 设置css modules
               importLoaders: 1,
               modules: {
-                localIdentName: "[name]__[local]___[hash:base64:5]",
+                localIdentName: '[name]__[local]___[hash:base64:5]',
               },
 
             }
           },
           {
-            loader: 'less-loader',// 将 Less 编译为 CSS  
+            loader: 'less-loader', // 将 Less 编译为 CSS
             // options: {
             //         modifyVars: {
             //           'primary-color': '#1DA57A',
@@ -89,19 +100,19 @@ module.exports = {
 
       },
 
-      {//antd样式处理
+      { // antd样式处理
         test: /\.css$/,
         exclude: /src/,
         use: [
-          { loader: "style-loader" },
+          { loader: 'style-loader' },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1
             }
           },
           {
-            loader: 'less-loader',// 将 Less 编译为 CSS  
+            loader: 'less-loader', // 将 Less 编译为 CSS
             // options: {
             //         modifyVars: {
             //           'primary-color': '#1DA57A',
@@ -118,8 +129,8 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url-loader',
         options: {
-          limit: 1024,  //小于该值的图片会使用base64编码
-          name: 'imgs/[name].[hash:8].[ext]'  //打包后的图片名称 [ext]指图片格式
+          limit: 1024, // 小于该值的图片会使用base64编码
+          name: 'imgs/[name].[hash:8].[ext]' // 打包后的图片名称 [ext]指图片格式
         }
       },
 
@@ -131,7 +142,7 @@ module.exports = {
   // externals:{
   //   'BMapGL':'BMapGL'
   // },
-  
+
   //   module: {
   //     rules: [
   //       {
@@ -164,7 +175,7 @@ module.exports = {
   //             {
   //                 loader: 'less-loader'// 将 Less 编译为 CSS
   //             }
-  //         ]    
+  //         ]
   //       },
 
   //       {   // 对于node_modules文件夹以外的less文件, 不开启css module模式
@@ -186,7 +197,7 @@ module.exports = {
   //             {
   //                 loader: 'less-loader'// 将 Less 编译为 CSS
   //             }
-  //         ]    
+  //         ]
   //       }
 
 
@@ -196,7 +207,7 @@ module.exports = {
   //     //   }
   //     ]
   //   }
-  
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html')

@@ -19,7 +19,9 @@ class index extends Component {
   
 
 
-  
+  componentDidMount(){
+    console.log('home页的header  componentDidMount')
+  }
   
   render(){
     // const { history, NotificationStore } = this.props;

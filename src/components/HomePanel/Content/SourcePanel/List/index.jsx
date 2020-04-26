@@ -47,6 +47,7 @@ class index extends Component {
   // 导出事件
   exportBtnClick = () => {
     //导出
+    
   }
   // 和名称选择输入框有关
   fetchNames = value => {
@@ -121,7 +122,7 @@ class index extends Component {
                   size="middle"
                 >
                   <MyIcon type="icon-daochuwenjian-" style={{ color: "#fff", fontSize: 15 }} />
-                导出文件
+                导出全部物品
               </Button>
               </div>
 
