@@ -16,7 +16,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-zmage": "^0.8.5-beta.31"
   },
   "scripts": {
     "webpack": "babel-node ./node_modules/webpack/bin/webpack",

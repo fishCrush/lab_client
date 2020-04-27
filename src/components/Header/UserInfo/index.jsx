@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 import { withRouter } from "react-router-dom";
 
 import { Button, Avatar, Dropdown, Menu } from 'antd';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 // export default IconFont;
+@inject('UserLabInfoStore','ThingStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +26,11 @@ class index extends Component {
   }
 
   render() {
-    const name="潘伟旋"
+    let name='';
+    const{UserLabInfoStore}=this.props;
+    if(UserLabInfoStore){
+      name=UserLabInfoStore.uname
+    }
     return (
 
       <span className={styles.userInfoWrap}>

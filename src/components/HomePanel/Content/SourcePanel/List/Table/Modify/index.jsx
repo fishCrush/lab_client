@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, InputNumber, Tooltip,  Rate, Tag } from 'antd';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
+import { Button, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag,message,notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../../../../MyIcon';
 import { QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../../../../../common/constants/index';
 
+
+
+@inject('UserLabInfoStore', 'ThingStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -16,49 +22,34 @@ class index extends Component {
       diyInputValue: '',
 
       initialValues: { // 初始值
-        name: "hhhh",
+        name: 'hhhh',
         num: 12,
-        tags: ["娱乐"],
-        diyTags: ["kk", "曾经的diy"],
+        // tags: ["娱乐"],
+        diyTags: ['kk', '曾经的diy'], // 标签
         rate: 3,
-        remark: "这是一些曾经的备注"
+        remark: '这是一些曾经的备注'
       }
     };
   }
 
-
-
   // 获取到这个表单实例
   modalFormRef = React.createRef();
 
-  successHandle = (values) => {
-    console.log("成功,数据：", values);
+  successHandle = values => {
+    console.log('成功,数据：', values);
   }
 
   failHandle = () => {
-    console.log("失败");
+    console.log('失败');
   }
 
-  // 快速添加标签相关
-  tagChangeHandle(tag, checked) {
-    // ！此tag就是标签的值
-    console.log("change的tag,checked",tag,checked)
-    const { selectedTags } = this.state;
-    const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-    console.log('You are interested in: ', nextSelectedTags);
-    this.setState({ selectedTags: nextSelectedTags });
-  }
-
-
-  // 自定义标签相关
-  diyTagClosehandle = removedTag => {
-    const diyTags = this.state.initialValues.diyTags.filter(tag => tag !== removedTag);
-    console.log(diyTags);
-    const initialValues = this.state.initialValues;
-    initialValues.diyTags = diyTags
-      this.setState({
-        initialValues
-      });
+  // 标签
+  tagClosehandle = removedTag => {
+    const { ThingStore } = this.props;
+    const {  modifyTags } = ThingStore;
+    const newTags = modifyTags.filter(tag => tag !== removedTag);  //删除后的数组
+    // console.log("删除后的标签",newTags);
+    ThingStore.setModifyTags(newTags);
   };
 
   saveInputRef = input => (this.diyAddinput = input);
@@ -74,16 +65,15 @@ class index extends Component {
 
   diyInputConfirmHandle = () => {
     const { diyInputValue } = this.state;
-    // let { diyTags } = this.state;
-    let diyTags=this.state.initialValues.diyTags
-    if (diyInputValue && diyTags.indexOf(diyInputValue) === -1) {
-      diyTags = [...diyTags, diyInputValue];
+    const { ThingStore } = this.props;
+    let modifyTags=ThingStore.modifyTags
+
+    if (diyInputValue && modifyTags.indexOf(diyInputValue) === -1) {
+      modifyTags = [...modifyTags, diyInputValue];
     }
-    console.log(diyTags);
-    const initialValues = this.state.initialValues;
-    initialValues.diyTags=diyTags;
+    // console.log(modifyTags);
+    ThingStore.setModifyTags(modifyTags);
     this.setState({
-      initialValues,
       diyInputVisible: false,
       diyInputValue: '',
     });
@@ -92,24 +82,47 @@ class index extends Component {
 
 
   // Form相关
-  onCancel = (e) => {
+  onCancel = e => {
     e.stopPropagation();
     this.props.hideModifyHandle();
   };
 
-  // maskClick=(e)=>{
-  //无法生效 所以干脆去掉这个
-  //   e.stopPropagation();  
-  //   this.props.hideModifyHandle();
-  // }
 
-  onSubmit = (e) => {
+  okClick = e => {
     e.stopPropagation();
-    console.log('点击添加啦');
-
+    // console.log('点击添加啦');
+    const {name, num,  rate, remark}=this.modalFormRef.current.getFieldsValue();
+    const { ThingStore,UserLabInfoStore } = this.props;
+    const {uname,lid}=UserLabInfoStore;
+    const nLabels=ThingStore.modifyTags.join("&")
+    const thingid=ThingStore.modifyThingid
     // 请求接口
-    // 应通过form实例的getFieldsValue获取到所有的字段值（tag注意）然后进行处理，再进行ajax将数据发送出去
-
+    axios.post('/api/thing/modify', {
+      uname,
+      lid,
+      thingid,
+      name,
+      nNum:num,
+      nRate:rate, 
+      nRemark:remark,
+      nLabels
+    }).then(res => {
+    const {data}=res
+    if(data.status_code){
+      // 成功   // 旧密码验证通过，直接将新密码作为新密码(不验证是否重复)且modal自动隐藏
+      this.props.hideModifyHandle();   // 并隐藏 修改modal
+      message.success("修改成功");
+      setTimeout(() => {
+        window.location.reload();  // 刷新页面
+      }, 600); 
+  
+     } else {
+       message.warning(data.msg)  
+     }
+    }
+    ).catch(error => {
+      console.log(error);
+    });
     // 并隐藏 修改modal
     // this.props.hideModifyHandle();
 
@@ -117,19 +130,27 @@ class index extends Component {
 
 
   render() {
-
-    const { initialValues, selectedTags,  diyInputVisible, diyInputValue } = this.state;
-
+    const { visible ,ThingStore } = this.props;
+    const { diyInputVisible, diyInputValue } = this.state;
     const validateMessages = {};
-    const { visible } = this.props;
+    let initialValues = {};
+    let tags=[]
+    if (ThingStore && ThingStore.thingList) {
+      const { modifyThingObj,modifyTags } = ThingStore;
+      // console.log('修改面板 modifyThingObj', modifyThingObj);
+      const { name, num,  rate, remark } = modifyThingObj;
+      initialValues = Object.assign({}, { name, num, rate, remark});
+      tags=modifyTags;
+      // console.log('initialValues', initialValues);
+    }
 
     return (
       <>
         {visible ? (
           <div className="modifyModalWrap">
             <div className="modifyModalWraper">
-              <div className="modifyModalMask"  >
-                <div className="modifyModalContent" >
+              <div className="modifyModalMask">
+                <div className="modifyModalContent">
                   <div className="modifyModalTitleWrap">
                     <MyIcon type="icon-shiyanshiyuyue1" style={{ fontSize: 25, marginRight: 12 }} />
                     <span className="modifyModalTitleText">修改资源</span>
@@ -152,32 +173,37 @@ class index extends Component {
 
                         {/* 必填区域 */}
                         {/* <div className="modifyModalFormRequireWrap" > */}
-                        <Form.Item name="name" required={true} className=""
-                          label={
+                        <Form.Item
+                          name="name" required={true} className=""
+                          label={(
                             <>
-                              <MyIcon type="icon-wupinzujie" style={{ marginRight: "10px", fontSize: '25px', marginLeft: 5 }} />
-                                 名称
+                              <MyIcon type="icon-wupinzujie" style={{ marginRight: '10px', fontSize: '25px', marginLeft: 5 }} />
+                              名称
                               <Tooltip placement="right" title="名称不可修改">
                                 <MyIcon type="icon-zhuyi4" style={{ marginLeft: 4, fontSize: 19 }} />
                               </Tooltip>
                             </>
-                          }
+                          )}
                         >
-                          <Input size="large"
+                          <Input
+                            size="large"
                             placeholder="请输入物品名称"
                             style={{ borderRadius: 5, width: 300 }}
                             disabled={true}
                           />
                         </Form.Item>
 
-                        <Form.Item name="num" required={true} className=""
-                          label={
+                        <Form.Item
+                          name="num" required={true} className=""
+                          label={(
                             <>
-                              <MyIcon type="icon-shuliang2" style={{ marginRight: "10px", fontSize: '25px', marginLeft: 5 }} />
-                          数量
-                        </>}
+                              <MyIcon type="icon-shuliang2" style={{ marginRight: '10px', fontSize: '25px', marginLeft: 5 }} />
+                              数量
+                            </>
+                          )}
                         >
-                          <InputNumber size="large" width={100} min={1}
+                          <InputNumber
+                            size="large" width={100} min={1}
                             style={{ borderRadius: 5, width: 300 }}
                           />
                         </Form.Item>
@@ -185,49 +211,28 @@ class index extends Component {
 
                         {/* 标签区域 */}
                         <div className="modifyModalFormTagWrap">
-                          <Form.Item name="tags" className=""
-                            label={
-                              <>
-                                <MyIcon type="icon-biaoqian4"
-                                  style={{ marginRight: "10px", fontSize: 23, marginLeft: 13, fontWeight: 800 }}
-                                />
-                                <span style={{ marginTop: 5 }}>
-                                  快速添加标签
-                             <span style={{ color: "rgba(0, 0, 0, 0.35)", fontSize: 13, marginLeft: 4 }}>点击进行选中</span>
-                                </span>
-                              </>
-                            }
-                          >
-                            {QUICKTAGS.map(tag => (
-                              <Tag.CheckableTag
-                                key={tag}
-                                checked={selectedTags.indexOf(tag) > -1}
-                                onChange={checked => this.tagChangeHandle(tag, checked)}
-                              >
-                                {tag}
-                              </Tag.CheckableTag>
-                            ))}
-                          </Form.Item>
 
-                          <Form.Item name="diyTags" className=""
-                            label={
+                          <Form.Item
+                            name="diyTags" className=""
+                            label={(
                               <>
-                                <MyIcon type="icon-label"
-                                  style={{ marginRight: "10px", fontSize: 28, marginLeft: 13, fontWeight: 800, marginTop: 13 }}
+                                <MyIcon
+                                  type="icon-label"
+                                  style={{ marginRight: '10px', fontSize: 28, marginLeft: 13, fontWeight: 800, marginTop: 13 }}
                                 />
-                                <span style={{ marginTop: 13, }}>自定义标签</span>
+                                <span style={{ marginTop: 13 }}>标签</span>
                               </>
-                            }
+                            )}
                           >
                             <div>
-                              {this.state.initialValues.diyTags.map((tag, index) => {
+                              {tags.map((tag, index) => {
                                 const isLongTag = tag.length > diyTagMaxLen;
                                 const tagElem = (
                                   <Tag
                                     key={tag}
                                     closable={true}
                                     color={diyTagColor}
-                                    onClose={() => this.diyTagClosehandle(tag)}
+                                    onClose={() => this.tagClosehandle(tag)}
                                   >
                                     {isLongTag ? `${tag.slice(0, diyTagMaxLen)}...` : tag}
                                   </Tag>
@@ -237,8 +242,8 @@ class index extends Component {
                                     {tagElem}
                                   </Tooltip>
                                 ) : (
-                                    tagElem
-                                  );
+                                  tagElem
+                                );
                               })}
                               {diyInputVisible && (
                                 <Input
@@ -266,28 +271,32 @@ class index extends Component {
 
 
                       {/* 隔开 */}
-                      <Form.Item name="rate" className=""
-                        label={
+                      <Form.Item
+                        name="rate" className=""
+                        label={(
                           <>
-                            <MyIcon type="icon-xingxing2"
-                              style={{ marginRight: "10px", fontSize: 23, marginLeft: 15, fontWeight: 800 }}
+                            <MyIcon
+                              type="icon-xingxing2"
+                              style={{ marginRight: '10px', fontSize: 23, marginLeft: 15, fontWeight: 800 }}
                             />
-                           重要程度
-                        </>
-                        }
+                            重要程度
+                          </>
+                        )}
                       >
                         <Rate />
                       </Form.Item>
 
-                      <Form.Item name="remark" className=""
-                        label={
+                      <Form.Item
+                        name="remark" className=""
+                        label={(
                           <>
-                            <MyIcon type="icon-beizhu-" style={{ marginRight: "10px", fontSize: 22, marginLeft: 15, }} />
-                           备注
-                        </>
-                        }
+                            <MyIcon type="icon-beizhu-" style={{ marginRight: '10px', fontSize: 22, marginLeft: 15 }} />
+                            备注
+                          </>
+                        )}
                       >
-                        <Input.TextArea size="large" width={300}
+                        <Input.TextArea
+                          size="large" width={300}
                           placeholder="可在此输入一些备注"
                           style={{ borderRadius: 5 }}
                         />
@@ -308,18 +317,18 @@ class index extends Component {
                           onClick={e => this.onCancel(e)}
                           size="large"
                           className="modifyModalResetBtn"
-                          style={{ boxShadow: "0 1px 18px 1px rgba(69,65,78,.07)", borderRadius: 5 }}
+                          style={{ boxShadow: '0 1px 18px 1px rgba(69,65,78,.07)', borderRadius: 5 }}
                         >
                           取消
-                  </Button>
+                        </Button>
                         <Button
                           type="primary"
-                          onClick={e => this.onSubmit(e)}
+                          onClick={e => this.okClick(e)}
                           className="modifyModalOkBtn"
                           size="large"
                         >
                           确认
-                  </Button>
+                        </Button>
                       </div>
                     </div>
                   </div>

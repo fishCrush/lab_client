@@ -1,13 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2020-04-08 22:17:00
- * @LastEditTime: 2020-04-26 19:08:21
+ * @LastEditTime: 2020-04-27 16:33:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/constants/index.js
  */
  // iconfont项目地址
-export const MYICON="//at.alicdn.com/t/font_1739697_9gypdtwk9a6.js" ;
+export const MYICON="//at.alicdn.com/t/font_1739697_7pjnocmstqo.js" ;
+
 // 下载excel模板文件的地址（放于七星云的对象存储里）
 export const templateUrl="http://q95hlcjwx.bkt.clouddn.com/0426%E5%AF%BC%E5%87%BA%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6.xlsx"
 

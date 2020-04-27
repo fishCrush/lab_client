@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-import { Button, Table, Tag, Popconfirm, message } from 'antd';
-
+import { Button, Table, Tag, Popconfirm, message, Popover } from 'antd';
+import Zmage from 'react-zmage';
 
 import styles from './index.less';
 import MyIcon from '../../../../../../components/MyIcon';
@@ -11,39 +11,21 @@ import Modify from './Modify';
 
 const { Column } = Table;
 
-@inject('ChooseStore', 'ThingStore')
+@inject('ChooseStore', 'ThingStore','UserLabInfoStore')
 @observer
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modifyVisible: false,
-      //  formData :[
-      //   {
-      //     name: '校企合作文件22',
-      //     num: 23,
-      //     tags: ['娱乐', '学院机密'],
-      //     rate: "three",
-      //     remark: 'New York No. 1 Lake Park',
-      //     imgs: ['iiiiiiiiii', 'kkkkkkkkkkkk']
-      //   },
-      //   {
-      //     name: '校企合作文件33',
-      //     num: 33,
-      //     tags: ['娱乐', '学院机密'],
-      //     rate: "three",
-      //     remark: 'New York No. 1 Lake Park',
-      //     imgs: ['hhhhhh', 'kkssss']
-      //   }
-      // ],
       columns: [
         {
-          title: '物品名称',
+          title: <span className="headerText">物品名称</span>,
           dataIndex: 'name',
           key: 'name'
         },
         {
-          title: '数量',
+          title: <span className="headerText">数量</span>,
           dataIndex: 'num',
           key: 'num',
           // defaultSortOrder: 'descend',
@@ -52,38 +34,67 @@ class index extends Component {
 
 
         {
-          title: '标签',
+          title: <span className="headerText">标签</span>,
           dataIndex: 'tags',
           key: 'tags',
           render: tags => (
             <span>
-              {tags.map((tag, index) => (
-                <Tag color="purple" key={index}>
-                  {tag}
-                </Tag>
-              ))}
+              {
+                tags.length > 0 ? (
+                  <>
+                  {tags.map((tag, index) => (
+                    <Tag color="purple" key={index}>
+                      {tag}
+                    </Tag>
+                    ))
+                  }
+                  </>
+                  ):('')
+              }
             </span>
           )
         },
 
         {
-          title: '图片',
+          // title: '图片(点击可放大查看)',
+          title: <><span className="headerText">图片</span><span style={{ color: '#808080c4', fontSize: 14, marginLeft: 3 }}>(点击可放大查看)</span></>,
           dataIndex: 'imgs',
           key: 'imgs',
+          width: 200,
           render: imgs => (
             <span>
-              {/* {value}图片
-                 */
-                imgs.length > 0 ? (
-                  <img src={imgs[0]} alt="图片" style={{width:70,height:70}}/>
+              {
+                imgs && imgs.length > 0 ? (
+                  <>  
+                    <Zmage src={imgs[0]} alt="图片" style={{ width: 70, height: 70 }} /> 
+
+                    {imgs.length > 1 ? (
+                      <>
+                        <Popover
+                          title="图片" trigger="click"
+                          content={(  //省略号里的图片；除去第一张图片的剩余图片
+                            <>
+                              {imgs.slice(1).map((img, index) => (
+                                <span key={index}><Zmage src={img} alt="图片" style={{width:70,height:70}}/> </span>
+                              ))}
+                            </>
+                          )}
+                        >
+                          <span style={{ marginLeft: 15, fontSize: 24, cursor: 'pointer' }}>
+                            ...
+                          </span>
+                        </Popover>
+                      </>
+                    ) : ('')
+                    }
+                  </>
                 ) : (<MyIcon type="icon-kong2" style={{ fontSize: 35 }} />)
               }
-
             </span>
           )
         },
         {
-          title: '重要程度',
+          title: <span className="headerText">重要程度</span>,
           dataIndex: 'rate',
           key: 'rate',
           render: num => (
@@ -91,34 +102,30 @@ class index extends Component {
           )
         },
         {
-          title: '操作',
+          title: <span className="headerText">操作</span>,
           key: 'action',
           dataIndex: 'action',
-          render: (text, record, index) => (
+          render: (actionObj) => (
 
             <span>
               <span
                 style={{ marginRight: 16, cursor: 'pointer', color: '#bf98e4' }}
-                onClick={this.modifyClickHandle}
+                onClick={()=>this.modifyClickHandle(actionObj.thingid)}
               >
                 点此修改
               </span>
               <Popconfirm
                 placement="right"
                 title="你确定要删除这一条资源吗？"
-                onConfirm={() => this.confirmDelete(index)} okText="确定" cancelText="取消">
+                onConfirm={() => this.confirmDelete(actionObj)} okText="确定" cancelText="取消">
                 <span style={{ marginRight: 16, cursor: 'pointer' }}>
-                  {/* 点此删除 */}
                   <MyIcon type="icon-lajitong5" style={{ fontSize: 16 }} />
                 </span>
               </Popconfirm>
             </span>
           )
         }
-
-
       ]
-
 
     };
   }
@@ -127,15 +134,41 @@ class index extends Component {
     console.log('formchange params', pagination, filters, sorter, extra);
   }
 
-  modifyClickHandle=() => {
+  modifyClickHandle=(thingid) => {
+    const {ThingStore}=this.props;
+    // console.log("modifyClickHandle thingid",thingid)
+    // ThingStore.setModifyThingid(thingid)
+    ThingStore.setModifyThingObj(thingid)
     this.setState({
       modifyVisible: true
     });
   }
 
-  confirmDelete=index => {
-    console.log('删除的序号是：', index);
-    // 删除了一条记录
+  // 删除物品
+  confirmDelete=actionObj => {
+    // console.log('删除的thingid：', thingid);
+    const {name,thingid}=actionObj;
+    const{UserLabInfoStore}=this.props
+    const {uname,lid}=UserLabInfoStore;
+    // 请求接口
+    axios.post('/api/thing/delete', {
+      uname,lid,name,thingid
+    }).then(res => {
+    const {data}=res
+    if(data.status_code){
+      message.success("删除成功");
+
+      setTimeout(() => {
+        window.location.reload();  // 刷新页面
+      }, 600); 
+  
+     } else {
+       message.warning(data.msg)  
+     }
+    }
+    ).catch(error => {
+      console.log(error);
+    });
   }
 
   hideModify=() => {
@@ -157,8 +190,8 @@ class index extends Component {
     const { ThingStore } = this.props;
     // ThingStore
     if (ThingStore) {
-      const { thingList } = ThingStore;
-      formData = thingList;
+      const { showingThingList } = ThingStore;
+      formData = showingThingList;
     }
 
     console.log('赋值给table的数值', formData);

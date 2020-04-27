@@ -3,7 +3,8 @@ import { action, flow, observable, computed } from 'mobx';
 export class ChooseStore {
     // 坐侧边导航栏
     // @observable navSelectedKey = "mainList";
-    @observable navSelectedKey = "mainList";
+    @observable navSelectedKey = "mainList"; 
+
     @observable labSelected = "lab1";
 
 

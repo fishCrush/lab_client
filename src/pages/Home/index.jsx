@@ -35,7 +35,6 @@ class index extends Component {
       ).catch(error => {
         console.log(error);
       });
-
   }
 
   initLabInfo=(lid)=>{
@@ -49,7 +48,6 @@ class index extends Component {
       if(data.status_code){
         const{things,imgs}=data.data
         // console.log("初始化的things,imgs",things,imgs)
-
         //处理图片（对应到各自的thingid中）
         const thingList = things.map(thingItem=>{
           const imgList=imgs.filter(imgItem=>imgItem.thingid===thingItem.thingid)
@@ -62,15 +60,16 @@ class index extends Component {
           const labels=thingItem.labels.split("&")
           return Object.assign(thingItem,{tags:labels})
         })
+        console.log("thingList",thingList)
 
         //转成Table组件需要的数据格式
         const lastThingList=thingList.map(thingItem=>{
-          const {name,  num, tags,rate, remark, imgs}=thingItem
-          return Object.assign({},{name,  num, tags,rate, remark, imgs})
+          const {thingid,name,  num, tags,rate, remark, imgs,created_at}=thingItem
+          return Object.assign({},{action:{thingid,name},name,  num, tags,rate, remark, imgs,time:created_at}) //将thingid传给action,用于修改和删除某条记录时标识用
         })
         console.log("处理后的thingList",lastThingList)
         ThingStore.setThingList(lastThingList)  //存到store里
-
+        ThingStore.setShowingThingList(lastThingList)  //存到store里
        } else {
          console.log("请求初始化时的资源列表 失败")
        }

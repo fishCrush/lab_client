@@ -17,6 +17,17 @@
         display: flex;
         align-items: center;
 
+        //模糊搜索输入框的输入值
+        .ant-select-selection-search{
+            padding-top: 6px;
+            padding-left: 10px;
+        }
+
+        //模糊搜索输入框的placeholder
+        .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+            padding-top: 6px;
+        }
+
 
         .chooseNameFormItem{
             display: flex;
@@ -56,20 +67,27 @@
             position: absolute;
             right:20px;
             // top:0;
+            
             .ant-btn-primary{
-                background-color:@homePanel-sourcePanel-exportBgColor;
+                // background-color:@homePanel-sourcePanel-exportBgColor;
+                color: #a35fe4e6;
+                background-color: #fff;
                 border:1px solid @homePanel-sourcePanel-exportBgColor;
                 box-sizing: border-box;
           
-                &:hover,&:active{
-                    background-color:@homePanel-sourcePanel-exportHoverBgColor;
-                    color:#fff;
-                }
+                // &:hover,&:active{
+                //     background-color:@homePanel-sourcePanel-exportHoverBgColor;
+                //     color:#fff;
+                // }
           
-                &:focus{
-                    background-color:@homePanel-sourcePanel-exportBgColor;
-                    color:#fff;
-                }
+                // &:focus{
+                //     background-color:@homePanel-sourcePanel-exportBgColor;
+                //     color:#fff;
+                // }
+            }
+
+            .ant-btn{
+                display: flex;
             }
 
         }
