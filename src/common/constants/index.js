@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-08 22:17:00
- * @LastEditTime: 2020-04-27 16:33:55
+ * @LastEditTime: 2020-04-27 22:32:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/constants/index.js
@@ -47,7 +47,8 @@ export const mapRateShow = {
   export const historyActionMapChinese={
     add:"增加",
     delete:"删除",
-    modify:"修改"
+    modify:"修改",
+    bulk:"excel方式增加"
   }
 export const historyActionMapColor={
   modify:"#b37feb",

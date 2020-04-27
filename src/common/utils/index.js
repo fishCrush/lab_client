@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-10 16:14:53
- * @LastEditTime: 2020-04-27 17:34:53
+ * @LastEditTime: 2020-04-27 22:12:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/utils/index.js
@@ -54,4 +54,16 @@ export function BlobDownload(type="xls",filename = '') {
     link.click();   // 文件开始下载
     window.URL.revokeObjectURL(url);
   });
+}
+
+// 格式化时间对象
+export function formatDate(date){
+    // var date = new Date(date);
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+    return year + '-' + month + '-' + day +'   '+ hour + ':'+minute +':'+second;
 }

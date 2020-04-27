@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-24 21:27:04
- * @LastEditTime: 2020-04-27 18:38:29
+ * @LastEditTime: 2020-04-27 20:48:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/userLabInfoStore/index.js
@@ -19,11 +19,21 @@ export class UserLabInfoStore {
     @observable labsName=[]; // 所有实验室名
     // @observable  labsName=[]; //所有实验室名
 
+    @observable labAdminName=""; //home页被选中的实验室的超管名
+    @observable labHostName=[]; //home页被选中的实验室的超管名
+
+    @action.bound
+    setLabAdminAndHost(labAdmin,labHost) {
+      this.labAdminName = labAdmin;
+      this.labHostName = labHost;
+      console.log('当前home页实验室的超管名和普管名已存入', this.labAdminName, this.labHostName);
+    }
+
     @computed get uname() { // 当前登录用户名
       return this.userInfo ? this.userInfo.name : '';
     }
 
-    @computed get lid() { // 当前home主页被选中的实验室
+    @computed get lid() { // 当前home主页被选中的实验室的实验名
       const index = this.selectedLabIndex;
       const selectedLab = this.labHost[index];
       return selectedLab ? selectedLab.name : '';

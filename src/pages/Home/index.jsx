@@ -39,7 +39,7 @@ class index extends Component {
 
   initLabInfo=(lid)=>{
     // 请求初始化时的资源列表：//当前用户的第一间实验室下的资源
-    const { ThingStore } = this.props;
+    const { ThingStore,UserLabInfoStore } = this.props;
 
     axios.post('/api/thing/query_by_lid',{
       lid
@@ -77,6 +77,24 @@ class index extends Component {
     ).catch(error => {
       console.log(error);
     });
+
+    //请求当前被选实验室的超管和普管
+    axios.post('/api/lab/admin_and_host',{
+      lid
+    }).then(res => {  
+      const {data}=res
+      if(data.status_code){
+        const{admin,host}=data.data
+        UserLabInfoStore.setLabAdminAndHost(admin,host);
+       } else {
+         console.log("请求当前被选实验室的超管和普管 失败")
+       }
+      }
+    ).catch(error => {
+      console.log(error);
+    });
+
+
   }
   
   componentDidMount(){
