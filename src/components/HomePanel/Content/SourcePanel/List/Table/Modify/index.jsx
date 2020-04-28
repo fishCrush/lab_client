@@ -36,7 +36,7 @@ class index extends Component {
   modalFormRef = React.createRef();
 
   successHandle = values => {
-    console.log('成功,数据：', values);
+    // console.log('成功,数据：', values);
   }
 
   failHandle = () => {

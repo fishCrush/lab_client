@@ -20,13 +20,13 @@ class index extends Component {
   }
  
   componentDidMount(){
-    console.log('home页的header  componentDidMount');
-    //请求通知消息列表
+    // console.log('home页的header  componentDidMount');
+    //请求通知消息列表  //这里的uid：后端直接从cookie取
     axios.post('/api/notification/querylist_by_uid').then(res => {
       const { data } = res;
       if (data.status_code) {
         const list=data.data;
-        console.log("通知列表的list",list);
+        // console.log("通知列表的list",list);
         const {NotificationStore}=this.props;
         NotificationStore.setNotiList(list);
       } else {

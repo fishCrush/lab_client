@@ -20,7 +20,7 @@ class index extends Component {
 
   itemClick=index => {
     const { selectedIndex } = this.state;
-    console.log('index', index);
+    // console.log('index', index);
     const { UserLabInfoStore, ChooseStore, ThingStore } = this.props;
     const { navSelectedKey } = ChooseStore;
     if (index !== selectedIndex) {
@@ -66,14 +66,14 @@ class index extends Component {
                 const labels = thingItem.labels.split('&');
                 return Object.assign(thingItem, { tags: labels });
               });
-              console.log('thingList', thingList);
+              // console.log('thingList', thingList);
 
               // 转成Table组件需要的数据格式
               const lastThingList = thingList.map(thingItem => {
                 const { thingid, name, num, tags, rate, remark, imgs, created_at } = thingItem;
                 return Object.assign({}, { action: { thingid, name }, name, num, tags, rate, remark, imgs, time: created_at }); // 将thingid传给action,用于修改和删除某条记录时标识用
               });
-              console.log('处理后的thingList', lastThingList);
+              // console.log('处理后的thingList', lastThingList);
               ThingStore.setThingList(lastThingList); // 存到store里
               ThingStore.setShowingThingList(lastThingList); // 存到store里
             } else {
@@ -93,7 +93,7 @@ class index extends Component {
             const { data } = res;
             if (data.status_code) {
               const { historys, changes, bulks } = data.data;
-              console.log('historys,changes', historys, changes, bulks);
+              // console.log('historys,changes', historys, changes, bulks);
               const { HistoryStore } = this.props;
 
               // 处理 历史修改属性名即值

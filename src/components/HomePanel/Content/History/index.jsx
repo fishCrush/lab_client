@@ -51,7 +51,7 @@ class index extends Component {
     // 处理list
     // 抽离出“操作为修改”的数组
     const changeList = list.filter(item => item.action === 'modify');
-    console.log('changeList', changeList);
+    // console.log('changeList', changeList);
 
     // 将修改数组转换为映射的对象
     const mapObj = {};
@@ -59,7 +59,7 @@ class index extends Component {
       const keyName = item.thing;
       mapObj[keyName] = item.change;
     });
-    console.log('mapObj', mapObj);
+    // console.log('mapObj', mapObj);
 
     // 给change数组里的每一个成员(对象)添加属性key
     for (let key in mapObj) {
@@ -71,7 +71,7 @@ class index extends Component {
       );
       mapObj[key] = newChangeArr;
     }
-    console.log('new mapobj', mapObj);
+    // console.log('new mapobj', mapObj);
 
     return (
 

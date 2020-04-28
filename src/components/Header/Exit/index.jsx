@@ -13,7 +13,7 @@ class index extends Component {
   }
 
   outClick = () => {
-    console.log('退出登录');
+    // console.log('退出登录');
     const { history } = this.props;
     history.replace({
       pathname: '/index',

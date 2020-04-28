@@ -11,7 +11,7 @@ import Modify from './Modify';
 
 const { Column } = Table;
 
-@inject('ChooseStore', 'ThingStore','UserLabInfoStore')
+@inject('ChooseStore', 'ThingStore', 'UserLabInfoStore')
 @observer
 class index extends Component {
   constructor(props) {
@@ -31,8 +31,6 @@ class index extends Component {
           // defaultSortOrder: 'descend',
           sorter: (a, b) => a.nun - b.num,
         },
-
-
         {
           title: <span className="headerText">标签</span>,
           dataIndex: 'tags',
@@ -40,16 +38,16 @@ class index extends Component {
           render: tags => (
             <span>
               {
-                tags.length > 0 ? (
+                tags && tags.length > 0 ? (
                   <>
-                  {tags.map((tag, index) => (
-                    <Tag color="purple" key={index}>
-                      {tag}
-                    </Tag>
+                    {tags.map((tag, index) => (
+                      <Tag color="purple" key={index}>
+                        {tag}
+                      </Tag>
                     ))
-                  }
+                    }
                   </>
-                  ):('')
+                ) : ('')
               }
             </span>
           )
@@ -65,17 +63,17 @@ class index extends Component {
             <span>
               {
                 imgs && imgs.length > 0 ? (
-                  <>  
-                    <Zmage src={imgs[0]} alt="图片" style={{ width: 70, height: 70 }} /> 
+                  <>
+                    <Zmage src={imgs[0]} alt="图片" style={{ width: 70, height: 70 }} />
 
                     {imgs.length > 1 ? (
                       <>
                         <Popover
                           title="图片" trigger="click"
-                          content={(  //省略号里的图片；除去第一张图片的剩余图片
+                          content={( // 省略号里的图片；除去第一张图片的剩余图片
                             <>
                               {imgs.slice(1).map((img, index) => (
-                                <span key={index}><Zmage src={img} alt="图片" style={{width:70,height:70}}/> </span>
+                                <span key={index}><Zmage src={img} alt="图片" style={{ width: 70, height: 70 }} /> </span>
                               ))}
                             </>
                           )}
@@ -105,12 +103,12 @@ class index extends Component {
           title: <span className="headerText">操作</span>,
           key: 'action',
           dataIndex: 'action',
-          render: (actionObj) => (
+          render: actionObj => (
 
             <span>
               <span
                 style={{ marginRight: 16, cursor: 'pointer', color: '#bf98e4' }}
-                onClick={()=>this.modifyClickHandle(actionObj.thingid)}
+                onClick={() => this.modifyClickHandle(actionObj.thingid)}
               >
                 点此修改
               </span>
@@ -134,11 +132,11 @@ class index extends Component {
     console.log('formchange params', pagination, filters, sorter, extra);
   }
 
-  modifyClickHandle=(thingid) => {
-    const {ThingStore}=this.props;
+  modifyClickHandle=thingid => {
+    const { ThingStore } = this.props;
     // console.log("modifyClickHandle thingid",thingid)
     // ThingStore.setModifyThingid(thingid)
-    ThingStore.setModifyThingObj(thingid)
+    ThingStore.setModifyThingObj(thingid);
     this.setState({
       modifyVisible: true
     });
@@ -147,24 +145,24 @@ class index extends Component {
   // 删除物品
   confirmDelete=actionObj => {
     // console.log('删除的thingid：', thingid);
-    const {name,thingid}=actionObj;
-    const{UserLabInfoStore}=this.props
-    const {uname,lid}=UserLabInfoStore;
+    const { name, thingid } = actionObj;
+    const { UserLabInfoStore } = this.props;
+    const { uname, lid } = UserLabInfoStore;
     // 请求接口
     axios.post('/api/thing/delete', {
-      uname,lid,name,thingid
+      uname, lid, name, thingid
     }).then(res => {
-    const {data}=res
-    if(data.status_code){
-      message.success("删除成功");
+      const { data } = res;
+      if (data.status_code) {
+        message.success('删除成功');
 
-      setTimeout(() => {
-        window.location.reload();  // 刷新页面
-      }, 600); 
-  
-     } else {
-       message.warning(data.msg)  
-     }
+        setTimeout(() => {
+          window.location.reload(); // 刷新页面
+        }, 600);
+
+      } else {
+        message.warning(data.msg);
+      }
     }
     ).catch(error => {
       console.log(error);
@@ -183,17 +181,20 @@ class index extends Component {
 
 
   render() {
-    console.log('table组件渲染');
+    // console.log('table组件渲染');
     // 小心注意转换rate的数字与字符串  1与“1”  //选择框里的几个星星值是数字字符串，注意！接口返回的原生值是数字
     const { columns } = this.state;
     let formData = [];
     const { ThingStore } = this.props;
     // ThingStore
-    if (ThingStore) {
+    if (ThingStore && ThingStore.showingThingList) {
       const { showingThingList } = ThingStore;
       formData = showingThingList;
     }
-
+    // console.log("showingThingList后的formData",formData)
+    if (formData && formData.length) { //需给table的dataSource的每一项加上key
+      formData = formData.map((item, index) => Object.assign(item, { key: index }));
+    }
     console.log('赋值给table的数值', formData);
     return (
 

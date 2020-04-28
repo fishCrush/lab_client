@@ -17,7 +17,7 @@ class index extends Component {
   }
 
   setClick = () => {
-    console.log('点击设置了');
+    // console.log('点击设置了');
     const { history } = this.props;
     history.replace({
       pathname: '/setting',

@@ -307,7 +307,7 @@ class index extends Component {
           <div className="chooseWrap">
             {/* 选择项的第一行 */}
             <div className="chooseLineOne">
-              <Form.Item className="chooseNameFormItem" name="name">
+              <Form.Item className="chooseNameFormItem" name="quickSearch">
                 <Select
                   // mode="multiple"
                   showSearch

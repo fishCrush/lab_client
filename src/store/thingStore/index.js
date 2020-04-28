@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-15 00:11:24
- * @LastEditTime: 2020-04-27 16:42:08
+ * @LastEditTime: 2020-04-28 10:57:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/subStore/index.js
@@ -31,7 +31,7 @@ export class ThingStore{
     @action.bound
     resetThingList() {  //今天条件筛选时调用
         this.showingThingList = this.thingList
-       console.log("thiinglist已重置")
+       console.log("thinglist已重置")
     }
 
     @action.bound

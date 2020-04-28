@@ -67,7 +67,7 @@ class index extends Component {
           const {thingid,name,  num, tags,rate, remark, imgs,created_at}=thingItem
           return Object.assign({},{action:{thingid,name},name,  num, tags,rate, remark, imgs,time:created_at}) //将thingid传给action,用于修改和删除某条记录时标识用
         })
-        console.log("处理后的thingList",lastThingList)
+        // console.log("处理后的thingList",lastThingList)
         ThingStore.setThingList(lastThingList)  //存到store里
         ThingStore.setShowingThingList(lastThingList)  //存到store里
        } else {

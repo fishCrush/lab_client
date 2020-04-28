@@ -1,7 +1,15 @@
 /*
  * @Author: your name
+ * @Date: 2020-04-28 00:10:10
+ * @LastEditTime: 2020-04-28 10:38:14
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /client/src/store/notificationStore/index.js
+ */
+/*
+ * @Author: your name
  * @Date: 2020-04-15 00:11:24
- * @LastEditTime: 2020-04-28 00:19:05
+ * @LastEditTime: 2020-04-28 01:13:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/subStore/index.js

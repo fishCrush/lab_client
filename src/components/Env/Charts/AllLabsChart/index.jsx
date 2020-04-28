@@ -85,13 +85,13 @@ class index extends Component {
             // const newAllLabsData = allLabsData.concat(thisHourLabsData);
             // console.log('newAllLabsData', newAllLabsData);
             const { allLabsData } = this.state;
-            console.log('allLabsData  component', allLabsData);
+            // console.log('allLabsData  component', allLabsData);
 
-            console.log("两项：", LabsData[timesRun], LabsData[timesRun + 1]);
+            // console.log("两项：", LabsData[timesRun], LabsData[timesRun + 1]);
             const thisHourLabsData = [].concat(LabsData[timesRun]).concat(LabsData[timesRun + 1]);
 
             const newAllLabsData = allLabsData.concat(thisHourLabsData);
-            console.log("newAllLabsData", newAllLabsData);
+            // console.log("newAllLabsData", newAllLabsData);
 
 
             this.setState({

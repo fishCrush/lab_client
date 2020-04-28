@@ -15,14 +15,14 @@ class index extends Component {
     super(props);
     this.state = {
       defaultOpenKeys: ['subMain'],
-      defaultSelectedKeys: ['mainAdd'],
+      defaultSelectedKeys: ['mainList'],
     };
   }
   menuItemClick = e => {
     const { ChooseStore,UserLabInfoStore,ThingStore } = this.props;
     const lid = UserLabInfoStore.selectedLabInfo.name; // 当前被选中的实验室名
     ChooseStore.changeNavSelected(e.key);
-    console.log('e.key', e.key);
+    // console.log('e.key', e.key);
 
     // 若选择了资源列表面板
     if (e.key === 'mainList') {
@@ -45,14 +45,14 @@ class index extends Component {
             const labels = thingItem.labels.split('&');
             return Object.assign(thingItem, { tags: labels });
           });
-          console.log('thingList', thingList);
+          // console.log('thingList', thingList);
 
           // 转成Table组件需要的数据格式
           const lastThingList = thingList.map(thingItem => {
             const { thingid, name, num, tags, rate, remark, imgs, created_at } = thingItem;
             return Object.assign({}, { action: { thingid, name }, name, num, tags, rate, remark, imgs, time: created_at }); // 将thingid传给action,用于修改和删除某条记录时标识用
           });
-          console.log('处理后的thingList', lastThingList);
+          // console.log('处理后的thingList', lastThingList);
           ThingStore.setThingList(lastThingList); // 存到store里
           ThingStore.setShowingThingList(lastThingList); // 存到store里
         } else {
@@ -74,7 +74,7 @@ class index extends Component {
         const { data } = res;
         if (data.status_code) {
           const { historys, changes, bulks } = data.data;
-          console.log('historys,changes', historys, changes, bulks);
+          // console.log('historys,changes', historys, changes, bulks);
 
           // 处理 历史修改属性名即值
           const newHistorys = historys.map(historyItem => {
@@ -89,7 +89,7 @@ class index extends Component {
             });
             return Object.assign(historyItem, { change: changesArr });
           });
-          console.log('newHistorys', newHistorys);
+          // console.log('newHistorys', newHistorys);
 
           // 处理历史批量增加 东西名
           const lastHistorys = newHistorys.map(historyItem => {
@@ -97,7 +97,7 @@ class index extends Component {
             const bulkNames = bulkList.map(item => item.thing);
             return Object.assign(historyItem, { bulk: bulkNames });
           });
-          console.log('lastHistorys', lastHistorys);
+          // console.log('lastHistorys', lastHistorys);
 
           // 处理成history面板可以直接赋值的格式
           const historyList = lastHistorys.map(historyItem => {
@@ -140,7 +140,7 @@ class index extends Component {
             // mode="vertical"
             mode="inline"
             theme="dark"
-            style={{ height: '1000px', backgroundColor: '#303641' }}
+            style={{ height: '1000px', backgroundColor: '#303641',width:250 }}
             defaultOpenKeys={defaultOpenKeys} // 初始展开的栏目
             defaultSelectedKeys={defaultSelectedKeys} // 导航默认选中的
           >
@@ -167,18 +167,22 @@ class index extends Component {
             </Menu.SubMenu>
 
 
-            <Menu.Item key="history" className={styles.navItem}>
-              <MyIcon type="icon-lishijilu1" className={styles.itemIcon} style={{ fontSize: 18 }} />
+            <Menu.Item key="history" className={`${styles.navItem} historyNav`} >
+              <MyIcon type="icon-lishijilu1" className={styles.itemIcon} 
+              style={{
+                //  fontSize: 18
+                // paddingLeft:0
+                  }} />
               资源操作记录
             </Menu.Item>
 
 
-            <Menu.Item key="env" className={styles.navItem}>
+            <Menu.Item key="env" className={`${styles.navItem} envNav`}>
               <MyIcon type="icon-riji2" className={styles.itemIcon} />
               实验室环境数据
             </Menu.Item>
 
-            <Menu.Item key="record" className={styles.navItem}>
+            <Menu.Item key="record" className={`${styles.navItem} recordNav`}>
               <MyIcon type="icon-riji2" className={styles.itemIcon} />
               实验日记
             </Menu.Item>

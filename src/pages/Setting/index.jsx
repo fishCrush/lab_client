@@ -168,7 +168,7 @@ class index extends Component {
   }
 
   componentDidMount(){
-    console.log('setting页  componentDidMount')
+    // console.log('setting页  componentDidMount')
     axios.post('/api/lab/list_admin').then(res => {
       const {data}=res
       if(data.status_code){

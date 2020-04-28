@@ -25,7 +25,6 @@ export class envStore {
     changeDate(date, dateString) {
         this.dateSelected = date;
         this.dateStringSelected = dateString;
-        console.log('dd');
     }
 
     @action.bound

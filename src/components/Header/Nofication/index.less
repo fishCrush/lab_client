@@ -1,28 +1,76 @@
 @import "../../../common/styles/const.less";
-:global{
-  .notiDrawer{
+
+:global {
+
+  .notiDrawer {
     margin-top: @nav-header-height;
   }
+
+  // .notiWrap{
+
+  .ant-list-item-meta-title {
+    letter-spacing: 1px;
+    font-size: 16px;
+  }
+  // }
+
+  .notiWrap {
+
+    .titleLineWrap {
+      display: flex;
+      justify-content: space-between;
+
+      .more {
+        cursor: pointer;
+        color: #1890ff;
+
+        .detailTextWrap {
+          // color: rgb(162, 110, 244);
+        }
+      }
+    }
+  }
+
+  .ant-result-title {
+    color: rgba(0, 0, 0, .69) !important;
+    font-size: 18px !important;
+    line-height: 1.5 !important;
+  }
+
+  .notiHighLight {
+    color: rgb(162, 110, 244);
+    margin: 0 3px;
+
+    text-shadow: 1px 1px 0 #f5f6f9, -1px 1px 0 #f5f6f9, -1px -1px 0 #f5f6f9, 1px -1px 0 #f5f6f9;
+    // font-size: 18px;
+    background-image: linear-gradient(90deg, currentColor 100%, transparent 100%);
+    background-position: 0 1em;
+    background-repeat: repeat-x;
+    background-size: 1px 1px;
+  }
 }
-.notiWrap{
+
+
+
+.notiWrap {
   font-size: 30px;
   margin-right: 25px;
   display: flex;
   align-items: center;
   
-  .notiIconWrap{
-      height:30px;
-      width: 30px;
+  .notiIconWrap {
+    height: 30px;
+    width: 30px;
 
-      display: flex;
-      align-items: center;
-      border-radius: 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
   }
   
 }
 
-.notiChecking{
-    background-color:#595959;
+.notiChecking {
+  background-color: #595959;
 }
 
 

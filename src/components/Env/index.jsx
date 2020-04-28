@@ -36,14 +36,14 @@ class index extends Component {
 
   // 日期变动
   dateChange = (date, dateString) => {
-    console.log("date,dateString", date, dateString);
+    // console.log("date,dateString", date, dateString);
     const { EnvStore } = this.props;
     EnvStore.changeDate(date, dateString);
   }
 
   // 温度范围选择  最低温 最高温
   minInputChange = (value) => {
-    console.log("minInputChange:", value)
+    // console.log("minInputChange:", value)
     // this.setState({
     //   min: value
     // })
@@ -56,7 +56,7 @@ class index extends Component {
       message.warning('请重新输入纯数字');
       return false;
     }
-    console.log('minPress e.target.value:', e.target.value);
+    // console.log('minPress e.target.value:', e.target.value);
     const { EnvStore } = this.props;
     EnvStore.changeMinTemp(e.target.value);
   }
@@ -66,7 +66,7 @@ class index extends Component {
       message.warning('请重新输入纯数字');
       return false;
     }
-    console.log("maxInputChange:", value)
+    // console.log("maxInputChange:", value)
     const { EnvStore } = this.props;
     EnvStore.changeMaxTemp(value);
   }
@@ -76,7 +76,7 @@ class index extends Component {
       message.warning('请重新输入纯数字');
       return false;
     }
-    console.log('maxPress e.target.value:', e.target.value);
+    // console.log('maxPress e.target.value:', e.target.value);
     const { EnvStore } = this.props;
     EnvStore.changeMaxTemp(e.target.value);
   }

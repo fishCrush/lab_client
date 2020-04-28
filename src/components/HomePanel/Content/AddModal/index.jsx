@@ -32,7 +32,6 @@ class index extends Component {
 
   // 批量导入相关
   gearClick = () => {
-    console.log('kk');
     this.setState({
       batchModalVisible: true,
       batchTipVisible:false
@@ -67,7 +66,7 @@ class index extends Component {
     const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
     console.log('You are interested in: ', nextSelectedTags);
     this.setState({ selectedTags: nextSelectedTags },()=>{
-      console.log("快速标签选择的selectedTags",this.state.selectedTags)
+      // console.log("快速标签选择的selectedTags",this.state.selectedTags)
     });
   }
 
@@ -75,7 +74,7 @@ class index extends Component {
   // 自定义标签相关
   diyTagClosehandle = removedTag => {
     const diyTags = this.state.diyTags.filter(tag => tag !== removedTag);
-    console.log(diyTags);
+    // console.log(diyTags);
     this.setState({ diyTags });
   };
 
@@ -96,7 +95,7 @@ class index extends Component {
     if (diyInputValue && diyTags.indexOf(diyInputValue) === -1) {
       diyTags = [...diyTags, diyInputValue];
     }
-    console.log(diyTags);
+    // console.log(diyTags);
     this.setState({
       diyTags,
       diyInputVisible: false,
@@ -123,7 +122,7 @@ class index extends Component {
   };
 
   handleChange = ({ fileList }) => {
-    console.log('handleChange fileList',fileList)
+    // console.log('handleChange fileList',fileList)
     const imgObjList=[]
     fileList.forEach(file=>{
       if(file.response){
@@ -140,7 +139,7 @@ class index extends Component {
        fileList ,
        imgObjList
       },()=>{
-        console.log("this.state.imgObjList",this.state.imgObjList)
+        // console.log("this.state.imgObjList",this.state.imgObjList)
       });
   }
 
@@ -190,7 +189,7 @@ class index extends Component {
     const {selectedTags,diyTags,imgObjList}=this.state; 
     const labels=[...selectedTags,...diyTags].join('&');
     const imgs=imgObjList.map(item=>item.url);
-    console.log("imgs",imgs);
+    // console.log("imgs",imgs);
     axios.post('/api/thing/add', {
       name,num,rate,remark,labels,imgs,
       uname:userInfo.name,

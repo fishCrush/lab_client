@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2020-04-12 13:28:49
- * @LastEditTime: 2020-04-28 00:15:18
+ * @LastEditTime: 2020-04-28 01:43:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/index.js
  */
 
  // 用户个人的通知消息
-export { default as NotificationStore } from './chooseStore';
+export { default as NotificationStore } from './notificationStore';
 
 // 左侧边导航栏选择和实验室选择
 export { default as ChooseStore } from './chooseStore'; 

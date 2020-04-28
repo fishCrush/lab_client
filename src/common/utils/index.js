@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-10 16:14:53
- * @LastEditTime: 2020-04-27 22:12:21
+ * @LastEditTime: 2020-04-28 10:34:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/utils/index.js
@@ -42,9 +42,9 @@ export function BlobDownload(type="xls",filename = '') {
   Axios.get(templateUrl, {
     responseType: 'blob'
   }).then(data => {
-    console.log("res/data",data)
+    // console.log("res/data",data)
     const content = data.data;  // 拿到模板文件的数据
-    console.log("content数据是：",content)
+    // console.log("content数据是：",content)
     const blob = new Blob([content], { type: typeFile[type].type });  // 在本地创建excel表
     const fileName = `${filename}${typeFile[type].sufix}`;
     const url = window.URL.createObjectURL(blob);

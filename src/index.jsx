@@ -56,7 +56,6 @@ class index extends React.Component {
 
     componentDidMount(){
       console.log('最外层路由包裹组件 app.jsx  componentDidMount')
-      console.log("cookie",window.document.cookie)
     }
 
     render() {
