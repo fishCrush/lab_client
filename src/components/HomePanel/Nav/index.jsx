@@ -20,7 +20,7 @@ class index extends Component {
   }
   menuItemClick = e => {
     const { ChooseStore,UserLabInfoStore,ThingStore } = this.props;
-    const lid = UserLabInfoStore.selectedLabInfo.name; // 当前被选中的实验室名
+    const lid = UserLabInfoStore.selectedLabInfo?UserLabInfoStore.selectedLabInfo.name:''; // 当前被选中的实验室名
     ChooseStore.changeNavSelected(e.key);
     // console.log('e.key', e.key);
 
