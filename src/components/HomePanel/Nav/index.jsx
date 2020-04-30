@@ -182,10 +182,10 @@ class index extends Component {
               实验室环境数据
             </Menu.Item>
 
-            <Menu.Item key="record" className={`${styles.navItem} recordNav`}>
+            {/* <Menu.Item key="record" className={`${styles.navItem} recordNav`}>
               <MyIcon type="icon-riji2" className={styles.itemIcon} />
               实验日记
-            </Menu.Item>
+            </Menu.Item> */}
 
           </Menu>
         </div>

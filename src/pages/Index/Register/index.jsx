@@ -154,7 +154,7 @@ class index extends Component {
         const { history,UserLabInfoStore } = this.props;
         UserLabInfoStore.setUser(String(nameInputValue));
         history.replace({
-          pathname: '/home',
+          pathname: '/setting',
           search: history.location.search
         });
        } else {
