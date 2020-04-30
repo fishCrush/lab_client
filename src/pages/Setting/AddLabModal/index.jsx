@@ -127,6 +127,7 @@ class index extends Component {
     // console.log("isStart !isStart", isStart, !isStart);
 
     const addLabNameToolTip = isStart ? "实验室名称是作为识别不同实验室的标志的，名称不可相同" : '实验室名称不可修改'
+    const titleText=isStart?"添加新的实验室":"修改实验室信息";
     // 若是编辑修改实验室：需有初始值
     const initialValues = {}
     if (!isStart) {
@@ -149,7 +150,7 @@ class index extends Component {
                 <div className="modifyModalContent" >
                   <div className="modifyModalTitleWrap">
                     <MyIcon type="icon-shiyanshiguanlixitong_huaban" style={{ fontSize: 25, marginRight: 12 }} />
-                    <span className="modifyModalTitleText">添加新的实验室</span>
+                    <span className="modifyModalTitleText">{titleText}</span>
                   </div>
 
                   <div className="modifyModalFormWrap">
