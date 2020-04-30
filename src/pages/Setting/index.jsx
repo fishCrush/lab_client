@@ -242,7 +242,14 @@ class index extends Component {
 
   render() {
     const { username, password, passwordModalVisible, addLadbModalVisible, list, editHostModalVisible, changeAdminModalVisible, isStart } = this.state;
-    const initialValues = { username, password };
+    let user=""
+    const {UserLabInfoStore}=this.props;
+    if(UserLabInfoStore){
+      const {uname}=UserLabInfoStore
+      user=uname
+    }
+    console.log("setting页面的user",user);
+    const initialValues = { user, password };
 
     return (
       <>
@@ -270,8 +277,10 @@ class index extends Component {
                       colon={false}
                       rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                      <Input style={{ width: 348 }} disabled={true}
+                      <div>
+                      <Input style={{ width: 348 }} disabled={true} value={user}
                         prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                        </div>
                     </Form.Item>
 
                     <Form.Item
