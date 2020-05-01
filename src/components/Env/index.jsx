@@ -12,8 +12,8 @@ import EnvNav from './EnvNav';
 import TempChart from './Charts/TempChart';
 import AllLabsChart from './Charts/AllLabsChart';
 import ThingChart from './Charts/ThingChart';
-
-@inject('ChooseStore', 'EnvStore')
+import {generateRandomDayTemps,generateRandomDayHums} from '../../common/utils'
+@inject('ChooseStore', 'EnvStore','UserLabInfoStore')
 @observer
 class index extends Component {
   constructor(props) {
@@ -26,6 +26,48 @@ class index extends Component {
     };
   }
 
+  componentDidMount(){
+    let allLabTimeData=[];
+    let allLabTimeDateHum=[];
+    const{UserLabInfoStore,EnvStore}=this.props;
+
+    // if(UserLabInfoStore){
+    const{labHostNames}=UserLabInfoStore;
+    //生成温度数据列表
+    labHostNames.forEach(lab=>{
+        const ramOriDatas=generateRandomDayTemps();  //数组
+        const oneLabArr=ramOriDatas.map((ramDate,index)=>{
+            let dataObj={};
+            dataObj["time"]=`${index}:00`;  //横轴
+            dataObj["temperature"]=ramDate;  //纵轴
+            dataObj["type"]=lab;     //多线中的哪一条
+            return dataObj;
+        })
+        // console.log("ramOriDatas",ramOriDatas);
+        allLabTimeData.push(oneLabArr)
+    })
+    //生成湿度数据列表
+    labHostNames.forEach(lab=>{
+      const ramOriDatas=generateRandomDayHums();  //数组
+      const oneLabArr=ramOriDatas.map((ramDate,index)=>{
+          let dataObj={};
+          dataObj["time"]=`${index}:00`;  //横轴
+          dataObj["temperature"]=ramDate;  //纵轴
+          dataObj["type"]=lab;     //多线中的哪一条
+          return dataObj;
+      })
+      // console.log("ramOriDatas",ramOriDatas);
+      allLabTimeDateHum.push(oneLabArr)
+  })
+    // }
+    let resLabTimeDate=allLabTimeData.flat(1);
+    let resLabTimeDateHum=allLabTimeDateHum.flat(1);
+
+    // console.log("resLabTimeDate",resLabTimeDate);
+    EnvStore.setAllLabTimeData(resLabTimeDate);
+    EnvStore.setAllLabTimeDataHum(resLabTimeDateHum);
+
+  }
 
   oneLabNavValueChange = (e) => {
     this.setState({
@@ -152,7 +194,7 @@ class index extends Component {
         <div className={styles.envShowWrap}>
           {/* <ThingChart/> */}
           {envNavSelectedIndex === 0 ? (<TempChart />) : ('')}
-          {envNavSelectedIndex === 2 ? (<AllLabsChart />) : ('')}
+          {envNavSelectedIndex === 1 ? (<AllLabsChart />) : ('')}
         </div>
       </div>
 

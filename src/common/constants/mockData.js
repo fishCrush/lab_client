@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-04-16 15:22:30
+ * @LastEditTime: 2020-05-01 22:05:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /client/src/common/constants/mockData.js
+ */
 
 export const data = [
 

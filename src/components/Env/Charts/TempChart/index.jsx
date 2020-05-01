@@ -3,9 +3,14 @@ import { inject, observer } from 'mobx-react';
 import { Button, Switch } from 'antd';
 import * as styles from './index.less';
 import { Chart, Geom, Axis, Tooltip, View } from 'bizcharts';
-import { data } from '../../../../common/constants/mockData';
+// import { data } from '../../../../common/constants/mockData';
+import {generateRandomDayTemps,generateRandomDayHums} from '../../../../common/utils' 
 import { objArrOnePropertyMM } from '../../../../common/utils/index';
 import DiyThemeButton from '../../../DiyThemeButton';
+
+//生成温度原始随机数据
+const dayTemps=generateRandomDayTemps();
+const dayHums=generateRandomDayHums();
 
 const EXPORT_TEXT_PNG = '导出 PNG 图片';
 const EXPORT_TEXT_SVG = '导出 SVG 矢量图';
@@ -34,25 +39,39 @@ class index extends Component {
     render() {
         const {  isRendererCanvas, forceUpdate } = this.state;
         const { EnvStore } = this.props;
-        const { tempSelectMin, tempSelectMax, isMM } = EnvStore;
-        console.log("tempSelectMin, tempSelectMax", tempSelectMin, tempSelectMax);
+        const { showType,tempSelectMin, tempSelectMax, isMM } = EnvStore;
 
+        const isTemp= showType==='temp';
+        const originData=isTemp?dayTemps:dayHums;
+        // console.log("dayTemps",dayTemps);
+        //将原温度数据 处理成表格需要的数据格式
+        const data=originData.map((temp,index)=>{
+            let tempObj={};
+            tempObj["date"]=`${index}:00`;
+            tempObj["count"]=temp;
+            // tempObj["alert"]=false;
+            // tempObj["max"]=false;
+            return tempObj;
+        })
+        // console.log("data",data);
+
+        // console.log("tempSelectMin, tempSelectMax", tempSelectMin, tempSelectMax);
         //求出最小值 最大值
         const minVal = objArrOnePropertyMM(data, "count", "min");
         const maxVal = objArrOnePropertyMM(data, "count", "max");
-        console.log('minval maxval', minVal, maxVal);
+        // console.log('minval maxval', minVal, maxVal);
 
         // 限定范围的第一次筛选
         const rangeAboveMinData = data.filter(item => {
             return tempSelectMin === 'init' || (tempSelectMin !== 'init' && item.count >= tempSelectMin)
         })
-        console.log('rangeAboveMinData', rangeAboveMinData);
+        // console.log('rangeAboveMinData', rangeAboveMinData);
 
         // 限定范围的第二次筛选
         const rangeUnderMaxData = rangeAboveMinData.filter(item => {
             return tempSelectMax === 'init' || (tempSelectMax !== 'init' && item.count <= tempSelectMax)
         })
-        console.log('rangeUnderMaxData', rangeUnderMaxData);
+        // console.log('rangeUnderMaxData', rangeUnderMaxData);
 
 
 
@@ -80,22 +99,40 @@ class index extends Component {
                 count: null,
             };
         });
-        console.log('范围线数据', alertLine);
+        // console.log('范围线数据', alertLine);
 
         // console.log('完整数据', data);
-        var scale = {
-            date: {
-                alias: "日期",
-                type: "time",
-            },
-            count: {
-                alias: "次数",
-                tickCount: 6,
-                // 由于使用不同View，需要设定 scale 的 min 和 max
-                min: 0,
-                max: 60,
-            }
-        };
+        let scale={};
+        if(isTemp){  //温度和湿度范围不同
+            scale = {
+                date: {    //横轴数据
+                    alias: "日期",
+                    // type: "time",//这临时规定类型为Date对象类型
+                },
+                count: {   //纵轴数据
+                    alias: "次数",
+                    tickCount: 6,
+                    // 由于使用不同View，需要设定 scale 的 min 和 max
+                    min: 0,
+                    max: 45,
+                }
+            };
+        }else{
+
+            scale = {
+                date: {    //横轴数据
+                    alias: "日期",
+                    // type: "time",//这临时规定类型为Date对象类型
+                },
+                count: {   //纵轴数据
+                    alias: "次数",
+                    tickCount: 6,
+                    min: 40,
+                    max: 90,
+                }
+            };
+
+        }
         const rendererValue = isRendererCanvas ? 'canvas' : 'svg';
         const exportText = isRendererCanvas ? EXPORT_TEXT_PNG : EXPORT_TEXT_SVG;
 
@@ -118,11 +155,12 @@ class index extends Component {
                 >
                     {/* 提示浮标 */}
                     <Tooltip />
-                    <View data={data} scale={scale}>
+                    {/* 在View层注入数据data */}
+                    <View data={data} scale={scale}> 
                         <Axis  // 纵轴
                             name="count"
                             label={{
-                                formatter: val => `${val} ℃`,
+                                formatter: val =>  isTemp?`${val} ℃`:`${val} °`,
                             }}
                         />
 
@@ -136,15 +174,15 @@ class index extends Component {
                                 // if (alert) {
                                 if ((noMinWithMax && count <= tempSelectMax) || (withMinNoMax && count >= tempSelectMin) || (withMinwithMax && count <= tempSelectMax && count >= tempSelectMin)) {
                                     return {
-                                        name: '次数',
+                                        name: isTemp?'温度':'湿度',
                                         color: '#6a56a5',
-                                        value: `${count} ℃`,
+                                        value: isTemp?`${count} ℃`:`${count} °`,
                                     };
                                 }
                                 return {
-                                    name: '次数',
+                                    name:  isTemp?'温度':'湿度',
                                     color: '#9AD681',
-                                    value: count,
+                                    value: isTemp?`${count} ℃`:`${count} °`,
                                 };
                             }]}
                         />
@@ -159,13 +197,13 @@ class index extends Component {
                             color={['count*alert', (count, alert, max) => {
                                 // 最大最小值
                                 if (isMM && (count === minVal || count === maxVal)) {
-                                    console.log("count，red", count)
+                                    // console.log("count，red", count)
                                     return "red"
                                 }
                                 // 范围内的点
                                 if ((noMinWithMax && count <= tempSelectMax) || (withMinNoMax && count >= tempSelectMin) || (withMinwithMax && count <= tempSelectMax && count >= tempSelectMin)) {
-                                    console.log("noMinWithMax,withMinNoMax,withMinwithMax", noMinWithMax, withMinNoMax, withMinwithMax);
-                                    console.log("count，紫色 minVal maxVal ", count, tempSelectMin, tempSelectMax);
+                                    // console.log("noMinWithMax,withMinNoMax,withMinwithMax", noMinWithMax, withMinNoMax, withMinwithMax);
+                                    // console.log("count，紫色 minVal maxVal ", count, tempSelectMin, tempSelectMax);
                                     return '#6a56a5';
                                 }
                                 return '#9AD681';
@@ -175,6 +213,7 @@ class index extends Component {
 
                     </View>
 
+                    {/* 紫色限定区域的线 */}
                     <View data={alertLine} scale={scale}>
                         <Geom
                             type="line"

@@ -31,7 +31,7 @@ class index extends Component {
           key: 'num',
           align:'center',
           width:150,
-          // sorter: (a, b) => a.nun - b.num,
+          sorter: "default",
           sortOrder:'ascend'
         },
         {

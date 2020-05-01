@@ -18,34 +18,20 @@ import {
     Util
 } from 'bizcharts';
 import { LabsData } from '../../../../common/constants/mockData';
+import {generateRandomDayTemps,generateRandomDayHums} from '../../../../common/utils' 
 import { objArrOnePropertyMM } from '../../../../common/utils/index';
 import { colors } from '../../../../common/constants/index';
 import DiyThemeButton from '../../../DiyThemeButton';
 import { formatTimeStr } from 'antd/lib/statistic/utils';
 
 
+
+
 const EXPORT_TEXT_PNG = '导出 PNG 图片';
 const EXPORT_TEXT_SVG = '导出 SVG 矢量图';
 
-const scale = {
-    time: {
-        alias: "时间",
-        type: "time",
-        mask: "MM:ss",
-        tickCount: 10,
-        nice: false
-    },
-    temperature: {
-        alias: "平均温度(°C)",
-        min: 10,
-        max: 35
-    },
-    type: {
-        type: "cat"
-    }
-};
 
-@inject('ChooseStore', 'EnvStore')
+@inject('ChooseStore', 'EnvStore','UserLabInfoStore')
 @observer
 class index extends Component {
     constructor(props) {
@@ -58,7 +44,7 @@ class index extends Component {
     }
 
     onClick = () => {
-        console.log('state ')
+        // console.log('state ')
         this.chartLabs.downloadImage();
     }
 
@@ -71,43 +57,67 @@ class index extends Component {
     }
 
     componentDidMount() {
-
+        console.log('多实验室环境 componenDidMount');
+        // const allLabTimeData=[]
+        // const{EnvStore,UserLabInfoStore}=this.props;
+        // // const {allLabTimeData}=EnvStore;
+        // console.log("allLabTimeData",allLabTimeData);
+        // if(UserLabInfoStore){
+        //     console.log('进来了！！')
+        // const{labHostNames}=UserLabInfoStore;
+        // // let labArr=[];
+        // labHostNames.forEach(lab=>{
+        //     const ramOriDatas=generateRandomDayTemps();  //数组
+        //     const oneLabArr=ramOriDatas.map((ramDate,index)=>{
+        //         let dataObj={};
+        //         dataObj["time"]=`${index}:00`;  //横轴
+        //         dataObj["temperature"]=ramDate;  //纵轴
+        //         dataObj["type"]=lab;     //多线中的哪一条
+        //         return dataObj;
+        //     })
+        //     allLabTimeData.concat(oneLabArr);
+        // })
+        // }
+        // console.log("生成的24小时多实验室数据 allLabTimeData",allLabTimeData);
+        // todo 切换湿度时多实验室数据没有变化  可能是没有重新渲染的原因。
+        const _that=this;
         // 处理LabsData的值为：数组（从0时到12时以此排序），成员为小数组(多个实验室同个time的项)
         let timesRun = 0;
-        let interval = setInterval(() => {
-            timesRun = timesRun + 2;
-            if (timesRun > 8) {
-                clearInterval(interval);
+        _that.interval = setInterval(() => {
+            const{EnvStore}= _that.props;
+            const {allLabTimeData,allLabTimeDataHum,showType}=EnvStore;
+            // console.log("定时器里的allLabTimeData",allLabTimeData)
+            if (timesRun > 23) {  //24个小时，从0时开始逐步到24小时。到23时之后就清除计数器
+                clearInterval(_that.interval);
             }
-            // var now = new Date(); //new Date().getTime() 可得到数据类似：1587105550445
-            // var time = now.getTime();
-            // let thisHourLabsData = [];// 这个时间的数组，成员类似：{ time: 1587105550445, temperature: 22, type: "电力电子实验室" },
-            // const newAllLabsData = allLabsData.concat(thisHourLabsData);
-            // console.log('newAllLabsData', newAllLabsData);
-            const { allLabsData } = this.state;
-            // console.log('allLabsData  component', allLabsData);
-
-            // console.log("两项：", LabsData[timesRun], LabsData[timesRun + 1]);
-            const thisHourLabsData = [].concat(LabsData[timesRun]).concat(LabsData[timesRun + 1]);
-
-            const newAllLabsData = allLabsData.concat(thisHourLabsData);
+             const {allLabsData}=_that.state;  //已展示的小时的数据
+            //  console.log("定时器里的allLabsData",allLabsData);
+            const oriData=showType==="temp"?allLabTimeData:allLabTimeDataHum;
+            const thisHourLabsData = oriData.filter(item=>item.time===`${timesRun}:00`)  //每一个小时多个实验室的数据
+            // console.log("thisHourLabsData",thisHourLabsData);
+            const newAllLabsData = allLabsData.concat(thisHourLabsData);  //原来的小时加上新增的小时
             // console.log("newAllLabsData", newAllLabsData);
-
-
-            this.setState({
+            timesRun = timesRun + 1;
+            _that.setState({
                 allLabsData: newAllLabsData
             });
-
-
-        }, 1000);
+        }, 500);
     }
+
+    componentWillUnmount() {
+        clearInterval(this.interval); //组件卸载时记得去掉定时器；否则定时器也会继续执行的，哪怕已经切换了组件
+    }
+    
 
     render() {
         const { allLabsData,isRendererCanvas, forceUpdate ,rendererValue } = this.state;
-        console.log("isRendererCanvas",isRendererCanvas);
-        console.log("allLabsData  render", allLabsData);
-        const { EnvStore } = this.props;
-        const { labsNum } = EnvStore;
+        // console.log("isRendererCanvas",isRendererCanvas);
+        // console.log("allLabsData  render", allLabsData);
+        const { EnvStore,UserLabInfoStore } = this.props;
+        // const { labsNum } = EnvStore;
+        const{showType}=EnvStore;
+        const {labHostNames}=UserLabInfoStore;
+        let labsNum=labHostNames.length;
 
         // 给每一个实验室的线安排一个颜色
         let labLineColorList = []
@@ -116,11 +126,29 @@ class index extends Component {
         }
         // console.log("labLineColorList",labLineColorList);
         // const rendererValue = isRendererCanvas ? 'canvas' : 'svg';
-        console.log("render  rendererValue",rendererValue);
+        // console.log("render  rendererValue",rendererValue);
         const exportText = isRendererCanvas ? EXPORT_TEXT_PNG : EXPORT_TEXT_SVG;
+        const unitText=showType==="temp"?"单位：℃":"单位：°";
+        //定义横轴和纵轴的定义
+        const scale = {
+            time: {
+                alias: "时间",
+                tickCount: 24,
+                nice: false
+            },
+            temperature: {
+                alias: "平均温度(°C)",
+                min: 10,
+                max: 35
+            },
+            type: {
+                type: "cat"
+            }
+        };
 
         return (
             <>
+              <div style={{marginLeft:20}}>{unitText}</div>
                 <Chart
                     data={allLabsData}
                     scale={scale}
@@ -132,7 +160,11 @@ class index extends Component {
                     }}
                 >
                     <Tooltip />
-                    {allLabsData.length !== 0 ? <Axis /> : ''}
+                    {allLabsData.length !== 0 ? 
+                    <Axis 
+
+                    /> 
+                    : ''}
                     <Legend />
                     <Geom
                         type="line"

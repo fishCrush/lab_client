@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-24 21:27:04
- * @LastEditTime: 2020-04-27 20:48:15
+ * @LastEditTime: 2020-05-01 22:30:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/userLabInfoStore/index.js
@@ -12,7 +12,7 @@ export class UserLabInfoStore {
     @observable uid=''; // 当前登录用户的uid
     @observable userInfo={}; // 当前登录用户的信息
     @observable labAdmin=[] // 当前用户超管的所有实验室的信息
-    @observable labHost=[]
+    @observable labHost=[]  //当前用户的所有普管实验室的信息
     @observable selectedLabIndex=0; // home页被选中的普管实验室的index
     @observable cardLabIndex=0; // 超管里被点击的实验卡片的index
     @observable usersName=[]; // 所有用户名
@@ -45,7 +45,7 @@ export class UserLabInfoStore {
       return selectedLab;
     }
 
-    @computed get labHostNames() { // 当前用户普管实验室的名称
+    @computed get labHostNames() { // 当前用户所有普管实验室的名称
       return this.labHost.map(item => item.name);
     }
 

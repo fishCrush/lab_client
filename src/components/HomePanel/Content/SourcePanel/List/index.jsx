@@ -75,8 +75,7 @@ class index extends Component {
       let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(str);  //encodeURIComponent解决中文乱码
       let link = document.createElement("a");  //通过创建a标签实现
       link.href = uri;
-      link.download = `${lid}资源清单.xlsx`;  //对下载的文件命名
-      // link.download = "实验室.xlsx";  //对下载的文件命名
+      link.download = `${lid}资源清单.xlsx`;  //对下载的文件进行命名
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

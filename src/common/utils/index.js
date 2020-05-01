@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-10 16:14:53
- * @LastEditTime: 2020-04-28 10:34:18
+ * @LastEditTime: 2020-05-01 21:28:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/utils/index.js
@@ -66,4 +66,28 @@ export function formatDate(date){
     let minute = date.getMinutes();
     let second = date.getSeconds();
     return year + '-' + month + '-' + day +'   '+ hour + ':'+minute +':'+second;
+}
+
+// 生成随机温度数据
+export function generateRandomDayTemps(){
+  const baseTemps=[19,19,20,22,22,22,22,23,24,25,26,28,28,30,30,30,29,29,28,27,26,25,24,24]
+  const resTemps=[];
+  baseTemps.forEach((baseTemp)=>{
+    const ramdonAdd=Math.random()*2;
+    const resTemp=Math.round(baseTemp+ramdonAdd);
+    resTemps.push(resTemp);
+  })
+  return resTemps;
+}
+
+// 生成随机湿度数据
+export function generateRandomDayHums(){
+  const baseHums=[72,75,77,79,81,82,82,81,76,70,65,59,53,49,46,44,43,44,47,54,55,60,65,68]
+  const resHums=[];
+  baseHums.forEach((baseHum)=>{
+    const ramdonAdd=Math.random()*2;
+    const resTemp=Math.round(baseHum+ramdonAdd);
+    resHums.push(resTemp);
+  })
+  return resHums;
 }
