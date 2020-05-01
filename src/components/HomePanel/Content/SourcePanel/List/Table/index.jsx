@@ -22,19 +22,24 @@ class index extends Component {
         {
           title: <span className="headerText">物品名称</span>,
           dataIndex: 'name',
-          key: 'name'
+          key: 'name',
+          align:'center'
         },
         {
           title: <span className="headerText">数量</span>,
           dataIndex: 'num',
           key: 'num',
-          // defaultSortOrder: 'descend',
-          sorter: (a, b) => a.nun - b.num,
+          align:'center',
+          width:150,
+          // sorter: (a, b) => a.nun - b.num,
+          sortOrder:'ascend'
         },
         {
           title: <span className="headerText">标签</span>,
           dataIndex: 'tags',
           key: 'tags',
+          align:'center',
+          width:230,
           render: tags => (
             <span>
               {
@@ -59,6 +64,7 @@ class index extends Component {
           dataIndex: 'imgs',
           key: 'imgs',
           width: 200,
+          // align:'center',
           render: imgs => (
             <span>
               {
@@ -95,6 +101,7 @@ class index extends Component {
           title: <span className="headerText">重要程度</span>,
           dataIndex: 'rate',
           key: 'rate',
+          align:'center',
           render: num => (
             <MyIcon type={`${mapRateShow[String(num)]}`} style={{ fontSize: 28, color: '#722ed1a8' }} />
           )
@@ -203,6 +210,7 @@ class index extends Component {
           dataSource={formData}
           columns={columns}
           // pagination={{ position: ["bottomCenter"] }}
+          scroll={{ y: 620 }}
           pagination={false}
           onChange={this.formChange}
         />

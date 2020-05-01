@@ -122,7 +122,7 @@ class index extends Component {
   };
 
   handleChange = ({ fileList }) => {
-    // console.log('handleChange fileList',fileList)
+    console.log('handleChange fileList',fileList)
     const imgObjList=[]
     fileList.forEach(file=>{
       if(file.response){

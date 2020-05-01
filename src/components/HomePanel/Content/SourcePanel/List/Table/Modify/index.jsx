@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-import { Button, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag,message,notification } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button,Upload, Modal, Form, Input, InputNumber, Tooltip, Rate, Tag,message,notification } from 'antd';
+import { PlusOutlined,UploadOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../../../../MyIcon';
 import { QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../../../../../common/constants/index';
@@ -20,7 +20,7 @@ class index extends Component {
       diyTags: [],
       diyInputVisible: false,
       diyInputValue: '',
-
+      imgObjList:[],
       initialValues: { // 初始值
         name: 'hhhh',
         num: 12,
@@ -93,15 +93,20 @@ class index extends Component {
     // console.log('点击添加啦');
     const {name, num,  rate, remark}=this.modalFormRef.current.getFieldsValue();
     const { ThingStore,UserLabInfoStore } = this.props;
+    const {imgObjList}=this.state; 
+    console.log('okClick imgObjList',imgObjList);
     const {uname,lid}=UserLabInfoStore;
     const nLabels=ThingStore.modifyTags.join("&")
     const thingid=ThingStore.modifyThingid
+    const imgs=imgObjList.map(item=>item.url);
+    console.log('请求参数里的imgs',imgs);
     // 请求接口
     axios.post('/api/thing/modify', {
       uname,
       lid,
       thingid,
       name,
+      imgs,
       nNum:num,
       nRate:rate, 
       nRemark:remark,
@@ -112,9 +117,9 @@ class index extends Component {
       // 成功   // 旧密码验证通过，直接将新密码作为新密码(不验证是否重复)且modal自动隐藏
       this.props.hideModifyHandle();   // 并隐藏 修改modal
       message.success("修改成功");
-      setTimeout(() => {
-        window.location.reload();  // 刷新页面
-      }, 600); 
+      // setTimeout(() => {
+      //   window.location.reload();  // 刷新页面
+      // }, 600); 
   
      } else {
        message.warning(data.msg)  
@@ -127,6 +132,40 @@ class index extends Component {
     // this.props.hideModifyHandle();
 
   }
+
+  handleChange = ({ fileList }) => {
+    console.log('handleChange fileList',fileList)
+    const imgObjList=[]
+    fileList.forEach(file=>{
+      if(file.response){
+        if(file.response.status_code){
+          const newImgObj={}
+          newImgObj["uid"]=file.uid  //留下uid做图片的标识，删除图片时可用
+          newImgObj["url"]=file.response.data.url
+          imgObjList.push(newImgObj)
+        }
+      }
+    })
+
+    this.setState({ 
+      // fileList ,
+      imgObjList
+     },()=>{
+       // console.log("this.state.imgObjList",this.state.imgObjList)
+     });
+  }
+
+  imgRemoveHandle=(file)=>{
+    // console.log('imgRemoveHandle file',file)
+    const {imgObjList}=this.state;
+    const newImgObjList=imgObjList.filter(item=>item.uid!==file.uid)
+    this.setState({
+      newImgObjList
+    },()=>{
+      console.log("删除后的this.state.newImgObjList",this.state.newImgObjList)
+    })
+  }
+
 
 
   render() {
@@ -274,13 +313,13 @@ class index extends Component {
                       <Form.Item
                         name="rate" className=""
                         label={(
-                          <>
+                          <span style={{ marginTop:18 }}>
                             <MyIcon
                               type="icon-xingxing2"
                               style={{ marginRight: '10px', fontSize: 23, marginLeft: 15, fontWeight: 800 }}
                             />
                             重要程度
-                          </>
+                          </span>
                         )}
                       >
                         <Rate />
@@ -302,11 +341,33 @@ class index extends Component {
                         />
                       </Form.Item>
 
+                      {/* 添加图片区域 */}
+                      <Form.Item name="imgs" className=""  style={{display:'block'}}
+                      label={
+                        <span style={{ marginTop:15 }}>
+                          <MyIcon type="icon-tupian" style={{ marginRight: "10px", fontSize: 22, marginLeft: 15 }} />
+                          <span >
+                            <span>新增图片<span style={{marginLeft:5,fontSize:8}}>支持格式：.png .jpg .jpeg .gif</span></span>
+                          </span>
+                        </span>}
+                      >
+                        <Upload 
+                        action="/api//upload/img_oss"
+                        accept=".jpg, .jpeg, .png, .gif"
+                        name="file"
+                        method="post"
+                        listType='picture'
+                        className= 'upload-list-inline'
+                        onChange={this.handleChange}
+                        onRemove={this.imgRemoveHandle}
+                        >
+                        <Button>
+                          <UploadOutlined /> 上传图片
+                        </Button>
+                      </Upload>
 
-
-
-
-                    </Form>
+                     </Form.Item>
+                  </Form>
 
                     {/* 底部按钮区*/}
                     <div className="modifyModalBottomWrap">
