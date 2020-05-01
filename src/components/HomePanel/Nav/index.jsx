@@ -32,7 +32,7 @@ class index extends Component {
         const { data } = res;
         if (data.status_code) {
           const { things, imgs } = data.data;
-          // console.log("初始化的things,imgs",things,imgs)
+          console.log("初始化的things,imgs",things,imgs)
           // 处理图片（对应到各自的thingid中）
           const thingList = things.map(thingItem => {
             const imgList = imgs.filter(imgItem => imgItem.thingid === thingItem.thingid);
@@ -42,7 +42,7 @@ class index extends Component {
 
           // 修改标签labels，字符串转数组
           thingList.map(thingItem => {
-            const labels = thingItem.labels.split('&');
+            const labels = thingItem && thingItem.labels ? thingItem.labels.split("&"):[];
             return Object.assign(thingItem, { tags: labels });
           });
           // console.log('thingList', thingList);
@@ -74,7 +74,7 @@ class index extends Component {
         const { data } = res;
         if (data.status_code) {
           const { historys, changes, bulks } = data.data;
-          // console.log('historys,changes', historys, changes, bulks);
+          // console.log('historys,changes bulks', historys, changes, bulks);
 
           // 处理 历史修改属性名即值
           const newHistorys = historys.map(historyItem => {
@@ -85,6 +85,7 @@ class index extends Component {
               newChangeObj.attri = item.attri;
               newChangeObj.old = item.old;
               newChangeObj.new = item.new;
+              newChangeObj.hid = item.hid;
               return newChangeObj;
             });
             return Object.assign(historyItem, { change: changesArr });
@@ -108,8 +109,10 @@ class index extends Component {
             newHistoryObj.thing = historyItem.thing;
             newHistoryObj.change = historyItem.change;
             newHistoryObj.bulk = historyItem.bulk;
+            newHistoryObj.hid = historyItem.hid;
             return newHistoryObj;
           });
+         
           HistoryStore.setHistoryList(historyList);
         } else {
           console.log('请求历史记录 失败');

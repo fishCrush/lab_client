@@ -107,6 +107,12 @@ class index extends Component {
           )
         },
         {
+          title: <span className="headerText">备注</span>,
+          dataIndex: 'remark',
+          key: 'remark',
+          align:'center'
+        },
+        {
           title: <span className="headerText">操作</span>,
           key: 'action',
           dataIndex: 'action',

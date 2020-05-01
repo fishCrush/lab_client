@@ -57,7 +57,7 @@ class index extends Component {
 
         // 修改标签labels，字符串转数组
         thingList.map(thingItem=>{
-          const labels=thingItem.labels?thingItem.labels.split("&"):[]
+          const labels=thingItem.labels ? thingItem.labels.split("&"):[]
           return Object.assign(thingItem,{tags:labels})
         })
         console.log("thingList",thingList)

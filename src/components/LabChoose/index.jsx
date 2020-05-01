@@ -63,7 +63,8 @@ class index extends Component {
 
               // 修改标签labels，字符串转数组
               thingList.map(thingItem => {
-                const labels = thingItem.labels.split('&');
+                //批量导入导致可能labels字段不存在，所以需要兼容性判断
+                const labels = thingItem.labels?thingItem.labels.split('&'):[];  
                 return Object.assign(thingItem, { tags: labels });
               });
               // console.log('thingList', thingList);

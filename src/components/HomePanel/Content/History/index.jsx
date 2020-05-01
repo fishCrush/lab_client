@@ -47,7 +47,7 @@ class index extends Component {
     if (HistoryStore && HistoryStore.historyList) {
       list = HistoryStore.historyList;
     }
-
+    // console.log("history render list",list)
     // 处理list
     // 抽离出“操作为修改”的数组
     const changeList = list.filter(item => item.action === 'modify');
@@ -56,7 +56,7 @@ class index extends Component {
     // 将修改数组转换为映射的对象
     const mapObj = {};
     changeList.forEach((item, index) => {
-      const keyName = item.thing;
+      const keyName = item.hid;
       mapObj[keyName] = item.change;
     });
     // console.log('mapObj', mapObj);
@@ -104,7 +104,7 @@ class index extends Component {
                             title={null}
                             content={(
                               <span>
-                                <Table columns={columns} dataSource={mapObj[item.thing]} size="small" pagination={false} />
+                                <Table columns={columns} dataSource={mapObj[item.hid]} size="small" pagination={false} />
                               </span>
                             )}
                           >

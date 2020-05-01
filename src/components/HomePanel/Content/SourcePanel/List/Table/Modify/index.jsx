@@ -117,9 +117,10 @@ class index extends Component {
       // 成功   // 旧密码验证通过，直接将新密码作为新密码(不验证是否重复)且modal自动隐藏
       this.props.hideModifyHandle();   // 并隐藏 修改modal
       message.success("修改成功");
-      // setTimeout(() => {
-      //   window.location.reload();  // 刷新页面
-      // }, 600); 
+
+      setTimeout(() => {
+        window.location.reload();  // 刷新页面
+      }, 600); 
   
      } else {
        message.warning(data.msg)  
