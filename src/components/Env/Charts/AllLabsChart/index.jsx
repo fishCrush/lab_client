@@ -101,7 +101,7 @@ class index extends Component {
             _that.setState({
                 allLabsData: newAllLabsData
             });
-        }, 500);
+        }, 300);
     }
 
     componentWillUnmount() {
@@ -116,6 +116,7 @@ class index extends Component {
         const { EnvStore,UserLabInfoStore } = this.props;
         // const { labsNum } = EnvStore;
         const{showType}=EnvStore;
+        const isTemp=showType==="temp";
         const {labHostNames}=UserLabInfoStore;
         let labsNum=labHostNames.length;
 
@@ -128,23 +129,46 @@ class index extends Component {
         // const rendererValue = isRendererCanvas ? 'canvas' : 'svg';
         // console.log("render  rendererValue",rendererValue);
         const exportText = isRendererCanvas ? EXPORT_TEXT_PNG : EXPORT_TEXT_SVG;
-        const unitText=showType==="temp"?"单位：℃":"单位：°";
+        const unitText=isTemp?"单位：℃":"单位：°";
         //定义横轴和纵轴的定义
-        const scale = {
-            time: {
-                alias: "时间",
-                tickCount: 24,
-                nice: false
-            },
-            temperature: {
-                alias: "平均温度(°C)",
-                min: 10,
-                max: 35
-            },
-            type: {
-                type: "cat"
-            }
-        };
+        let scale={};
+        if(isTemp){
+             scale = {
+                time: {
+                    alias: "时间",
+                    tickCount: 24,
+                    nice: false
+                },
+                temperature: {
+                    alias: "温度(°C)",
+                    min: 10,
+                    // max: 44
+                    max: 35
+
+                },
+                type: {
+                    type: "cat"
+                }
+            };
+        }else{
+             scale = {
+                time: {
+                    alias: "时间",
+                    tickCount: 24,
+                    nice: false
+                },
+                temperature: {
+                    alias: "湿度(°)",
+                    min: 40,
+                    max: 90
+                },
+                type: {
+                    type: "cat"
+                }
+            };
+
+        }
+        
 
         return (
             <>
