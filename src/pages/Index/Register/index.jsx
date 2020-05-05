@@ -140,10 +140,10 @@ class index extends Component {
     let { phoneInputValue,smsInputValue,nameInputValue, codeInputValue } = this.state; // codeInputValue这里输入的是密码
    
     //去除输入值的前后空格
-    phoneInputValue=phoneInputValue.trim();
-    smsInputValue=smsInputValue.trim();
-    nameInputValue=nameInputValue.trim();
-    codeInputValue=codeInputValue.trim();
+    phoneInputValue=phoneInputValue?phoneInputValue.trim():"";
+    smsInputValue=smsInputValue?smsInputValue.trim():'';
+    nameInputValue=nameInputValue?nameInputValue.trim():'';
+    codeInputValue=codeInputValue?codeInputValue.trim():'';
 
     if(!phoneInputValue||!smsInputValue||!nameInputValue||!codeInputValue){
       message.warning('四个输入框都是必填项，请确定好');

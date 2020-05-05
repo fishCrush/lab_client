@@ -179,8 +179,8 @@ class index extends Component {
 
   okClick = () => {
     let {name,num,rate,remark}=this.formRef.current.getFieldsValue();
-    name=name.trim();
-    remark=remark.trim();
+    name=name?name.trim():"";
+    remark=remark?remark.trim():"";
     console.log('this.formRef.current.getFieldsValue()',this.formRef.current.getFieldsValue());
 
     if(!name||!num){

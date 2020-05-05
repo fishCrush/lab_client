@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-24 21:27:04
- * @LastEditTime: 2020-05-05 12:50:11
+ * @LastEditTime: 2020-05-05 22:18:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/userLabInfoStore/index.js
@@ -65,7 +65,7 @@ export class UserLabInfoStore {
     setUsersLabsName(usersName, labsName) {
       this.usersName = usersName;
       this.labsName = labsName;
-      console.log('全部用户实验名已存入', this.usersName, this.labsName);
+      console.log('全部用户名和实验名已存入', this.usersName, this.labsName);
     }
 
     @action.bound

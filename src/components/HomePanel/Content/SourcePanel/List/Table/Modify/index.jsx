@@ -92,7 +92,7 @@ class index extends Component {
     e.stopPropagation();
     // console.log('点击添加啦');
     let {name, num,  rate, remark}=this.modalFormRef.current.getFieldsValue();
-    remark=remark.trim();
+    remark=remark?remark.trim():'';
     
     const { ThingStore,UserLabInfoStore } = this.props;
     const {imgObjList}=this.state; 

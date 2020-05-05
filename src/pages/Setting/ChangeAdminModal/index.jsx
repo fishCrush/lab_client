@@ -109,8 +109,8 @@ class index extends Component {
     const originUname=UserLabInfoStore.userInfo.name
 
     let {password,targetName}=this.modalFormRef.current.getFieldsValue();
-    password=password.trim();
-    targetName=password.trim();
+    password=password?password.trim():'';
+    targetName=targetName?targetName.trim():'';
     
     if(!password ||!targetName){
       message.warning("密码和新超管的名称都是必填的！");

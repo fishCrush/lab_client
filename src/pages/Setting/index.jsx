@@ -74,9 +74,9 @@ class index extends Component {
     const values=this.resetFormRef.current.getFieldsValue();
     // console.log("values",values)
     let {old,nVal,confirm}=values;
-    old=old.trim();
-    nVal=nVal.trim();
-    confirm=confirm.trim();
+    old=old?old.trim():'';
+    nVal=nVal?nVal.trim():'';
+    confirm=confirm?confirm.trim():'';
     
     if(!old ||!nVal||!confirm){
       message.warning("三个输入框都是必填的！");

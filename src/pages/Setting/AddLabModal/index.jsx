@@ -46,23 +46,25 @@ class index extends Component {
   okClick = (e) => {
     e.stopPropagation();
     console.log('点击添加啦');
-    const {isStart}=this.props;
+    const {isStart,UserLabInfoStore}=this.props;
+    const {labsName}=UserLabInfoStore;
+      console.log("labsName",labsName);
     let {name,position,remark}=this.modalFormRef.current.getFieldsValue();
-    name=name.trim();
-    position=position.trim();
-    remark=remark.trim();
+    name=name?name.trim():"";
+    position=position?position.trim():"";
+    remark=remark?remark.trim():'';
 
     if(isStart){    // 创建实验室
       if(!name ||!position){
         message.warning("实验室名和位置都是必填的！");
         return false;
       }
-      //todo
       // 判断实验室名称是否已被占用
-      // if(。。){
-      //   message.warning("该实验室名已被注册，请重新输入");
-      //   return false;
-      // }
+      
+      if(labsName && labsName.indexOf(name)>-1){
+        message.warning("哎哟~该实验室名已经被添加使用过了，请重新换一个");
+        return false;
+      }
       // 请求接口
       axios.post('/api/lab/create', {
         name, position, remark
@@ -76,9 +78,9 @@ class index extends Component {
           duration: 3
         });
 
-        setTimeout(() => {
-          window.location.reload();  // 刷新页面
-        }, 600); 
+        // setTimeout(() => {
+        //   window.location.reload();  // 刷新页面
+        // }, 600); 
     
        } else {
          message.warning(data.msg)  

@@ -21,12 +21,13 @@ class index extends Component {
 
   loginBtnClick = () => {
     let {nameInputValue,codeInputValue}=this.state;
-    nameInputValue=nameInputValue.trim();
-    codeInputValue=codeInputValue.trim();
-    if(!nameInputValue||!nameInputValue){
+   
+    if(!nameInputValue||!codeInputValue){
       message.warning('手机和密码均不能为空');
       return false;
     }
+    nameInputValue=nameInputValue.trim();
+    codeInputValue=codeInputValue.trim();
     // 请求接口
     axios.post('/api/user/login', {
       name: String(nameInputValue),
