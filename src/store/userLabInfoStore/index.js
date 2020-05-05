@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-24 21:27:04
- * @LastEditTime: 2020-05-01 22:30:06
+ * @LastEditTime: 2020-05-05 12:50:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/userLabInfoStore/index.js

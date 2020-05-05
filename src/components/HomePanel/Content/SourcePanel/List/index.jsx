@@ -4,10 +4,12 @@ import axios from 'axios';
 import { Button, Select, Spin, Form, DatePicker, message } from 'antd';
 import styles from './index.less';
 import MyIcon from '../../../../../components/MyIcon';
-import locale from 'antd/es/date-picker/locale/zh_CN'; // 为了改变日期选择器的语言
+import locale from 'antd/es/date-picker/locale/zh_CN';   //中文化
+import {clone} from 'lodash';// 为了改变日期选择器的语言
 import debounce from 'lodash/debounce';
 import SourceTable from './Table';
 const { Option } = Select;
+
 
 
 @inject('UserLabInfoStore', 'ThingStore')
@@ -62,9 +64,19 @@ class index extends Component {
       console.log("res",res)
       const {data}=res
       if(data.status_code){
-       const jsonData=data.data;
+       let jsonData=data.data;
+      //  console.log("导出的jsonData",jsonData);
+       jsonData=jsonData.map(itemObj=>{
+         let obj=clone(itemObj);
+         for(let key in obj){
+          if (obj.hasOwnProperty(key) && (obj[key] === null || obj[key] === undefined)) {
+           obj[key]="";
+          }
+         }
+         return obj; 
+       })
 
-       let str = `物品名称,物品数量,物品标签,物品备注\n`;
+       let str = `物品名称,物品数量,物品标签,物品重要性(数字代表星星个数),物品备注\n`;
        for(let i = 0 ; i < jsonData.length ; i++ ){
         for(let item in jsonData[i]){
             str+=`${jsonData[i][item] + '\t'},`;     

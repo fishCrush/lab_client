@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 import { Button, Table, Tag, Popconfirm, message, Popover } from 'antd';
 import Zmage from 'react-zmage';
-
+import locale from 'antd/es/date-picker/locale/zh_CN'; 
 import styles from './index.less';
 import MyIcon from '../../../../../../components/MyIcon';
 import { mapRateShow } from '../../../../../../common/constants/index';
@@ -31,8 +31,8 @@ class index extends Component {
           key: 'num',
           align:'center',
           width:150,
-          sorter: "default",
-          sortOrder:'ascend'
+          sorter: (a, b) => a.num - b.num, //定义排序的规则函数
+          // sortOrder:'ascend'  //这个不能加  这是受控属性
         },
         {
           title: <span className="headerText">标签</span>,
@@ -75,7 +75,7 @@ class index extends Component {
                     {imgs.length > 1 ? (
                       <>
                         <Popover
-                          title="图片" trigger="click"
+                          title="图片" trigger="hover"
                           content={( // 省略号里的图片；除去第一张图片的剩余图片
                             <>
                               {imgs.slice(1).map((img, index) => (
@@ -219,6 +219,7 @@ class index extends Component {
           scroll={{ y: 620 }}
           pagination={false}
           onChange={this.formChange}
+          locale={locale} 
         />
         <Modify visible={this.state.modifyVisible} hideModifyHandle={this.hideModify} />
       </div>

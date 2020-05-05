@@ -20,7 +20,9 @@ class index extends Component {
   }
 
   loginBtnClick = () => {
-    const {nameInputValue,codeInputValue}=this.state
+    let {nameInputValue,codeInputValue}=this.state;
+    nameInputValue=nameInputValue.trim();
+    codeInputValue=codeInputValue.trim();
     if(!nameInputValue||!nameInputValue){
       message.warning('手机和密码均不能为空');
       return false;

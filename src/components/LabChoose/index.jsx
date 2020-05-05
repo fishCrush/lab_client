@@ -5,9 +5,9 @@ import { Button, Breadcrumb, Tabs } from 'antd';
 import styles from './index.less';
 import MyIcon from '../../components/MyIcon';
 import UserInfo from '../Header/UserInfo';
-import { formatDate } from '../../common/utils/index.js';
+import { formatDate,generateRandomDayTemps,generateRandomDayHums } from '../../common/utils/index.js';
 
-@inject('UserLabInfoStore', 'ChooseStore', 'ThingStore', 'HistoryStore')
+@inject('UserLabInfoStore', 'ChooseStore', 'ThingStore', 'HistoryStore','EnvStore')
 @observer
 class index extends Component {
   constructor(props) {
@@ -139,6 +139,15 @@ class index extends Component {
           ).catch(error => {
             console.log(error);
           });
+        }
+
+        if(navSelectedKey === 'env'){  // 如果切换实验室时此时的左侧导航选择的是env 环境面板
+          // console.log("此时选择的是env面板");
+          const{EnvStore}=this.props;
+          //单线数据更新
+          const dayTemps=generateRandomDayTemps();
+          const dayHums=generateRandomDayHums();
+          EnvStore.setOneLabOriData(dayTemps,dayHums);
         }
 
         // 重新请求当前实验室的超管名和普管名

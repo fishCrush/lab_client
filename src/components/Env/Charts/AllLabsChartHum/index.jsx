@@ -57,20 +57,22 @@ class index extends Component {
     }
 
     componentDidMount() {
-        // console.log('多实验室环境 componenDidMount');
+        console.log('多实验室环境 componenDidMount');
+       
+        // todo 切换湿度时多实验室数据没有变化  可能是没有重新渲染的原因。
         const _that=this;
         // 处理LabsData的值为：数组（从0时到12时以此排序），成员为小数组(多个实验室同个time的项)
         let timesRun = 0;
         _that.interval = setInterval(() => {
             const{EnvStore}= _that.props;
-            const {allLabsData,allLabTimeData}=EnvStore;
+            const {allLabsData,allLabTimeDataHum}=EnvStore;
             // console.log("定时器里的allLabTimeData",allLabTimeData)
-           
+            
             if (timesRun > 23) {  //24个小时，从0时开始逐步到24小时。到23时之后就清除计数器
                 clearInterval(_that.interval);
             }
             //  console.log("定时器里的allLabsData",allLabsData);
-            const oriData=allLabTimeData;
+            const oriData=allLabTimeDataHum;
             const thisHourLabsData = oriData.filter(item=>item.time===`${timesRun}:00`)  //每一个小时多个实验室的数据
             // console.log("thisHourLabsData",thisHourLabsData);
             const newAllLabsData = allLabsData.concat(thisHourLabsData);  //原来的小时加上新增的小时
@@ -88,7 +90,6 @@ class index extends Component {
         const{EnvStore}=this.props;
         EnvStore.setAllLabsData([]);
         clearInterval(this.interval); //组件卸载时记得去掉定时器；否则定时器也会继续执行的，哪怕已经切换了组件
-
     }
     
 
@@ -111,7 +112,8 @@ class index extends Component {
         // const rendererValue = isRendererCanvas ? 'canvas' : 'svg';
         // console.log("render  rendererValue",rendererValue);
         const exportText = isRendererCanvas ? EXPORT_TEXT_PNG : EXPORT_TEXT_SVG;
-        const unitText="单位：℃"
+        const unitText="单位：°";
+
         //定义横轴和纵轴的定义
         const scale = {
             time: {
@@ -120,22 +122,19 @@ class index extends Component {
                 nice: false
             },
             temperature: {
-                alias: "温度(°C)",
-                min: 10,
-                // max: 44
-                max: 35
-
+                alias: "湿度(°)",
+                min: 40,
+                max: 90
             },
             type: {
                 type: "cat"
             }
         };
-       
+
         
 
         return (
             <>
-              {/* <div style={{marginLeft:20}}>当前展示数据：温度</div> */}
               <div style={{marginLeft:20}}>{unitText}</div>
                 <Chart
                     data={allLabsData}

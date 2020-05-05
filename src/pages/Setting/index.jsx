@@ -73,10 +73,21 @@ class index extends Component {
   passwordModalOk = () => {
     const values=this.resetFormRef.current.getFieldsValue();
     // console.log("values",values)
-
-    const {old,nVal,confirm}=values
+    let {old,nVal,confirm}=values;
+    old=old.trim();
+    nVal=nVal.trim();
+    confirm=confirm.trim();
+    
     if(!old ||!nVal||!confirm){
       message.warning("三个输入框都是必填的！");
+      return false;
+    }
+    if(nVal.length<2||nVal.length>30){
+      message.warning("请输入2~30之间长度的密码");
+      return false;
+    }
+    if(nVal!==confirm){
+      message.warning("验证新密码输入有误，与新密码的输入不一致，请重新确定");
       return false;
     }
     
@@ -409,15 +420,15 @@ class index extends Component {
                 </Form.Item>
                 <Form.Item name="confirm" label="验证新密码"
                   rules={[
-                    { required: true, message: '请输入密码!' },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (!value || getFieldValue('newVal') === value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject('两次输入不同，请重新输入');
-                      },
-                    })
+                    { required: true, message: '请输入密码!',  trigger: 'onBlur'},
+                    // ({ getFieldValue }) => ({
+                    //   validator(rule, value) {
+                    //     if (!value || getFieldValue('newVal') === value) {
+                    //       return Promise.resolve();
+                    //     }
+                    //     return Promise.reject('两次输入不同，请重新输入');
+                    //   },
+                    // })
                   ]}
                 >
                   <Input.Password placeholder="请重新输入新的密码进行验证" />

@@ -11,6 +11,7 @@ import EnvNav from './EnvNav';
 // import { graphData } from '../../common/constants/mockData';
 import TempChart from './Charts/TempChart';
 import AllLabsChart from './Charts/AllLabsChart';
+import AllLabsChartHum from './Charts/AllLabsChartHum';
 import ThingChart from './Charts/ThingChart';
 import {generateRandomDayTemps,generateRandomDayHums} from '../../common/utils'
 @inject('ChooseStore', 'EnvStore','UserLabInfoStore')
@@ -27,13 +28,18 @@ class index extends Component {
   }
 
   componentDidMount(){
+
     let allLabTimeData=[];
     let allLabTimeDateHum=[];
     const{UserLabInfoStore,EnvStore}=this.props;
-
-    // if(UserLabInfoStore){
     const{labHostNames}=UserLabInfoStore;
-    //生成温度数据列表
+    //生成单线实验室数据
+    const dayTemps=generateRandomDayTemps();
+    const dayHums=generateRandomDayHums();
+    EnvStore.setOneLabOriData(dayTemps,dayHums);
+
+
+    //生成多实验室温度数据列表
     labHostNames.forEach(lab=>{
         const ramOriDatas=generateRandomDayTemps();  //数组
         const oneLabArr=ramOriDatas.map((ramDate,index)=>{
@@ -46,7 +52,7 @@ class index extends Component {
         // console.log("ramOriDatas",ramOriDatas);
         allLabTimeData.push(oneLabArr)
     })
-    //生成湿度数据列表
+    //生成多实验室湿度数据列表
     labHostNames.forEach(lab=>{
       const ramOriDatas=generateRandomDayHums();  //数组
       const oneLabArr=ramOriDatas.map((ramDate,index)=>{
@@ -58,11 +64,9 @@ class index extends Component {
       })
       // console.log("ramOriDatas",ramOriDatas);
       allLabTimeDateHum.push(oneLabArr)
-  })
-    // }
+    })
     let resLabTimeDate=allLabTimeData.flat(1);
     let resLabTimeDateHum=allLabTimeDateHum.flat(1);
-
     // console.log("resLabTimeDate",resLabTimeDate);
     EnvStore.setAllLabTimeData(resLabTimeDate);
     EnvStore.setAllLabTimeDataHum(resLabTimeDateHum);
@@ -85,10 +89,6 @@ class index extends Component {
 
   // 温度范围选择  最低温 最高温
   minInputChange = (value) => {
-    // console.log("minInputChange:", value)
-    // this.setState({
-    //   min: value
-    // })
     const { EnvStore } = this.props;
     EnvStore.changeMinTemp(value);
   }
@@ -130,17 +130,17 @@ class index extends Component {
   }
 
   render() {
-    const { ChooseStore } = this.props;
+    // console.log("Env面板渲染");
+    const { ChooseStore ,EnvStore} = this.props;
     const { envNavSelectedIndex } = ChooseStore;
+    const {showType}=EnvStore;
+    const isTemp=showType==="temp"
     return (
 
       <div className={styles.envWrap}>
-
-
         <div className={styles.envNavWrap}>
           < EnvNav />
         </div>
-
         {envNavSelectedIndex === 0 ? (
           <div className={styles.oneLabNavWrap}>
             <span className={styles.datePickerWrap}>
@@ -194,7 +194,9 @@ class index extends Component {
         <div className={styles.envShowWrap}>
           {/* <ThingChart/> */}
           {envNavSelectedIndex === 0 ? (<TempChart />) : ('')}
-          {envNavSelectedIndex === 1 ? (<AllLabsChart />) : ('')}
+          {envNavSelectedIndex === 1 && isTemp? (<AllLabsChart />) : ("")}
+          {envNavSelectedIndex === 1 && !isTemp? (<AllLabsChartHum />) : ('')}
+
         </div>
       </div>
 

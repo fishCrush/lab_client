@@ -43,12 +43,15 @@ class index extends Component {
     this.props.hideModifyHandle();
   };
 
-
   okClick = (e) => {
     e.stopPropagation();
     console.log('点击添加啦');
     const {isStart}=this.props;
-    const {name,position,remark}=this.modalFormRef.current.getFieldsValue();
+    let {name,position,remark}=this.modalFormRef.current.getFieldsValue();
+    name=name.trim();
+    position=position.trim();
+    remark=remark.trim();
+
     if(isStart){    // 创建实验室
       if(!name ||!position){
         message.warning("实验室名和位置都是必填的！");

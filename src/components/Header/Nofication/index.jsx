@@ -52,6 +52,21 @@ class index extends Component {
     }).then(res => {
       const { data } = res;
       if (data.status_code) {
+        // 重新请求通知消息列表  //这里的uid：后端直接从cookie取
+        axios.post('/api/notification/querylist_by_uid').then(res => {
+          const { data } = res;
+          if (data.status_code) {
+            const list = data.data;
+            // console.log('通知列表的list', list);
+            const { NotificationStore } = this.props;
+            NotificationStore.setNotiList(list);
+          } else {
+            console.log('重新请求通知消息列表 失败');
+          }
+        }
+        ).catch(error => {
+          console.log(error);
+        });
       } else {
         console.log('发送了阅读某条消息的请求 失败');
       }
@@ -61,20 +76,20 @@ class index extends Component {
     });
 
     // 重新请求通知消息列表  //这里的uid：后端直接从cookie取
-    axios.post('/api/notification/querylist_by_uid').then(res => {
-      const { data } = res;
-      if (data.status_code) {
-        const list = data.data;
-        // console.log('通知列表的list', list);
-        const { NotificationStore } = this.props;
-        NotificationStore.setNotiList(list);
-      } else {
-        console.log('重新请求通知消息列表 失败');
-      }
-    }
-    ).catch(error => {
-      console.log(error);
-    });
+    // axios.post('/api/notification/querylist_by_uid').then(res => {
+    //   const { data } = res;
+    //   if (data.status_code) {
+    //     const list = data.data;
+    //     // console.log('通知列表的list', list);
+    //     const { NotificationStore } = this.props;
+    //     NotificationStore.setNotiList(list);
+    //   } else {
+    //     console.log('重新请求通知消息列表 失败');
+    //   }
+    // }
+    // ).catch(error => {
+    //   console.log(error);
+    // });
 
   }
 

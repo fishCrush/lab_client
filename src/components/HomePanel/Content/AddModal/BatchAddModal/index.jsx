@@ -64,13 +64,13 @@ class index extends Component {
   }
   
   uploadChangeHandle = (info) => {
-    // console.log("info",info)
+    console.log("info",info)
     this.setState({
       uploadLoading: true,
       uploadDisabled:true
     })
 
-    const { status } = info.file;
+    const { status,response } = info.file;
     // console.log('status', status);
 
     // 上传完成或者失败时都将结果打印出来
@@ -86,11 +86,21 @@ class index extends Component {
 
       })
 
-      notification.success({
-        message: "文件已上传成功",
-        description: `文件名：${info.file.name} `,
-        placement: "topRight"
-      });
+      if(response.status_code){  //前端虽然成功上传文件到服务端，但上传文件内容有出错，服务端返回做提示
+        notification.success({
+          message: "文件已上传成功",
+          description: `文件名：${info.file.name} `,
+          placement: "topRight"
+        });
+      } else{
+        notification.warn({
+          message: response.msg,  //服务端返回的提示前端的错误信息
+          description: `文件名：${info.file.name} `,
+          placement: "topRight"
+        });
+      }
+      
+
     } else if (status === 'error') {
 
       this.setState({

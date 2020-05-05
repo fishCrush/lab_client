@@ -24,15 +24,12 @@ class index extends Component {
 
   
   switchChange=(checked) => {
-    // this.setState({
-    //     isRendererCanvas: !checked,    
-    //     forceUpdate: true
-    // });
-    console.log("checked",checked);
+    // console.log("checked",checked);
     this.setState({
       switchVal:checked
     })
     const {EnvStore}=this.props;
+   
     if(!checked){
       EnvStore.changeShowType("temp")
     } else{
@@ -41,14 +38,12 @@ class index extends Component {
 }
 
   render() {
-    console.log('envmav渲染');
     const { navList,switchVal } = this.state;
     const { ChooseStore} = this.props;
     const { envNavSelectedIndex } = ChooseStore;
     const nowType=switchVal?"湿度":"温度"
     const switcText = switchVal? "温度 Temperature":'湿度 Humidity';
     return (
-
       <div className={`${styles.navWrap} selfNavWrap`}>
         {navList.map((navItem, index) => {
           return (
@@ -70,8 +65,6 @@ class index extends Component {
           <span style={{color:"#6a56a5"}}>{switcText}</span> 
           </span>
         </span>
-
-
       </div>
 
     );

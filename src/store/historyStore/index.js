@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-15 00:11:24
- * @LastEditTime: 2020-04-27 21:41:25
+ * @LastEditTime: 2020-05-05 13:59:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/subStore/index.js
@@ -15,7 +15,7 @@ export class HistoryStore {
     @action.bound
     setHistoryList(list) {
       this.historyList = list;
-      console.log('historyList的值已存入', this.historyList);
+      // console.log('historyList的值已存入', this.historyList);
     }
 
 

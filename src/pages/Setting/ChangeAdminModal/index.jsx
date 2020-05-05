@@ -108,7 +108,10 @@ class index extends Component {
     const lid=UserLabInfoStore.choosedCardLabInfo.name;
     const originUname=UserLabInfoStore.userInfo.name
 
-    const {password,targetName}=this.modalFormRef.current.getFieldsValue();
+    let {password,targetName}=this.modalFormRef.current.getFieldsValue();
+    password=password.trim();
+    targetName=password.trim();
+    
     if(!password ||!targetName){
       message.warning("密码和新超管的名称都是必填的！");
       return false;

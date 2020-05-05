@@ -135,9 +135,37 @@ class index extends Component {
   loginBtnClick = () => {
     // console.log('sss');
     // 验证输入是否符合要求
-    const { phoneInputValue,smsInputValue,nameInputValue, codeInputValue } = this.state; // codeInputValue这里输入的是密码
+    const {UserLabInfoStore}=this.props;
+    const {usersName}=UserLabInfoStore;
+    let { phoneInputValue,smsInputValue,nameInputValue, codeInputValue } = this.state; // codeInputValue这里输入的是密码
+   
+    //去除输入值的前后空格
+    phoneInputValue=phoneInputValue.trim();
+    smsInputValue=smsInputValue.trim();
+    nameInputValue=nameInputValue.trim();
+    codeInputValue=codeInputValue.trim();
+
     if(!phoneInputValue||!smsInputValue||!nameInputValue||!codeInputValue){
       message.warning('四个输入框都是必填项，请确定好');
+      return false;
+    }
+
+    //验证用户是否符合要求
+    if(usersName && usersName.indexOf(nameInputValue)>-1){ //不重复要求
+      console.log("进来了");
+      message.warning("哎哟~该用户名已经被注册使用过了！请重新换一个");
+      return false;
+    }
+
+    if(nameInputValue.length<2||nameInputValue.length>10){ //长度范围要求
+      message.warning("请输入2~10之间长度的用户名");
+      return false;
+    }
+   
+
+    //验证密码长度是否符合
+    if(codeInputValue.length<2||codeInputValue.length>30){
+      message.warning("请输入2~30之间长度的密码");
       return false;
     }
     // 请求接口

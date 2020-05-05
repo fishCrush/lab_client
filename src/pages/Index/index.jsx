@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 import { Button } from 'antd';
 import styles from './index.less';
 import MyIcon from '../../components/MyIcon';
 import Login from './Login';
 import Register from './Register';
 
+@inject('UserLabInfoStore')
+@observer
 class index extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +34,23 @@ class index extends Component {
   }
   componentDidMount(){
     console.log('index页  componentDidMount')
+
+     //请求所有用户名和实验室名
+     axios.post('/api/user/user_lab_all_name').then(res => {
+      const {data}=res
+      if(data.status_code){
+        const { usersName,labsName}=data.data
+        const {UserLabInfoStore } = this.props;
+        UserLabInfoStore.setUsersLabsName(usersName,labsName);
+       
+       } else {
+         console.log("请求所有用户名和实验室名 失败")
+       }
+      }
+    ).catch(error => {
+      console.log(error);
+    });
+
   }
 
   render() {

@@ -178,8 +178,11 @@ class index extends Component {
   };
 
   okClick = () => {
-    // console.log('点击添加啦');
-    const {name,num,rate,remark}=this.formRef.current.getFieldsValue();
+    let {name,num,rate,remark}=this.formRef.current.getFieldsValue();
+    name=name.trim();
+    remark=remark.trim();
+    console.log('this.formRef.current.getFieldsValue()',this.formRef.current.getFieldsValue());
+
     if(!name||!num){
       message.warning("请填好物品的名称和数量")  
       return false

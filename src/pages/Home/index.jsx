@@ -60,7 +60,7 @@ class index extends Component {
           const labels=thingItem.labels ? thingItem.labels.split("&"):[]
           return Object.assign(thingItem,{tags:labels})
         })
-        console.log("thingList",thingList)
+        // console.log("thingList",thingList)
 
         //转成Table组件需要的数据格式
         const lastThingList=thingList.map(thingItem=>{

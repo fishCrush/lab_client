@@ -91,7 +91,9 @@ class index extends Component {
   okClick = e => {
     e.stopPropagation();
     // console.log('点击添加啦');
-    const {name, num,  rate, remark}=this.modalFormRef.current.getFieldsValue();
+    let {name, num,  rate, remark}=this.modalFormRef.current.getFieldsValue();
+    remark=remark.trim();
+    
     const { ThingStore,UserLabInfoStore } = this.props;
     const {imgObjList}=this.state; 
     console.log('okClick imgObjList',imgObjList);

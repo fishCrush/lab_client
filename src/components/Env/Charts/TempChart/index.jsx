@@ -3,14 +3,15 @@ import { inject, observer } from 'mobx-react';
 import { Button, Switch } from 'antd';
 import * as styles from './index.less';
 import { Chart, Geom, Axis, Tooltip, View } from 'bizcharts';
+// import Axis from 'bizcharts/lib/components/Axis';
 // import { data } from '../../../../common/constants/mockData';
 import {generateRandomDayTemps,generateRandomDayHums} from '../../../../common/utils' 
 import { objArrOnePropertyMM } from '../../../../common/utils/index';
 import DiyThemeButton from '../../../DiyThemeButton';
 
 //生成温度原始随机数据
-const dayTemps=generateRandomDayTemps();
-const dayHums=generateRandomDayHums();
+// const dayTemps=generateRandomDayTemps();
+// const dayHums=generateRandomDayHums();
 
 const EXPORT_TEXT_PNG = '导出 PNG 图片';
 const EXPORT_TEXT_SVG = '导出 SVG 矢量图';
@@ -35,17 +36,24 @@ class index extends Component {
             forceUpdate: true
         });
     }
+    componentWillUnmount() {
+        // console.log("temp面板卸载");
+        const {EnvStore}=this.props;
+        EnvStore.initSelect();   //组件卸载时还原筛选图表的条件为初始化
+    }
 
     render() {
+        // console.log("单线图表渲染");
+        let data=[];
         const {  isRendererCanvas, forceUpdate } = this.state;
         const { EnvStore } = this.props;
-        const { showType,tempSelectMin, tempSelectMax, isMM } = EnvStore;
+        const { showType,tempSelectMin, tempSelectMax, isMM,dayTemps,dayHums} = EnvStore;
 
         const isTemp= showType==='temp';
         const originData=isTemp?dayTemps:dayHums;
         // console.log("dayTemps",dayTemps);
         //将原温度数据 处理成表格需要的数据格式
-        const data=originData.map((temp,index)=>{
+        data=originData.map((temp,index)=>{
             let tempObj={};
             tempObj["date"]=`${index}:00`;
             tempObj["count"]=temp;
@@ -55,32 +63,15 @@ class index extends Component {
         })
         // console.log("data",data);
 
-        // console.log("tempSelectMin, tempSelectMax", tempSelectMin, tempSelectMax);
-        //求出最小值 最大值
-        const minVal = objArrOnePropertyMM(data, "count", "min");
-        const maxVal = objArrOnePropertyMM(data, "count", "max");
-        // console.log('minval maxval', minVal, maxVal);
-
-        // 限定范围的第一次筛选
-        const rangeAboveMinData = data.filter(item => {
-            return tempSelectMin === 'init' || (tempSelectMin !== 'init' && item.count >= tempSelectMin)
-        })
-        // console.log('rangeAboveMinData', rangeAboveMinData);
-
-        // 限定范围的第二次筛选
-        const rangeUnderMaxData = rangeAboveMinData.filter(item => {
-            return tempSelectMax === 'init' || (tempSelectMax !== 'init' && item.count <= tempSelectMax)
-        })
-        // console.log('rangeUnderMaxData', rangeUnderMaxData);
-
-
-
+        let alertLine=[];
+        // 处理范围内的线
+        const minVal = data.length?objArrOnePropertyMM(data, "count", "min"):'';
+        const maxVal = data.length?objArrOnePropertyMM(data, "count", "max"):'';
         const noMinWithMax = (tempSelectMin === 'init' && tempSelectMax !== 'init');
         const withMinNoMax = (tempSelectMin !== 'init' && tempSelectMax === 'init');
         const withMinwithMax = (tempSelectMin !== 'init' && tempSelectMax !== 'init');
 
-        // 处理范围内的线
-        const alertLine = [...data].map((item) => {
+        alertLine = [...data].map((item) => {
             if (tempSelectMin !== 'init' && tempSelectMax !== 'init') { // 有上下限
                 if (item.count >= tempSelectMin && item.count <= tempSelectMax) {
                     return item;
@@ -99,9 +90,12 @@ class index extends Component {
                 count: null,
             };
         });
-        // console.log('范围线数据', alertLine);
+            // console.log('范围线数据', alertLine);
+        
 
         // console.log('完整数据', data);
+
+        //区分开温度和湿度下的纵轴刻度范围
         let scale={};
         if(isTemp){  //温度和湿度范围不同
             scale = {

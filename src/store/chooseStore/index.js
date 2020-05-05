@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-04-12 13:33:10
+ * @LastEditTime: 2020-05-05 21:29:45
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /client/src/store/chooseStore/index.js
+ */
 import { action, flow, observable, computed } from 'mobx';
 
 export class ChooseStore {
