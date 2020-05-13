@@ -206,7 +206,15 @@ class index extends Component {
                       <span className="notiHighLight">{identityMapChinese[detailObj.identityType]}</span>
                     </span>
                   ) : (
-                    <span>您已被用户<span>{detailObj.originUid}</span>移除了实验室<span>{detailObj.lid}</span>的<span>{identityMapChinese[detailObj.identityType]}</span>身份，失去编辑和查看该实验室的权利</span>
+                    <span>
+                      您已被用户
+                      <span className="notiHighLight">{detailObj.originUid}</span>
+                      移除了实验室
+                      <span className="notiHighLight">{detailObj.lid}</span>
+                      的
+                      <span className="notiHighLight">{identityMapChinese[detailObj.identityType]}</span>
+                      身份，失去编辑和查看该实验室的权利！
+                    </span>
                   )}
 
                 </>
