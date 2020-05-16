@@ -3,15 +3,10 @@ import { inject, observer } from 'mobx-react';
 import { Button, Switch } from 'antd';
 import * as styles from './index.less';
 import { Chart, Geom, Axis, Tooltip, View } from 'bizcharts';
-// import Axis from 'bizcharts/lib/components/Axis';
-// import { data } from '../../../../common/constants/mockData';
+
 import {generateRandomDayTemps,generateRandomDayHums} from '../../../../common/utils' 
 import { objArrOnePropertyMM } from '../../../../common/utils/index';
 import DiyThemeButton from '../../../DiyThemeButton';
-
-//生成温度原始随机数据
-// const dayTemps=generateRandomDayTemps();
-// const dayHums=generateRandomDayHums();
 
 const EXPORT_TEXT_PNG = '导出 PNG 图片';
 const EXPORT_TEXT_SVG = '导出 SVG 矢量图';
@@ -57,8 +52,6 @@ class index extends Component {
             let tempObj={};
             tempObj["date"]=`${index}:00`;
             tempObj["count"]=temp;
-            // tempObj["alert"]=false;
-            // tempObj["max"]=false;
             return tempObj;
         })
         // console.log("data",data);
@@ -90,9 +83,8 @@ class index extends Component {
                 count: null,
             };
         });
-            // console.log('范围线数据', alertLine);
-        
-
+            
+        // console.log('范围线数据', alertLine);
         // console.log('完整数据', data);
 
         //区分开温度和湿度下的纵轴刻度范围
@@ -196,8 +188,6 @@ class index extends Component {
                                 }
                                 // 范围内的点
                                 if ((noMinWithMax && count <= tempSelectMax) || (withMinNoMax && count >= tempSelectMin) || (withMinwithMax && count <= tempSelectMax && count >= tempSelectMin)) {
-                                    // console.log("noMinWithMax,withMinNoMax,withMinwithMax", noMinWithMax, withMinNoMax, withMinwithMax);
-                                    // console.log("count，紫色 minVal maxVal ", count, tempSelectMin, tempSelectMax);
                                     return '#6a56a5';
                                 }
                                 return '#9AD681';

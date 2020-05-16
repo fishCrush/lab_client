@@ -51,8 +51,6 @@ class index extends Component {
     ).catch(error => {
       console.log(error);
     });
-
-
   }
 
   nameInputChange = (event) => {
@@ -115,21 +113,7 @@ class index extends Component {
         </div>
 
         <div className={`${styles.loginRight} indexLoginRightWrap`}>
-          {/* <Button type="primary" className={styles.loginBtn} size="large" shape="round" onClick={this.btnClick}>
-            <MyIcon type="icon-ren" />
-            登录/注册
-         </Button> */}
-
-
-          {/* <span className="input input--haruki">
-              <input className="input__field input__field--haruki" type="text" id="input-1" />
-              <label className="input__label input__label--haruki" htmlFor="input-1">
-                <span className="input__label-content input__label-content--haruki">First Name</span>
-              </label>
-            </span> */}
-
           <div className="indexLoginRightContent">
-
             {/*  输入框区域 */}
             <div className="inputUserWrap">
               <div className={`label ${isNameInputFocus ? 'labelFocus' : ""}`}>用户名称</div>
@@ -165,26 +149,11 @@ class index extends Component {
               <span>还没有账户？</span>
               <span className="register" onClick={this.registerBtnClick}>注册</span>
             </div>
-
-
           </div>
-
-
-          {/* <div className="inputPasswordWrap">
-              <input type="text" />
-              <span></span>
-            </div> */}
-
-
-
         </div>
-
-
       </div>
-
     );
   }
-
 }
 
 export default withRouter(index);

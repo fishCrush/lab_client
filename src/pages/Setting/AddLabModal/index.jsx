@@ -18,12 +18,8 @@ class index extends Component {
       diyTags: [],
       diyInputVisible: false,
       diyInputValue: '',
-
-      // initialValues: [],// 表单初始值
     };
   }
-
-
 
   // 获取到这个表单实例
   modalFormRef = React.createRef();
@@ -35,7 +31,6 @@ class index extends Component {
   failHandle = () => {
     console.log("失败");
   }
-
 
   // Form相关
   onCancel = (e) => {
@@ -60,7 +55,6 @@ class index extends Component {
         return false;
       }
       // 判断实验室名称是否已被占用
-      
       if(labsName && labsName.indexOf(name)>-1){
         message.warning("哎哟~该实验室名已经被添加使用过了，请重新换一个");
         return false;
@@ -117,20 +111,14 @@ class index extends Component {
       ).catch(error => {
         console.log(error);
       });
-
     }
-   
-
   }
 
   render() {
-
     const { diyInputVisible, diyInputValue } = this.state;
-
     const validateMessages = {};
     const { visible, isStart } = this.props;
     // console.log("isStart !isStart", isStart, !isStart);
-
     const addLabNameToolTip = isStart ? "实验室名称是作为识别不同实验室的标志的，名称不可相同" : '实验室名称不可修改'
     const titleText=isStart?"添加新的实验室":"修改实验室信息";
     // 若是编辑修改实验室：需有初始值
@@ -171,7 +159,6 @@ class index extends Component {
                       ref={this.modalFormRef}
                     >
                       <div className="modifyModalFormNotTwoHalfWrap">
-
                         {/* 必填区域 */}
                         {/* <div className="modifyModalFormRequireWrap" > */}
                         <Form.Item name="name" required={true} className=""
@@ -248,21 +235,12 @@ class index extends Component {
                       </div>
                     </div>
                   </div>
-
-
-
-
-
                 </div>
-
               </div>
             </div>
           </div>
-
-
         ) : ('')
         }
-
       </>
     );
   }

@@ -97,7 +97,6 @@ module.exports = {
         ],
         // loader: "style-loader!css-loader?modules=true&localIdentName=[local]___[hash:base64:5]",
         exclude: /node_modules/,
-
       },
 
       { // antd样式处理
@@ -133,8 +132,6 @@ module.exports = {
           name: 'imgs/[name].[hash:8].[ext]' // 打包后的图片名称 [ext]指图片格式
         }
       },
-
-
     ]
   },
 

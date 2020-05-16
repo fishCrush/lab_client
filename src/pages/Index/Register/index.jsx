@@ -128,12 +128,9 @@ class index extends Component {
       _that.isSending = false;
 
     })
-
-
   }
 
   loginBtnClick = () => {
-    // console.log('sss');
     // 验证输入是否符合要求
     const {UserLabInfoStore}=this.props;
     const {usersName}=UserLabInfoStore;
@@ -196,8 +193,6 @@ class index extends Component {
 
   }
 
-
-
   onBackClick=()=>{
     this.props.goBack()
   }
@@ -212,7 +207,6 @@ class index extends Component {
           <div className={styles.textWrap}>
             <div className={styles.title}>注册个人账号</div>
             <div className={styles.descriptionBack} onClick={this.onBackClick}> 
-            {/* <MyIcon type="icon-fanhui1-copy"/> */}
               《 =     返回登录
             </div>
           </div>
@@ -319,7 +313,6 @@ class index extends Component {
       </div>
     );
   }
-
 }
 
 export default withRouter(index);

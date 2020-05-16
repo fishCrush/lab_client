@@ -22,37 +22,12 @@ class index extends Component {
       isStart: true,  // 是否modal为新创建  true:添加实验室  false:修改编辑实验室
       passwordModalVisible: false,
       addLadbModalVisible: false,
-      // editHostModalVisible:true,
       editHostModalVisible: false,
       changeAdminModalVisible: false,
-      // changeAdminModalVisible:true,
-
-      // 实验室列表
-      // list: [
-      //   {
-      //     name: "电子信息科学与技术",
-      //     position: "电子楼511",
-      //     host: ['潘伟旋', '小明鸭'],
-      //     remark: ""
-      //   },
-      //   {
-      //     name: "物理研究实验室",
-      //     position: "电子楼511",
-      //     host: ['小鱼', '小明'],
-      //     remark: "校企合作实验室  工作位3人"
-      //   },
-      //   {
-      //     name: "光学影像实验室",
-      //     position: "实验楼314",
-      //     host: [],
-      //     remark: "指导老师是李明明"
-      //   }
-      // ]
       list:[]
     };
   }
  
-
 
   // 和修改密码相关
   resetFormRef = React.createRef();
@@ -243,13 +218,7 @@ class index extends Component {
     ).catch(error => {
       console.log(error);
     });
-
-
-
   }
-  
-    
-  
 
   render() {
     const { username, password, passwordModalVisible, addLadbModalVisible, list, editHostModalVisible, changeAdminModalVisible, isStart } = this.state;
@@ -265,13 +234,10 @@ class index extends Component {
     return (
       <>
         <Header />
-
-
         <div className="settingWraper">
           <div className="settingWrap">
             {/* 用户信息区域 */}
             <div className="userSettingWrap">
-
               {/* 头部信息 */}
               <div className="userSettingHeader">
                 <div className="userSettingHeaderText">账户信息设置</div>
@@ -314,12 +280,9 @@ class index extends Component {
                       />
                     </Form.Item>
                   </div>
-
                 </Form>
               </div>
-
             </div>
-
 
             {/* 实验室信息区域 */}
             <div className={styles.labInfo}>
@@ -327,7 +290,6 @@ class index extends Component {
               <div className={styles.labHeader}>
                 <div className={styles.labHeaderText}>实验室信息设置</div>
               </div>
-
               {/* 内容区 */}
               <div className={styles.labContentWrap}>
                 <Button
@@ -362,7 +324,6 @@ class index extends Component {
                                   </p>
                                 </div>
                               </>
-
                             }
                             actions={[
                               <div className="labItemModify" onClick={()=>this.labItemPositionModifyClick(index)}><SettingOutlined key="setting" /><div>编辑信息</div></div>,
@@ -388,11 +349,9 @@ class index extends Component {
                       )
                     })
                   }
-
                 </div>
               </div>
             </div>
-
           </div>
 
           {/* 修改密码的modal */}
@@ -421,14 +380,6 @@ class index extends Component {
                 <Form.Item name="confirm" label="验证新密码"
                   rules={[
                     { required: true, message: '请输入密码!',  trigger: 'onBlur'},
-                    // ({ getFieldValue }) => ({
-                    //   validator(rule, value) {
-                    //     if (!value || getFieldValue('newVal') === value) {
-                    //       return Promise.resolve();
-                    //     }
-                    //     return Promise.reject('两次输入不同，请重新输入');
-                    //   },
-                    // })
                   ]}
                 >
                   <Input.Password placeholder="请重新输入新的密码进行验证" />
@@ -439,22 +390,13 @@ class index extends Component {
 
           {/* 添加实验室的Modal */}
           <AddLabModal visible={addLadbModalVisible} isStart={isStart} hideModifyHandle={this.hideLabModal} />
-
-
           <EditHostModal visible={editHostModalVisible} hideModifyHandle={this.hideEditHostModal} />
           {/* 编辑实验室管路员的modal */}
           < ChangeAdminModal visible={changeAdminModalVisible} hideModifyHandle={this.hideChangeAdminModal} />
-
-
         </div>
-
-
-
       </>
-
     );
   }
-
 }
 
 export default index;

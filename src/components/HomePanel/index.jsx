@@ -12,19 +12,14 @@ class index extends Component {
     };
   }
 
-
   render() {
-    // const {  } = this.state
     return (
-
       <div className={styles.homePanelWrap}>
         <Nav />
         <Content />
       </div>
-
     );
   }
-
 }
 
 export default index;

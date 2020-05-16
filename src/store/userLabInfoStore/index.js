@@ -1,13 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-04-24 21:27:04
- * @LastEditTime: 2020-05-05 22:18:21
+ * @LastEditTime: 2020-05-16 12:12:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/userLabInfoStore/index.js
  */
 import { action, flow, observable, computed } from 'mobx';
-
 export class UserLabInfoStore {
     @observable uid=''; // 当前登录用户的uid
     @observable userInfo={}; // 当前登录用户的信息
@@ -97,9 +96,6 @@ export class UserLabInfoStore {
       const choosedCardLabInfo = this.labAdmin[index];
       return choosedCardLabInfo;
     }
-
-
-
 }
 
 export default new UserLabInfoStore();

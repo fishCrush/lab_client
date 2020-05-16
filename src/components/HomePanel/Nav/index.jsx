@@ -5,9 +5,6 @@ import { Button, Menu } from 'antd';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 import { formatDate } from '../../../common/utils/index.js';
-// import {ChooseStore} from '../../../store/chooseStore';
-
-
 @inject('ChooseStore', 'HistoryStore', 'UserLabInfoStore','ThingStore')
 @observer
 class index extends Component {
@@ -22,7 +19,6 @@ class index extends Component {
     const { ChooseStore,UserLabInfoStore,ThingStore } = this.props;
     const lid = UserLabInfoStore.selectedLabInfo?UserLabInfoStore.selectedLabInfo.name:''; // 当前被选中的实验室名
     ChooseStore.changeNavSelected(e.key);
-    // console.log('e.key', e.key);
 
     // 若选择了资源列表面板
     if (e.key === 'mainList') {
@@ -121,20 +117,15 @@ class index extends Component {
       ).catch(error => {
         console.log(error);
       });
-
-
     }
-
   }
 
   render() {
-
     const { ChooseStore } = this.props;
     const { navSelectedKey } = ChooseStore;
     // console.log("store key",ChooseStore.navSelectedKey);
     const { defaultOpenKeys, defaultSelectedKeys } = this.state;
     return (
-
       <>
         <div className={`${styles.navWrap} homePanelNavWrap`}>
           <Menu
@@ -189,11 +180,9 @@ class index extends Component {
               <MyIcon type="icon-riji2" className={styles.itemIcon} />
               实验日记
             </Menu.Item> */}
-
           </Menu>
         </div>
       </>
-
     );
   }
 

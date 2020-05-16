@@ -10,8 +10,6 @@ import debounce from 'lodash/debounce';
 import SourceTable from './Table';
 const { Option } = Select;
 
-
-
 @inject('UserLabInfoStore', 'ThingStore')
 @observer
 class index extends Component {
@@ -44,14 +42,6 @@ class index extends Component {
     const { ThingStore } = this.props;
     ThingStore.resetThingList();
   };
-
-  // successChooseSubmit = values => {
-  //   console.log('成功');
-  // }
-
-  // failChooseSubmit = () => {
-  //   console.log('失败');
-  // }
 
   // 导出事件
   exportBtnClick = () => {
@@ -99,78 +89,8 @@ class index extends Component {
     ).catch(error => {
       console.log(error);
     });
-    //   axios.post('/api/thing/export_all',{
-    //     lid,
-    //   }).then(res => {
-    //     console.log("res",res)
-    //     // const {data}=res
-    //     if(res.status){
-    //       message.success("成功导出excel文件！")
-    //      } else {
-    //        console.log(" 导出excel文件 失败")
-    //      }
-    //     }
-    //   ).catch(error => {
-    //     console.log(error);
-    //   });
-    // }
-
-    // const url="/api/thing/export_all"
-    // let iframe = document.getElementById('_DOWNLOAD_FILE_');
-    // if (iframe) {
-    //     iframe.src = url;
-    // } else {
-    //     iframe = document.createElement('iframe');
-    //     iframe.style.display = 'none';
-    //     iframe.src = url;
-    //     iframe.id = '_DOWNLOAD_FILE_';
-    //     document.body.appendChild(iframe);
-    // }
-    // const jsonData = [
-    //   {
-    //     name: '路人甲',
-    //     phone: '123456789',
-    //     email: '000@123456.com'
-    //   },
-    //   {
-    //     name: '炮灰乙',
-    //     phone: '123456789',
-    //     email: '000@123456.com'
-    //   },
-    //   {
-    //     name: '土匪丙',
-    //     phone: '123456789',
-    //     email: '000@123456.com'
-    //   },
-    //   {
-    //     name: '流氓丁',
-    //     phone: '123456789',
-    //     email: '000@123456.com'
-    //   },
-    // ];
-    // let str = `姓名,电话,邮箱\n`;
-    //   //增加\t为了不让表格显示科学计数法或者其他格式
-    //   for(let i = 0 ; i < jsonData.length ; i++ ){
-    //     for(let item in jsonData[i]){
-    //         str+=`${jsonData[i][item] + '\t'},`;     
-    //     }
-    //     str+='\n';
-    //   }
-    //   //encodeURIComponent解决中文乱码
-    //   let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(str);
-    //   //通过创建a标签实现
-    //   let link = document.createElement("a");
-    //   link.href = uri;
-    //   //对下载的文件命名
-    //   link.download =  "json数据表.csv";
-    //   document.body.appendChild(link);
-    //   link.click();
-    //   document.body.removeChild(link);
-
+    
   }
-
-
-
 
   // 输入值变化时立即监测到
   searchName = value => {
@@ -288,9 +208,6 @@ class index extends Component {
     }
     ThingStore.setShowingThingList(newThingList);
   }
-  // nameFocus=()=>{
-  //   this.setState({})
-  // }
 
   render() {
     let tagSelctOptions = [];
@@ -444,27 +361,16 @@ class index extends Component {
                 </Button>
               </div>
             </div>
-
-
-
-
           </div>
-
-
 
           {/* 表格 */}
           <div className="listForm">
             <SourceTable />
           </div>
         </Form>
-
-
-
       </div>
-
     );
   }
-
 }
 
 export default index;

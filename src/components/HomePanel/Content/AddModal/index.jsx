@@ -56,10 +56,6 @@ class index extends Component {
     console.log("失败");
   }
 
-
-
-
-
   // 快速添加标签相关
   tagChangeHandle(tag, checked) {
     const { selectedTags } = this.state;
@@ -69,7 +65,6 @@ class index extends Component {
       // console.log("快速标签选择的selectedTags",this.state.selectedTags)
     });
   }
-
 
   // 自定义标签相关
   diyTagClosehandle = removedTag => {
@@ -102,10 +97,6 @@ class index extends Component {
       diyInputValue: '',
     });
   };
-
-
-
-
 
   // 上传图片相关
   handleCancel = () => this.setState({ previewVisible: false });
@@ -237,7 +228,6 @@ class index extends Component {
     );
     return (
       <>
-
         <div className="addModalWrap">
           <div className="addModalWraper">
             {/* <div className="addModalMask" onClick={this.maskClick} > */}
@@ -245,7 +235,6 @@ class index extends Component {
               <div className="addModalTitleWrap">
                 <MyIcon type="icon-shiyanshiyuyue1" style={{ fontSize: 25, marginRight: 12 }} />
                 <span className="addModalTitleText">添加实验室资源</span>
-
               </div>
 
               <div className="addModalFormWrap">
@@ -373,10 +362,7 @@ class index extends Component {
                         </div>
                       </Form.Item>
                     </div>
-
                   </div>
-
-
 
                   {/* 隔开 */}
                   <Form.Item name="rate" className=""
@@ -439,15 +425,10 @@ class index extends Component {
                       <img alt="example" style={{ width: '100%' }} src={previewImage} />
                     </Modal>
                   </Form.Item>
-
-
-
                 </Form>
               </div>
               {/* 底部按钮区*/}
               <div className="addModalBottomWrap">
-                {/* jjjjj</div> */}
-                {/* <div></div> */}
                 <div className="addModalBtnWrap">
                   <Button
                     onClick={this.onReset}
@@ -469,7 +450,6 @@ class index extends Component {
               </div>
 
               {/* 齿轮跳转区 */}
-              {/* <Tooltip placement="right" title="批量导入" defaultVisible={true}> */}
               <div className="addModalGearWrap" onClick={this.gearClick}>
                 <Tooltip placement="right" title="批量导入" visible={batchTipVisible} autoAdjustOverflow={false}>
                   <span className="addGearWrap">
@@ -477,13 +457,10 @@ class index extends Component {
                   </span>
                 </Tooltip>
               </div>
-              {/* </Tooltip> */}
-
-
             </div>
 
             <BatchAddModal visible={this.state.batchModalVisible} hideBatchModal={this.hideBatchHandle} />
-
+            
           </div>
         </div>
 

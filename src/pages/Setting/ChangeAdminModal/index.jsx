@@ -6,8 +6,6 @@ import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 import { QUICKTAGS, diyTagMaxLen, diyTagColor, MYICON } from '../../../common/constants/index';
-
-
 @inject('UserLabInfoStore')
 @observer
 class index extends Component {
@@ -19,7 +17,6 @@ class index extends Component {
       diyTags: [],
       diyInputVisible: false,
       diyInputValue: '',
-
       initialValues: { // 初始值
         name: "",
         position: "",
@@ -28,8 +25,6 @@ class index extends Component {
       }
     };
   }
-
-
 
   // 获取到这个表单实例
   modalFormRef = React.createRef();
@@ -51,7 +46,6 @@ class index extends Component {
     console.log('You are interested in: ', nextSelectedTags);
     this.setState({ selectedTags: nextSelectedTags });
   }
-
 
   // 自定义标签相关
   diyTagClosehandle = removedTag => {
@@ -92,14 +86,11 @@ class index extends Component {
     });
   };
 
-
-
   // Form相关
   onCancel = (e) => {
     e.stopPropagation();
     this.props.hideModifyHandle();
   };
-
 
   okClick = (e) => {
     e.stopPropagation();
@@ -151,15 +142,11 @@ class index extends Component {
 
   }
 
-
   render() {
-
     const { initialValues, diyInputVisible, diyInputValue } = this.state;
-
     const validateMessages = {};
     const { visible } = this.props;
     // const visible = true;
-
     return (
       <>
         {visible ? (
@@ -194,7 +181,6 @@ class index extends Component {
                       <div className="modifyModalFormNotTwoHalfWrap">
 
                         {/* 必填区域 */}
-                        {/* <div className="modifyModalFormRequireWrap" > */}
                         <Form.Item name="password" required={true} className=""
                           label={
                             <>
@@ -224,12 +210,7 @@ class index extends Component {
                             placeholder="请输入新的超级管理员的名称"
                           />
                         </Form.Item>
-                        {/* </div> */}
-
-
-
                       </div>
-
                     </Form>
 
                     {/* 底部按钮区*/}
@@ -256,25 +237,15 @@ class index extends Component {
                       </div>
                     </div>
                   </div>
-
-
-
-
-
                 </div>
-
               </div>
             </div>
           </div>
-
-
         ) : ('')
         }
-
       </>
     );
   }
-
 }
 
 export default index;

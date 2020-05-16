@@ -15,7 +15,6 @@ import {
     Facet,
     Util
 } from 'bizcharts';
-// import { data } from '../../../../common/constants/mockData';
 import { objArrOnePropertyMM } from '../../../../common/utils/index';
 
 const data = [

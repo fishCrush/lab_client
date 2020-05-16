@@ -7,8 +7,6 @@ import styles from './index.less';
 import MyIcon from '../../../../../../MyIcon';
 import { QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../../../../../common/constants/index';
 
-
-
 @inject('UserLabInfoStore', 'ThingStore')
 @observer
 class index extends Component {
@@ -79,14 +77,11 @@ class index extends Component {
     });
   };
 
-
-
   // Form相关
   onCancel = e => {
     e.stopPropagation();
     this.props.hideModifyHandle();
   };
-
 
   okClick = e => {
     e.stopPropagation();
@@ -133,7 +128,6 @@ class index extends Component {
     });
     // 并隐藏 修改modal
     // this.props.hideModifyHandle();
-
   }
 
   handleChange = ({ fileList }) => {
@@ -168,8 +162,6 @@ class index extends Component {
       console.log("删除后的this.state.newImgObjList",this.state.newImgObjList)
     })
   }
-
-
 
   render() {
     const { visible ,ThingStore } = this.props;
@@ -212,9 +204,7 @@ class index extends Component {
                       ref={this.modalFormRef}
                     >
                       <div className="modifyModalFormNotTwoHalfWrap">
-
                         {/* 必填区域 */}
-                        {/* <div className="modifyModalFormRequireWrap" > */}
                         <Form.Item
                           name="name" required={true} className=""
                           label={(
@@ -249,7 +239,6 @@ class index extends Component {
                             style={{ borderRadius: 5, width: 300 }}
                           />
                         </Form.Item>
-                        {/* </div> */}
 
                         {/* 标签区域 */}
                         <div className="modifyModalFormTagWrap">
@@ -307,10 +296,7 @@ class index extends Component {
                             </div>
                           </Form.Item>
                         </div>
-
                       </div>
-
-
 
                       {/* 隔开 */}
                       <Form.Item
@@ -374,8 +360,6 @@ class index extends Component {
 
                     {/* 底部按钮区*/}
                     <div className="modifyModalBottomWrap">
-                      {/* jjjjj</div> */}
-                      {/* <div></div> */}
                       <div className="modifyModalBtnWrap">
                         <Button
                           onClick={e => this.onCancel(e)}
@@ -396,25 +380,15 @@ class index extends Component {
                       </div>
                     </div>
                   </div>
-
-
-
-
-
                 </div>
-
               </div>
             </div>
           </div>
-
-
         ) : ('')
         }
-
       </>
     );
   }
-
 }
 
 export default index;

@@ -41,7 +41,6 @@ class index extends Component {
   }
 
   render() {
-    // const { list } = this.state;
     let list = [];
     const { HistoryStore } = this.props;
     if (HistoryStore && HistoryStore.historyList) {
@@ -74,10 +73,8 @@ class index extends Component {
     // console.log('new mapobj', mapObj);
 
     return (
-
       <div className={styles.historyPanel}>
         <LabIntro />
-
         <div className={styles.timeLineWrap}>
           <Timeline
             // mode="alternate"
@@ -128,13 +125,8 @@ class index extends Component {
                                       dataSource={item.bulk}
                                       renderItem={iteml => <List.Item>{iteml}</List.Item>}
                                     />
-                                    // <span>
-                                    //   <span style={{fontSize:18}}>其他物品：</span>
-                                    //   {item.bulk.map(item=><span style={{marginRight:10,textShadow: "0 0 1px #b37feb",fontSize:18}}>{item}</span>)}
-                                    // </span>
                                   )}
                                 >
-
                                   <MyIcon type="icon-zhuyi4" />
                                 </Popover>
                               </>
@@ -144,7 +136,6 @@ class index extends Component {
                         )
                       }
                     </span>
-
                     <span className={styles.hostWrap}>
                       <MyIcon type="icon-caozuoren" style={{ marginRight: 3 }} />
                       <span className={styles.hostText}>{item.host}</span>
@@ -156,7 +147,6 @@ class index extends Component {
           </Timeline>
         </div>
       </div>
-
     );
   }
 

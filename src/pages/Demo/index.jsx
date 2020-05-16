@@ -11,15 +11,11 @@ class index extends Component {
  
   render(){
     return (
-    
       <div>       
-     
       DEMO
       </div>
-      
     );
   }
-  
 }
 
 export default index;

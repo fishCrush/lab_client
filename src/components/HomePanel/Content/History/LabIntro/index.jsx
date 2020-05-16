@@ -13,9 +13,6 @@ class index extends Component {
     this.state = {
     };
   }
-  componentDidMount() {
-
-  }
 
   render() {
     let allNum = 278;
@@ -32,7 +29,6 @@ class index extends Component {
     }
 
     return (
-
       <div className={styles.labInfoWrap}>
         <div className={styles.headerWrap}>
           <div className={styles.headerLeft}>
@@ -68,10 +64,8 @@ class index extends Component {
                     <>  ：{host.map(item=><span style={{marginRight:10,color:"rgb(179, 127, 235)"}}>{item}</span>)}</>
                   ) : (<span style={{ color: '#8080809c', marginLeft: 6 }}>暂无</span>)}
                 </span>
-
               </div>
             </section>
-
           </div>
           <div
             className={`${styles.headerRight} SourcePanelAddBtnWrap`}
@@ -81,10 +75,7 @@ class index extends Component {
             </span>
           </div>
         </div>
-
-
       </div>
-
     );
   }
 

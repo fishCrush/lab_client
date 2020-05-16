@@ -10,7 +10,6 @@ import { mapRateShow } from '../../../../../../common/constants/index';
 import Modify from './Modify';
 
 const { Column } = Table;
-
 @inject('ChooseStore', 'ThingStore', 'UserLabInfoStore')
 @observer
 class index extends Component {
@@ -59,7 +58,6 @@ class index extends Component {
         },
 
         {
-          // title: '图片(点击可放大查看)',
           title: <><span className="headerText">图片</span><span style={{ color: '#808080c4', fontSize: 14, marginLeft: 3 }}>(点击可放大查看)</span></>,
           dataIndex: 'imgs',
           key: 'imgs',
@@ -194,7 +192,6 @@ class index extends Component {
 
 
   render() {
-    // console.log('table组件渲染');
     // 小心注意转换rate的数字与字符串  1与“1”  //选择框里的几个星星值是数字字符串，注意！接口返回的原生值是数字
     const { columns } = this.state;
     let formData = [];
@@ -210,7 +207,6 @@ class index extends Component {
     }
     console.log('赋值给table的数值', formData);
     return (
-
       <div className="sourceTableWrap">
         <Table
           dataSource={formData}
@@ -223,12 +219,8 @@ class index extends Component {
         />
         <Modify visible={this.state.modifyVisible} hideModifyHandle={this.hideModify} />
       </div>
-
-
-
     );
   }
-
 }
 
 export default index;

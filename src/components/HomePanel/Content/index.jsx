@@ -19,16 +19,13 @@ class index extends Component {
     };
   }
 
-
   render() {
     // const { selectedPanel } = this.state;
     //selectedPanel 需是从store取的，来自nav中被选择的项的key值。所以有四个值
     const{ChooseStore}=this.props;
     const {navSelectedKey}=ChooseStore;
     return (
-
       <div className={styles.contentWrap}>
-
        {/* 资源列表 */}
        { navSelectedKey==='mainList'?(
         <SourcePanel />
@@ -64,7 +61,6 @@ class index extends Component {
      }
 
       </div>
-
     );
   }
 

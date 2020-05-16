@@ -33,8 +33,7 @@ class index extends Component {
     })
   }
   componentDidMount(){
-    console.log('index页  componentDidMount')
-
+    // console.log('index页  componentDidMount')
      //请求所有用户名和实验室名
      axios.post('/api/user/user_lab_all_name').then(res => {
       const {data}=res
@@ -56,7 +55,6 @@ class index extends Component {
   render() {
     const { showRegister } = this.state;
     return (
-
       <div className={`${styles.indexWrap} `}>
         {!showRegister ? (
           <Login clickRegister={this.clickRegister}/>
@@ -64,10 +62,8 @@ class index extends Component {
             <Register goBack={this.goBackClick}/>
           )}
       </div>
-
     );
   }
-
 }
 
 export default index;

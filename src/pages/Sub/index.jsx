@@ -5,8 +5,6 @@ import MyIcon from '../../components/MyIcon';
 import { inject, observer } from 'mobx-react';
 import Header from '../../components/Header';
 import BaiduMap from '../../components/BaiduMap/index';
-
-
 @inject('SubStore')
 @observer
 class index extends Component {
@@ -28,10 +26,8 @@ class index extends Component {
           </Spin>
       </div>
       </>
-
     );
   }
-
 }
 
 export default index;

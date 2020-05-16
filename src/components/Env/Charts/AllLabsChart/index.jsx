@@ -24,13 +24,8 @@ import { colors } from '../../../../common/constants/index';
 import DiyThemeButton from '../../../DiyThemeButton';
 import { formatTimeStr } from 'antd/lib/statistic/utils';
 
-
-
-
 const EXPORT_TEXT_PNG = '导出 PNG 图片';
 const EXPORT_TEXT_SVG = '导出 SVG 矢量图';
-
-
 @inject('ChooseStore', 'EnvStore','UserLabInfoStore')
 @observer
 class index extends Component {
@@ -107,9 +102,6 @@ class index extends Component {
         for (let i = 0; i < labsNum; i++) {
             labLineColorList.push(colors[i]);
         }
-        // console.log("labLineColorList",labLineColorList);
-        // const rendererValue = isRendererCanvas ? 'canvas' : 'svg';
-        // console.log("render  rendererValue",rendererValue);
         const exportText = isRendererCanvas ? EXPORT_TEXT_PNG : EXPORT_TEXT_SVG;
         const unitText="单位：℃"
         //定义横轴和纵轴的定义
@@ -135,7 +127,6 @@ class index extends Component {
 
         return (
             <>
-              {/* <div style={{marginLeft:20}}>当前展示数据：温度</div> */}
               <div style={{marginLeft:20}}>{unitText}</div>
                 <Chart
                     data={allLabsData}

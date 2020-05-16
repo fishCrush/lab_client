@@ -8,7 +8,6 @@ import styles from './index.less';
 import MyIcon from '../../../../MyIcon';
 import {BlobDownload} from '../../../../../common/utils'
 // import { uploadUrl, QUICKTAGS, diyTagMaxLen, diyTagColor } from '../../../../common/constants/index';
-
 @inject('UserLabInfoStore')
 @observer
 class index extends Component {
@@ -20,7 +19,6 @@ class index extends Component {
       uploadLoading: false,//控制文件上传过程中显示加载中的样式
     };
   }
-
 
   maskClick = () => {
     this.props.hideBatchModal();
@@ -36,7 +34,6 @@ class index extends Component {
   closeIconMouseEnter = () => {
     this.setState({
       hover: true,
-
     })
   }
   closeIconMouseLeave = () => {
@@ -45,17 +42,13 @@ class index extends Component {
     })
   }
 
-
-
   // 下载文件相关
   downloadClickHandle=(e)=>{
     //阻止点击事件的冒泡
     e.stopPropagation();
-
     // 请求模板文件，得到数据后在前端自定义生成excel表格
     BlobDownload("xls","批量添加实验室物品的模板文件") 
   }
-
 
   //上传文件相关
   upWrapClick=(e)=>{
@@ -114,10 +107,6 @@ class index extends Component {
         placement: "topRight"
       });
     }
-  }
-
-  componentDidMount(){
-   
   }
 
   render() {
@@ -211,9 +200,6 @@ class index extends Component {
                             </p>
                           </Spin>
                         </>
-
-
-
                       </Upload.Dragger>
                     </div>
                   </div>
@@ -222,11 +208,7 @@ class index extends Component {
             </div>
           </div>
         ) : ('')}
-
-
-
       </>
-
     );
   }
 

@@ -7,18 +7,12 @@ import routes from './router/index';
 // import DataStore from './store/index';
 // import { withRouter } from 'react-router-dom';
 // eslint-disable-next-line
-
-
 // todo 完善路由方式
 import Index from './pages/Index/index';
 import Login from './pages/Login/index';
 import Setting from './pages/Setting/index';
 import Home from './pages/Home/index';
 import Sub from './pages/Sub/index';
-
-
-
-
 // function loadableComp(LazyComponent) {
 //     return () => (
 //       <Suspense fallback={''}>
@@ -41,30 +35,22 @@ import Sub from './pages/Sub/index';
 //         path: '/login',
 //         component: Login
 //     },
-   
-    
 //   ];
-
-
-
 class index extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
       };
     }
-
     componentDidMount(){
       console.log('最外层路由包裹组件 app.jsx  componentDidMount')
     }
 
     render() {
-
       return (
         <Router basename="">
           {/* <Provider DataStore={DataStore}> */}
             {/* <Suspense fallback={<p />}> */}
-                
             {/* <ul>
             <li>
               <Link to="/login">点击跳转</Link>
@@ -92,16 +78,11 @@ class index extends React.Component {
                <Route path="/setting" component={Setting}/>
                <Route path="/home" component={Home}/>
                <Route path="/sub" component={Sub}/>
-
-
-               
               </Switch>
             {/* </Suspense> */}
           {/* </Provider> */}
         </Router>
       );
-
-
     }
 }
 export default index;

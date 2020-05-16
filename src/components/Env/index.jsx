@@ -192,7 +192,6 @@ class index extends Component {
         ) : ('')}
 
         <div className={styles.envShowWrap}>
-          {/* <ThingChart/> */}
           {envNavSelectedIndex === 0 ? (<TempChart />) : ('')}
           {envNavSelectedIndex === 1 && isTemp? (<AllLabsChart />) : ("")}
           {envNavSelectedIndex === 1 && !isTemp? (<AllLabsChartHum />) : ('')}

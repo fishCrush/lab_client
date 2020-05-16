@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-10 16:14:53
- * @LastEditTime: 2020-05-05 13:40:48
+ * @LastEditTime: 2020-05-16 11:37:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/utils/index.js
@@ -92,13 +92,4 @@ export function generateRandomDayHums(){
   return resHums;
 }
 
-//对字符串数组的每一个成员去除前后空格
-// export function trimStrArr(arr){
-//   let resArr=arr.map(item=>{
-//     if(typeof item === "string"){  //若是字符串则去掉字符串前后的空格
-//       return item.trim() 
-//     }
-//     return item
-//   })
-//   return resArr;
-// }
+

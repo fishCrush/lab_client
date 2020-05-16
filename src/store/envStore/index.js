@@ -1,13 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-04-16 19:30:45
- * @LastEditTime: 2020-05-05 21:26:16
+ * @LastEditTime: 2020-05-16 12:11:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/envStore/index.js
  */
 import { action, flow, observable, computed } from 'mobx';
-
 export class envStore {
     // 单个实验室温度区域
     @observable showType="temp"  //展示的数据类型：湿度/温度 枚举：temp和hum
@@ -108,8 +107,6 @@ export class envStore {
     isMMchange(bool) {
         this.isMM = bool;
     }
-
-
 }
 
 export default new envStore();

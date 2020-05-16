@@ -19,10 +19,8 @@ class index extends Component {
   }
 
   setLidCookie=()=>{
-    // console.log("种实验室的cookie")
     const {UserLabInfoStore } = this.props;
     const lid=UserLabInfoStore.selectedLabInfo.name;
-
       axios.post('/api/lab/setCookie_lid',{
       lid,
       }).then(res => {
@@ -137,17 +135,12 @@ class index extends Component {
       <>
         <Header />
         <div className={styles.homeContentWrap}>
-
-
           <LabChoose />
           <HomePanel />
-
         </div>
       </>
-
     );
   }
-
 }
 
 export default withRouter(index);

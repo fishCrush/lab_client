@@ -78,9 +78,7 @@ class index extends Component {
             const newAllLabsData = allLabsData.concat(thisHourLabsData);  //原来的小时加上新增的小时
             // console.log("newAllLabsData", newAllLabsData);
             timesRun = timesRun + 1;
-            // _that.setState({
-            //     allLabsData: newAllLabsData
-            // });
+           
             EnvStore.setAllLabsData(newAllLabsData);
         }, 300);
     }
@@ -95,8 +93,6 @@ class index extends Component {
 
     render() {
         const { isRendererCanvas, forceUpdate ,rendererValue } = this.state;
-        // console.log("isRendererCanvas",isRendererCanvas);
-        // console.log("allLabsData  render", allLabsData);
         const { EnvStore,UserLabInfoStore } = this.props;
         // const { labsNum } = EnvStore;
         const{allLabsData}=EnvStore;
@@ -108,9 +104,7 @@ class index extends Component {
         for (let i = 0; i < labsNum; i++) {
             labLineColorList.push(colors[i]);
         }
-        // console.log("labLineColorList",labLineColorList);
-        // const rendererValue = isRendererCanvas ? 'canvas' : 'svg';
-        // console.log("render  rendererValue",rendererValue);
+       
         const exportText = isRendererCanvas ? EXPORT_TEXT_PNG : EXPORT_TEXT_SVG;
         const unitText="单位：°";
 

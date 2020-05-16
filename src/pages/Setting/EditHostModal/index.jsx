@@ -6,25 +6,20 @@ import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import MyIcon from '../../../components/MyIcon';
 import locale from 'antd/es/date-picker/locale/zh_CN';
-
-
 @inject('UserLabInfoStore')
 @observer
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // host:['小明'],
       users: [],
       // 删除管理员标签处
       selectedTags: [],
       // 添加管理员穿梭框
       selectedKeys: [],
       targetKeys: [],
-
     };
   }
-
 
   tagChangeHandle(tag, checked) {
     const { selectedTags } = this.state;
@@ -57,8 +52,6 @@ class index extends Component {
     e.stopPropagation();
     const { selectedTags, targetKeys } = this.state;//前者删除 后者增加
     // console.log('selectedTags,targetKeys', selectedTags, targetKeys);
-
-
     if(selectedTags.length){  //删除管理者
       const {UserLabInfoStore}=this.props;
       const lid=UserLabInfoStore.choosedCardLabInfo.name;
@@ -118,15 +111,9 @@ class index extends Component {
 
   }
 
-  componentDidMount() {
-  }
-
-
   render() {
-    // let oldHosts=["hahha","hhhh"]
     let oldHosts = [];
     let users = [];
-    // console.log('编辑管理员渲染');
     const { UserLabInfoStore } = this.props;
     if (UserLabInfoStore) {
       const { usersName, userInfo } = UserLabInfoStore;
@@ -226,15 +213,11 @@ class index extends Component {
               </div>
             </div>
           </div>
-
-
         ) : ('')
         }
-
       </>
     );
   }
-
 }
 
 export default index;

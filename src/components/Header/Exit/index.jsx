@@ -13,7 +13,6 @@ class index extends Component {
   }
 
   outClick = () => {
-    // console.log('退出登录');
     const { history } = this.props;
     history.replace({
       pathname: '/index',
@@ -36,7 +35,6 @@ class index extends Component {
                 </span>
               </Menu.Item>
             </Menu>
-            // <span>退出</span>
           }
         >
 

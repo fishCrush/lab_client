@@ -35,20 +35,6 @@ class index extends Component {
 
       <span className={styles.userInfoWrap}>
         <MyIcon type="icon-icon-test" style={{ fontSize: 36, borderRadius: '72' }} />
-        {/* <Dropdown
-          overlay={
-            <Menu onClick={this.outClick}>
-              <Menu.Item >
-                <span style={{ color: "#8a8a8a" }} className={styles.outTextWrap}>
-                  <span>退出登录</span>
-                  <MyIcon type="icon-tuichu2" style={{ fontSize: 15, marginLeft: 6, color: "#8a8a8a" }} />
-                </span>
-              </Menu.Item>
-            </Menu>
-           
-          }
-        > */}
-
         <span style={{ display: "flex", alignItems: "center", marginLeft: "6px" }}>
       <span>{name}</span>
           <span onClick={this.setClick} style={{ display: "flex", alignItems: "center"}}>
@@ -56,8 +42,6 @@ class index extends Component {
             />
           </span>
         </span>
-        {/* </Dropdown> */}
-
       </span>
 
     );

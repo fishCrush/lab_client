@@ -13,7 +13,6 @@ class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // textList: ['实验室1', '实验室2', '实验室3'],
       selectedIndex: 0
     };
   }
@@ -149,7 +148,6 @@ class index extends Component {
           const dayHums=generateRandomDayHums();
           EnvStore.setOneLabOriData(dayTemps,dayHums);
         }
-
         // 重新请求当前实验室的超管名和普管名
         axios.post('/api/lab/admin_and_host', {
           lid
@@ -165,8 +163,6 @@ class index extends Component {
         ).catch(error => {
           console.log(error);
         });
-
-
       });
     }
   }
@@ -186,7 +182,6 @@ class index extends Component {
           <span className={styles.itemWrap}>
             {
               textList.map((item, index) => (
-                // <span key={index}>{item.lab}</span>
                 <span
                   key={index}
                   className={`${styles.labItem} ${selectedIndex === index ? styles.activeItem : ''}`}
@@ -198,15 +193,12 @@ class index extends Component {
             }
           </span>
         </span>
-
         <span className={styles.rightWrap}>
           <UserInfo />
         </span>
       </div>
-
     );
   }
-
 }
 
 export default index;
