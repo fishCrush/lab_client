@@ -11,7 +11,8 @@
             // background-color: goldenrod;
 
             // 输入框区域
-            .inputUserWrap,.inputPasswordWrap{
+            //四个输入框的基础样式
+            .inputUserWrap,.inputPasswordWrap,.inputPhoneWrap,.smsWrap{
                 position: relative;
                 display: inline-block;
                 width: 395px;
@@ -50,11 +51,34 @@
                     transform: scaleX(1);
                     transform-origin: left center;
                   }
-                  
-               
             }
-            .inputPasswordWrap{
+
+            //第二行的输入框  密码框和验证码框
+            .inputPasswordWrap,.smsWrap{
                 margin-top: 20px;
+            }
+
+            // 短信验证码区域最外层
+            .smsWrap{
+                input,input ~ span{
+                    width: 200px; 
+                }
+                .smslineTwo{
+                    display: flex;
+                }
+
+                .sendSmsRightWrap{
+                    margin-left: 20px;
+                    .linkText{
+                        cursor: pointer;
+                        color:#796AEE;
+                        font-weight: 600;
+                        font-size: 15px;
+                        &:hover {
+                          text-decoration: underline;
+                        }
+                    }
+                }
             }
             
             // 按钮区域
@@ -77,6 +101,19 @@
                     }
             
                 }
+
+                .otherTip{
+                    margin-left: 20px;
+                    color:#808080c9;
+                    font-size: 16px;
+
+                    .keyText{
+                        margin: 0 4px;
+                        color:#85b4f2;
+                    }
+                }
+
+
 
             }
 
