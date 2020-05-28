@@ -260,9 +260,9 @@ class index extends Component {
                           <>
                             <MyIcon type="icon-wupinzujie" style={{ marginRight: "10px", fontSize: '25px', marginLeft: 5 }} />
                            名称
-                          <Tooltip placement="right" title="注意：若名称与已有物品的完全一样，二者数量会归在一起">
+                           {/* <Tooltip placement="right" title="注意：若名称与已有物品的完全一样，二者数量会归在一起">
                               <MyIcon type="icon-zhuyi4" style={{ marginLeft: 4, fontSize: 19, color: '#ff7875' }} />
-                            </Tooltip>
+                            </Tooltip> */}
                           </>
                         }
                       >

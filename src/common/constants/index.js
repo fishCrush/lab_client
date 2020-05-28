@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-08 22:17:00
- * @LastEditTime: 2020-04-28 10:03:54
+ * @LastEditTime: 2020-05-28 21:36:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/common/constants/index.js
@@ -31,7 +31,7 @@ export const typeFile = {
   }
 };
 
-export const QUICKTAGS = ['娱乐', '机关', '备案', '数据文件'];
+export const QUICKTAGS = ['校企合作', '机关', '备案', '数据文件'];
 
 export const diyTagMaxLen = 8;
 export const diyTagColor = '#b37feb';

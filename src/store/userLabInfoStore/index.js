@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-24 21:27:04
- * @LastEditTime: 2020-05-16 12:12:25
+ * @LastEditTime: 2020-05-26 20:37:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /client/src/store/userLabInfoStore/index.js
@@ -16,8 +16,6 @@ export class UserLabInfoStore {
     @observable cardLabIndex=0; // 超管里被点击的实验卡片的index
     @observable usersName=[]; // 所有用户名
     @observable labsName=[]; // 所有实验室名
-    // @observable  labsName=[]; //所有实验室名
-
     @observable labAdminName=""; //home页被选中的实验室的超管名
     @observable labHostName=[]; //home页被选中的实验室的超管名
 
@@ -25,7 +23,6 @@ export class UserLabInfoStore {
     setLabAdminAndHost(labAdmin,labHost) {
       this.labAdminName = labAdmin;
       this.labHostName = labHost;
-      console.log('当前home页实验室的超管名和普管名已存入', this.labAdminName, this.labHostName);
     }
 
     @computed get uname() { // 当前登录用户名

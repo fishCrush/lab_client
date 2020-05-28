@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-04-01 21:05:58
+ * @LastEditTime: 2020-05-23 21:56:35
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /client/src/index.js
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 // todo
@@ -16,7 +24,6 @@ const store = {
 const App = (
   // 通过Provider将store数据送入 可以传给子组件
   <Provider {...store}> 
-  
       <HotApp />
   </Provider>
 );
@@ -25,7 +32,6 @@ ReactDOM.render(
   App,
   document.getElementById('root')
 );
-
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
